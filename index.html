@@ -114,6 +114,18 @@ details.archive summary::-webkit-details-marker{display:none;}
 footer{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace;}
 footer a{color:var(--ink-soft);}
 
+.voice-picker{display:none; align-items:center; gap:8px; margin:14px 0 0; font-size:12.5px; color:var(--ink-soft);}
+.voice-picker.ready{display:flex;}
+.voice-picker select{
+  font-family:inherit; font-size:12.5px; background:var(--paper-raised); color:var(--ink);
+  border:1px solid var(--line-strong); border-radius:6px; padding:4px 8px; max-width:220px;
+}
+.voice-picker button{
+  font-family:'JetBrains Mono',monospace; font-size:11px; border:1px solid var(--line-strong); background:var(--paper-raised);
+  color:var(--ink-soft); border-radius:6px; padding:4px 9px; cursor:pointer;
+}
+.voice-picker button:hover{color:var(--accent); border-color:var(--accent);}
+
 @media (max-width:600px){.wrap{padding:24px 16px 70px;}}
 </style>
 </head>
@@ -123,6 +135,11 @@ footer a{color:var(--ink-soft);}
     <p class="eyebrow">daily nihongo &middot; 目标 2026-12 JLPT N2</p>
     <h1>日语学习日志</h1>
     <p class="sub">每天从 NHK Easy / NHK NEWS WEB / 维基百科 精选条目里提炼语法点和生词 &middot; 例句均标注原文出处，绝无编造</p>
+    <div class="voice-picker" id="voicePicker">
+      <span>🔊 朗读语音：</span>
+      <select id="voiceSelect"></select>
+      <button type="button" id="voiceTest">试听</button>
+    </div>
   </header>
 
   <div class="progress-card">
@@ -240,13 +257,68 @@ document.getElementById('filters').addEventListener('click', function(e){
 // 朗读功能：给每个生词和语法点自动加喇叭按钮，点击用浏览器自带的语音合成读出日语发音
 (function(){
   var supported = 'speechSynthesis' in window;
+  var jaVoices = [];
+
+  var VOICE_KEY = 'nihongo-daily-voice';
+
+  function loadVoices(){
+    if(!supported) return;
+    jaVoices = window.speechSynthesis.getVoices().filter(function(v){
+      return v.lang && v.lang.toLowerCase().indexOf('ja') === 0;
+    });
+    populateVoicePicker();
+  }
+  if(supported){
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices; // 语音列表是异步加载的，首次调用时经常是空的
+  }
+
+  function populateVoicePicker(){
+    var wrap = document.getElementById('voicePicker');
+    var sel = document.getElementById('voiceSelect');
+    if(!wrap || !sel || !jaVoices.length) return;
+    if(sel.options.length === jaVoices.length) return; // 已经填过了
+    sel.innerHTML = '';
+    jaVoices.forEach(function(v, i){
+      var opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = v.name + (v.localService ? '' : ' (在线)');
+      sel.appendChild(opt);
+    });
+    var saved = localStorage.getItem(VOICE_KEY);
+    var savedIdx = jaVoices.findIndex(function(v){ return v.name === saved; });
+    sel.value = savedIdx >= 0 ? savedIdx : 0;
+    wrap.classList.add('ready');
+  }
+
+  function pickBestVoice(){
+    if(!jaVoices.length) return null;
+    var sel = document.getElementById('voiceSelect');
+    if(sel && sel.value !== '') return jaVoices[parseInt(sel.value, 10)];
+    // 没手动选过的话，优先级：非本地(联网合成，通常更自然) > 名字带Google/Enhanced/Premium/Siri/Neural > 随便一个
+    var byQualityName = jaVoices.find(function(v){ return /google|enhanced|premium|siri|neural/i.test(v.name); });
+    var online = jaVoices.find(function(v){ return v.localService === false; });
+    return byQualityName || online || jaVoices[0];
+  }
+
+  document.addEventListener('change', function(e){
+    if(e.target.id !== 'voiceSelect') return;
+    var v = jaVoices[parseInt(e.target.value, 10)];
+    if(v) localStorage.setItem(VOICE_KEY, v.name);
+  });
+  document.addEventListener('click', function(e){
+    if(e.target.id !== 'voiceTest') return;
+    speak('こんにちは、これはテストです。');
+  });
 
   function speak(text, btn){
     if(!supported){ alert('这个浏览器不支持语音朗读，换Chrome/Safari试试'); return; }
     window.speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text);
-    u.lang = 'ja-JP';
-    u.rate = 0.9;
+    var voice = pickBestVoice();
+    if(voice){ u.voice = voice; u.lang = voice.lang; } else { u.lang = 'ja-JP'; }
+    u.rate = 1;
+    u.pitch = 1;
     if(btn){
       btn.classList.add('speaking');
       u.onend = function(){ btn.classList.remove('speaking'); };
