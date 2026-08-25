@@ -88,11 +88,22 @@ article.piece:last-child{margin-bottom:0;}
 .gpoint .quote{display:block; font-family:'Noto Sans JP',sans-serif; color:var(--ink-soft); font-size:13.5px; margin-top:2px;}
 .gpoint .recur{display:block; font-size:12.5px; color:var(--accent); margin-top:3px;}
 
-.vocab-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:6px 14px; margin-top:6px;}
-.vocab-item{font-size:13.5px; padding:5px 0; border-top:1px dashed var(--line); display:flex; align-items:baseline; gap:6px;}
-.vocab-item .w{font-family:'Noto Sans JP',sans-serif; font-weight:600; flex:none;}
-.vocab-item .romaji{font-family:'JetBrains Mono',monospace; font-weight:500; color:var(--accent); font-size:11.5px;}
-.vocab-item .m{color:var(--ink-soft); font-size:12.5px;}
+.vocab-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px 14px; margin-top:6px;}
+.vocab-item{font-size:13.5px; padding:6px 0 8px; border-top:1px dashed var(--line); min-width:0;}
+.vocab-item .w{display:block; font-family:'Noto Sans JP',sans-serif; font-weight:600; overflow-wrap:break-word;}
+.vocab-item .romaji{display:block; font-family:'JetBrains Mono',monospace; font-weight:500; color:var(--accent); font-size:11px; margin-top:2px; overflow-wrap:break-word;}
+.vocab-item .m{display:block; color:var(--ink-soft); font-size:12.5px; margin-top:2px;}
+.gpoint .romaji{display:block; font-family:'JetBrains Mono',monospace; font-weight:500; color:var(--accent); font-size:11.5px; margin-top:2px;}
+
+.say-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:20px; height:20px; margin-left:6px; padding:0; vertical-align:middle;
+  border:none; border-radius:50%; background:var(--accent-soft); color:var(--accent);
+  font-size:11px; cursor:pointer; line-height:1;
+}
+.say-btn:hover{background:var(--accent); color:#fff;}
+.say-btn:active{transform:scale(.92);}
+.say-btn.speaking{background:var(--n2); color:#fff;}
 
 details.archive{margin-top:8px;}
 details.archive summary{cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft); padding:14px 0; list-style:none; display:flex; align-items:center; gap:8px;}
@@ -143,10 +154,10 @@ footer a{color:var(--ink-soft);}
     <article class="piece">
       <p class="piece-title"><span class="tag">NHK EASY</span><a href="https://nhkeasier.com/story/9897/" target="src-story9897" rel="noopener">23日に関東地方で震度5弱の地震 ↗</a></p>
       <p class="piece-summary">23日凌晨关东地区发生震度5弱地震，多地有震感，专家提醒一周内仍需警惕同等强度余震。</p>
-      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜てほしい</span> — 希望对方做某事<span class="quote jp">原文：「地震が起きたときの避難などについて考えてほしい」</span></div></div>
-      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜について</span> — 「关于〜」，提示话题对象<span class="quote jp">原文：「地震が起きたときの避難などについて考えてほしい」</span></div></div>
-      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜（の）とき</span> — 「〜的时候」<span class="quote jp">原文：「地震が起きたとき」</span></div></div>
-      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜かもしれません</span> — 较低把握度的推测「说不定〜」<span class="quote jp">原文：「1週間ぐらいは同じぐらい大きい地震があるかもしれません」</span></div></div>
+      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜てほしい</span><span class="romaji">te hoshii</span> — 希望对方做某事<span class="quote jp">原文：「地震が起きたときの避難などについて考えてほしい」</span></div></div>
+      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜について</span><span class="romaji">ni tsuite</span> — 「关于〜」，提示话题对象<span class="quote jp">原文：「地震が起きたときの避難などについて考えてほしい」</span></div></div>
+      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜（の）とき</span><span class="romaji">(no) toki</span> — 「〜的时候」<span class="quote jp">原文：「地震が起きたとき」</span></div></div>
+      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜かもしれません</span><span class="romaji">kamoshiremasen</span> — 较低把握度的推测「说不定〜」<span class="quote jp">原文：「1週間ぐらいは同じぐらい大きい地震があるかもしれません」</span></div></div>
       <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜と話しています</span> — 引用他人发言的固定句式<span class="quote jp">原文：「気象庁は『…気をつけてください』と話しています」</span></div></div>
       <div class="vocab-grid">
         <div class="vocab-item" data-lvl="N4"><span class="w jp">地震（じしん）</span><span class="romaji">jishin</span><span class="m">地震</span></div>
@@ -164,8 +175,8 @@ footer a{color:var(--ink-soft);}
       <p class="piece-title"><span class="tag">NHK 普通版 · N2锚点</span><a href="https://news.web.nhk/newsweb/na/nd-20260825de46130" target="src-46130" rel="noopener">クマ撃退スプレー 市販製品の「性能」に大きな差 ↗</a></p>
       <p class="piece-summary">消费者厅、环境省、国民生活中心联合对12款市售驱熊喷雾做了喷射测试，发现不同产品的喷射距离和持续时间差别很大，性能参差不齐。</p>
       <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">长句直接修饰名词</span> — 一整句话可以直接放在名词前面当"定语"，不需要"的"或"which/that"这类连接词<span class="quote jp">原文：「クマ撃退スプレーとして販売されている12製品について…」</span></div></div>
-      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜（の）結果</span> — 「做了〜之后，结果是〜」，承接前面动作引出新情况<span class="quote jp">原文：「噴射テストを行った結果、…性能が大きく異なることが確認されました」</span></div></div>
-      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜によって</span> — 这里是「根据〜不同而不同」，不是「因为」<span class="quote jp">原文：「製品によって噴射の距離や時間など、性能が大きく異なる」</span></div></div>
+      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜（の）結果</span><span class="romaji">(no) kekka</span> — 「做了〜之后，结果是〜」，承接前面动作引出新情况<span class="quote jp">原文：「噴射テストを行った結果、…性能が大きく異なることが確認されました」</span></div></div>
+      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜によって</span><span class="romaji">ni yotte</span> — 这里是「根据〜不同而不同」，不是「因为」<span class="quote jp">原文：「製品によって噴射の距離や時間など、性能が大きく異なる」</span></div></div>
       <div class="vocab-grid">
         <div class="vocab-item" data-lvl="N1"><span class="w jp">撃退（げきたい）</span><span class="romaji">gekitai</span><span class="m">击退</span></div>
         <div class="vocab-item" data-lvl="N1"><span class="w jp">噴射（ふんしゃ）</span><span class="romaji">funsha</span><span class="m">喷射</span></div>
@@ -176,8 +187,8 @@ footer a{color:var(--ink-soft);}
     <article class="piece">
       <p class="piece-title"><span class="tag">NHK 普通版 · N2锚点</span><a href="https://news.web.nhk/newsweb/na/nd-20260825de46156" target="src-46156" rel="noopener">高額療養費制度 なぜ8月から見直し？ ↗</a></p>
       <p class="piece-summary">为重症患者设自付上限的高额疗养费制度从8月起做了调整，报道解释了改动内容及对家庭开支的影响。</p>
-      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜にとって</span> — 「对〜来说」，站在某个立场做评价<span class="quote jp">原文：「重い病気などで治療を続ける患者にとって負担を抑えて…」</span></div></div>
-      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜が見直される</span> — 「見直す（重新审视）」的被动形式，常用于制度类新闻<span class="quote jp">原文：「…高額療養費制度が見直されました」</span></div></div>
+      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜にとって</span><span class="romaji">ni totte</span> — 「对〜来说」，站在某个立场做评价<span class="quote jp">原文：「重い病気などで治療を続ける患者にとって負担を抑えて…」</span></div></div>
+      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜が見直される</span><span class="romaji">ga minaosareru</span> — 「見直す（重新审视）」的被动形式，常用于制度类新闻<span class="quote jp">原文：「…高額療養費制度が見直されました」</span></div></div>
       <div class="vocab-grid">
         <div class="vocab-item" data-lvl="N2"><span class="w jp">高額（こうがく）</span><span class="romaji">kougaku</span><span class="m">金额巨大</span></div>
         <div class="vocab-item" data-lvl="N1"><span class="w jp">自己負担（じこふたん）</span><span class="romaji">jikofutan</span><span class="m">自付部分</span></div>
@@ -188,12 +199,12 @@ footer a{color:var(--ink-soft);}
     <article class="piece">
       <p class="piece-title"><span class="tag">WIKIPEDIA · 良質な記事</span><a href="https://ja.wikipedia.org/wiki/道教" target="src-daojiao" rel="noopener">道教 ↗</a></p>
       <p class="piece-summary">道教是中国三大宗教之一，以老子思想为根本，融合了神仙术、经典仪礼等要素，并非由单一教祖创立，而是长期历史演变的产物。</p>
-      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜とされる</span> — 「被认为是〜／据说是〜」，客观陈述一般看法<span class="quote jp">原文：「時代の経過とともに様々な要素が積み重なった宗教とされる」</span></div></div>
-      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜をもとに</span> — 「以〜为基础/根据」<span class="quote jp">原文：「道教は中国古来の宗教的な諸観念をもとに長い期間を経て醸成された」</span></div></div>
-      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜とはいえない</span> — 「不能说是〜」，委婉否定断言<span class="quote jp">原文：「老子が道教の教祖であるとはいえないが」</span></div></div>
-      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜から〜にかけて</span> — 「从〜到〜」，比〜まで更强调过程延续<span class="quote jp">原文：「後漢末期から魏晋時代にかけての…始まるとされる」</span></div></div>
-      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜とともに</span> — 「随着〜／和〜一起」<span class="quote jp">原文：「時代の経過とともに様々な要素が積み重なった」</span></div></div>
-      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜ことは確かである</span> — 「〜这一点是确实的」，学术性陈述中肯定事实同时留有余地<span class="quote jp">原文：「『道』の概念が道教思想の根本であることは確かである」</span></div></div>
+      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜とされる</span><span class="romaji">to sareru</span> — 「被认为是〜／据说是〜」，客观陈述一般看法<span class="quote jp">原文：「時代の経過とともに様々な要素が積み重なった宗教とされる」</span></div></div>
+      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜をもとに</span><span class="romaji">wo moto ni</span> — 「以〜为基础/根据」<span class="quote jp">原文：「道教は中国古来の宗教的な諸観念をもとに長い期間を経て醸成された」</span></div></div>
+      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜とはいえない</span><span class="romaji">to wa ienai</span> — 「不能说是〜」，委婉否定断言<span class="quote jp">原文：「老子が道教の教祖であるとはいえないが」</span></div></div>
+      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜から〜にかけて</span><span class="romaji">kara ~ ni kakete</span> — 「从〜到〜」，比〜まで更强调过程延续<span class="quote jp">原文：「後漢末期から魏晋時代にかけての…始まるとされる」</span></div></div>
+      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜とともに</span><span class="romaji">to tomo ni</span> — 「随着〜／和〜一起」<span class="quote jp">原文：「時代の経過とともに様々な要素が積み重なった」</span></div></div>
+      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜ことは確かである</span><span class="romaji">koto wa tashika de aru</span> — 「〜这一点是确实的」，学术性陈述中肯定事实同时留有余地<span class="quote jp">原文：「『道』の概念が道教思想の根本であることは確かである」</span></div></div>
       <div class="vocab-grid">
         <div class="vocab-item" data-lvl="N3"><span class="w jp">宗教（しゅうきょう）</span><span class="romaji">shuukyou</span><span class="m">宗教</span></div>
         <div class="vocab-item" data-lvl="N1"><span class="w jp">儒教（じゅきょう）</span><span class="romaji">jukyou</span><span class="m">儒教</span></div>
@@ -225,6 +236,61 @@ document.getElementById('filters').addEventListener('click', function(e){
     el.style.display = (lvl === 'all' || el.dataset.lvl === lvl) ? '' : 'none';
   });
 });
+
+// 朗读功能：给每个生词和语法点自动加喇叭按钮，点击用浏览器自带的语音合成读出日语发音
+(function(){
+  var supported = 'speechSynthesis' in window;
+
+  function speak(text, btn){
+    if(!supported){ alert('这个浏览器不支持语音朗读，换Chrome/Safari试试'); return; }
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ja-JP';
+    u.rate = 0.9;
+    if(btn){
+      btn.classList.add('speaking');
+      u.onend = function(){ btn.classList.remove('speaking'); };
+      u.onerror = function(){ btn.classList.remove('speaking'); };
+    }
+    window.speechSynthesis.speak(u);
+  }
+
+  function makeBtn(text){
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'say-btn';
+    btn.setAttribute('aria-label', '朗读发音');
+    btn.textContent = '🔊';
+    btn.addEventListener('click', function(e){
+      e.preventDefault(); e.stopPropagation();
+      speak(text, btn);
+    });
+    return btn;
+  }
+
+  function addSpeakers(){
+    if(!supported) return;
+    // 生词：优先读括号里的假名读音，比读汉字更准
+    document.querySelectorAll('.vocab-item .w').forEach(function(el){
+      if(el.dataset.spoken) return;
+      el.dataset.spoken = '1';
+      var full = el.textContent;
+      var m = full.match(/[（(]([^）)]+)[）)]/);
+      var text = m ? m[1] : full;
+      el.appendChild(makeBtn(text));
+    });
+    // 语法点：去掉开头的〜和句末的补充说明，读整个语法结构
+    document.querySelectorAll('.gpoint .pattern').forEach(function(el){
+      if(el.dataset.spoken) return;
+      el.dataset.spoken = '1';
+      var text = el.textContent.replace(/^〜/, '').trim();
+      el.appendChild(makeBtn(text));
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', addSpeakers);
+  // details/archive 里的内容默认不在DOM可见范围外，但依然存在于DOM里，展开时按钮已经加好，无需额外处理
+})();
 </script>
 </body>
 </html>
