@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日语学习日志 · NHK + 维基百科</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎌</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --paper:#F7F4EC; --paper-raised:#FFFFFF; --ink:#22282E; --ink-soft:#5C6670;
+  --accent:#3E5C8A; --accent-soft:#3E5C8A14; --line:#DCD5C4; --line-strong:#B9AF97;
+  --n5:#7CA982; --n4:#5B9BD5; --n3:#8B7FC7; --n2:#D97D3D; --n1:#C4506B;
+  --n5-bg:#7CA98220; --n4-bg:#5B9BD520; --n3-bg:#8B7FC720; --n2-bg:#D97D3D22; --n1-bg:#C4506B20;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#1B1E23; --paper-raised:#252932; --ink:#E8E6E0; --ink-soft:#9BA3AC;
+    --accent:#7DA0D9; --accent-soft:#7DA0D924; --line:#333B45; --line-strong:#454F5B;
+    --n5:#8FC397; --n4:#7CB3E8; --n3:#A79AE0; --n2:#F0954E; --n1:#DE7089;
+    --n5-bg:#8FC39722; --n4-bg:#7CB3E822; --n3-bg:#A79AE022; --n2-bg:#F0954E26; --n1-bg:#DE708922;
+  }
+}
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Noto Sans SC','Noto Sans JP',sans-serif; line-height:1.75; font-size:16px;
+  -webkit-font-smoothing:antialiased;
+}
+.jp{font-family:'Noto Sans JP','Noto Sans SC',sans-serif;}
+::selection{background:var(--accent-soft);}
+a{color:var(--accent); text-decoration-thickness:1px;}
+.wrap{max-width:760px; margin:0 auto; padding:36px 20px 90px;}
+
+header.masthead{margin-bottom:28px;}
+.eyebrow{font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 8px;}
+h1{font-family:'Noto Sans JP',sans-serif; font-weight:900; font-size:clamp(26px,6vw,34px); margin:0 0 6px;}
+.sub{color:var(--ink-soft); font-size:14.5px; margin:0;}
+
+.progress-card{
+  background:var(--paper-raised); border:1px solid var(--line); border-radius:10px;
+  padding:18px 20px; margin:22px 0 30px;
+}
+.progress-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; flex-wrap:wrap; gap:6px;}
+.progress-top .label{font-size:13.5px; color:var(--ink-soft);}
+.progress-top .num{font-family:'JetBrains Mono',monospace; font-weight:600; font-size:14px;}
+.progress-top .num strong{color:var(--n2); font-size:20px;}
+.bar{height:10px; border-radius:6px; background:var(--line); overflow:hidden;}
+.bar-fill{height:100%; background:linear-gradient(90deg,var(--n2),var(--accent)); border-radius:6px; transition:width .4s;}
+
+.filters{display:flex; gap:8px; flex-wrap:wrap; margin:0 0 24px;}
+.filters button{
+  font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600; padding:6px 12px;
+  border-radius:20px; border:1px solid var(--line-strong); background:var(--paper-raised); color:var(--ink-soft);
+  cursor:pointer; transition:all .15s;
+}
+.filters button.active{background:var(--accent); border-color:var(--accent); color:#fff;}
+.filters button[data-lvl="N2"].active{background:var(--n2); border-color:var(--n2);}
+
+section.day{
+  background:var(--paper-raised); border:1px solid var(--line); border-radius:10px;
+  padding:24px 22px; margin-bottom:20px;
+}
+section.day.today{border-color:var(--accent); border-width:1.5px;}
+.day-date{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--accent); font-weight:600; margin-bottom:4px;}
+.day-links{display:flex; flex-wrap:wrap; gap:10px; font-size:13px; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--line);}
+.day-links a{padding:3px 0;}
+
+article.piece{margin-bottom:22px;}
+article.piece:last-child{margin-bottom:0;}
+.piece-title{font-weight:700; font-size:15.5px; margin:0 0 4px;}
+.piece-title .tag{font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:600; color:var(--ink-soft); background:var(--accent-soft); padding:2px 7px; border-radius:4px; margin-right:6px; vertical-align:middle;}
+.piece-summary{font-size:14.5px; color:var(--ink-soft); margin:0 0 12px;}
+
+.gpoint{display:flex; gap:10px; padding:9px 0; border-top:1px solid var(--line); font-size:14px;}
+.gpoint:first-of-type{border-top:none; padding-top:2px;}
+.lvl{
+  flex:none; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; padding:2px 7px;
+  border-radius:4px; height:fit-content; margin-top:2px;
+}
+.lvl.N5{color:var(--n5); background:var(--n5-bg);} .lvl.N4{color:var(--n4); background:var(--n4-bg);}
+.lvl.N3{color:var(--n3); background:var(--n3-bg);} .lvl.N2{color:var(--n2); background:var(--n2-bg);}
+.lvl.N1{color:var(--n1); background:var(--n1-bg);}
+.gpoint .pattern{font-family:'Noto Sans JP',sans-serif; font-weight:700;}
+.gpoint .quote{display:block; font-family:'Noto Sans JP',sans-serif; color:var(--ink-soft); font-size:13.5px; margin-top:2px;}
+.gpoint .recur{display:block; font-size:12.5px; color:var(--accent); margin-top:3px;}
+
+.vocab-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:6px 14px; margin-top:6px;}
+.vocab-item{font-size:13.5px; padding:5px 0; border-top:1px dashed var(--line); display:flex; align-items:baseline; gap:6px;}
+.vocab-item .w{font-family:'Noto Sans JP',sans-serif; font-weight:600; flex:none;}
+.vocab-item .m{color:var(--ink-soft); font-size:12.5px;}
+
+details.archive{margin-top:8px;}
+details.archive summary{cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft); padding:14px 0; list-style:none; display:flex; align-items:center; gap:8px;}
+details.archive summary::before{content:"▸"; display:inline-block; transition:transform .15s;}
+details.archive[open] summary::before{transform:rotate(90deg);}
+details.archive summary::-webkit-details-marker{display:none;}
+
+footer{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace;}
+footer a{color:var(--ink-soft);}
+
+@media (max-width:600px){.wrap{padding:24px 16px 70px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">daily nihongo &middot; 目标 2026-12 JLPT N2</p>
+    <h1>日语学习日志</h1>
+    <p class="sub">每天从 NHK Easy / NHK NEWS WEB / 维基百科 精选条目里提炼语法点和生词 &middot; 例句均标注原文出处，绝无编造</p>
+  </header>
+
+  <div class="progress-card">
+    <div class="progress-top">
+      <span class="label">N2 语法覆盖进度（大纲约200个，估算）</span>
+      <span class="num">累计 <strong id="n2count">7</strong> 个 &middot; <span id="n2pct">3.5%</span></span>
+    </div>
+    <div class="bar"><div class="bar-fill" id="n2bar" style="width:3.5%"></div></div>
+  </div>
+
+  <div class="filters" id="filters">
+    <button class="active" data-lvl="all">全部</button>
+    <button data-lvl="N5">N5</button>
+    <button data-lvl="N4">N4</button>
+    <button data-lvl="N3">N3</button>
+    <button data-lvl="N2">N2 ★</button>
+    <button data-lvl="N1">N1</button>
+  </div>
+
+  <section class="day today">
+    <div class="day-date">今日 &middot; 2026-08-25</div>
+    <div class="day-links">
+      <a href="https://nhkeasier.com/story/9897/" target="_blank" rel="noopener">📰 NHK Easy 原文 ↗</a>
+      <a href="https://news.web.nhk/newsweb/na/nd-20260825de46130" target="_blank" rel="noopener">📰 NHK普通版①原文 ↗</a>
+      <a href="https://news.web.nhk/newsweb/na/nd-20260825de46156" target="_blank" rel="noopener">📰 NHK普通版②原文 ↗</a>
+      <a href="https://ja.wikipedia.org/wiki/道教" target="_blank" rel="noopener">📚 维基百科原文 ↗</a>
+    </div>
+
+    <article class="piece">
+      <p class="piece-title"><span class="tag">NHK EASY</span>23日に関東地方で震度5弱の地震</p>
+      <p class="piece-summary">23日凌晨关东地区发生震度5弱地震，多地有震感，专家提醒一周内仍需警惕同等强度余震。</p>
+      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜てほしい</span> — 希望对方做某事<span class="quote jp">原文：「地震が起きたときの避難などについて考えてほしい」</span></div></div>
+      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜について</span> — 「关于〜」，提示话题对象<span class="quote jp">原文：「地震が起きたときの避難などについて考えてほしい」</span></div></div>
+      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜（の）とき</span> — 「〜的时候」<span class="quote jp">原文：「地震が起きたとき」</span></div></div>
+      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜かもしれません</span> — 较低把握度的推测「说不定〜」<span class="quote jp">原文：「1週間ぐらいは同じぐらい大きい地震があるかもしれません」</span></div></div>
+      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜と話しています</span> — 引用他人发言的固定句式<span class="quote jp">原文：「気象庁は『…気をつけてください』と話しています」</span></div></div>
+      <div class="vocab-grid">
+        <div class="vocab-item" data-lvl="N4"><span class="w jp">地震（じしん）</span><span class="m">地震</span></div>
+        <div class="vocab-item" data-lvl="N3"><span class="w jp">揺れる（ゆれる）</span><span class="m">摇晃</span></div>
+        <div class="vocab-item" data-lvl="N2"><span class="w jp">震度（しんど）</span><span class="m">震度</span></div>
+        <div class="vocab-item" data-lvl="N3"><span class="w jp">転ぶ（ころぶ）</span><span class="m">摔倒</span></div>
+        <div class="vocab-item" data-lvl="N4"><span class="w jp">怪我（けが）</span><span class="m">受伤</span></div>
+        <div class="vocab-item" data-lvl="N2"><span class="w jp">専門家（せんもんか）</span><span class="m">专家</span></div>
+        <div class="vocab-item" data-lvl="N2"><span class="w jp">避難（ひなん）</span><span class="m">避难</span></div>
+        <div class="vocab-item" data-lvl="N2"><span class="w jp">気象庁（きしょうちょう）</span><span class="m">气象厅</span></div>
+      </div>
+    </article>
+
+    <article class="piece">
+      <p class="piece-title"><span class="tag">NHK 普通版 · N2锚点</span>クマ撃退スプレー 市販製品の「性能」に大きな差</p>
+      <p class="piece-summary">消费者厅、环境省、国民生活中心联合对12款市售驱熊喷雾做了喷射测试，发现不同产品的喷射距离和持续时间差别很大，性能参差不齐。</p>
+      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">长句直接修饰名词</span> — 一整句话可以直接放在名词前面当"定语"，不需要"的"或"which/that"这类连接词<span class="quote jp">原文：「クマ撃退スプレーとして販売されている12製品について…」</span></div></div>
+      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜（の）結果</span> — 「做了〜之后，结果是〜」，承接前面动作引出新情况<span class="quote jp">原文：「噴射テストを行った結果、…性能が大きく異なることが確認されました」</span></div></div>
+      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜によって</span> — 这里是「根据〜不同而不同」，不是「因为」<span class="quote jp">原文：「製品によって噴射の距離や時間など、性能が大きく異なる」</span></div></div>
+      <div class="vocab-grid">
+        <div class="vocab-item" data-lvl="N1"><span class="w jp">撃退（げきたい）</span><span class="m">击退</span></div>
+        <div class="vocab-item" data-lvl="N1"><span class="w jp">噴射（ふんしゃ）</span><span class="m">喷射</span></div>
+        <div class="vocab-item" data-lvl="N2"><span class="w jp">性能（せいのう）</span><span class="m">性能</span></div>
+      </div>
+    </article>
+
+    <article class="piece">
+      <p class="piece-title"><span class="tag">NHK 普通版 · N2锚点</span>高額療養費制度 なぜ8月から見直し？</p>
+      <p class="piece-summary">为重症患者设自付上限的高额疗养费制度从8月起做了调整，报道解释了改动内容及对家庭开支的影响。</p>
+      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜にとって</span> — 「对〜来说」，站在某个立场做评价<span class="quote jp">原文：「重い病気などで治療を続ける患者にとって負担を抑えて…」</span></div></div>
+      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜が見直される</span> — 「見直す（重新审视）」的被动形式，常用于制度类新闻<span class="quote jp">原文：「…高額療養費制度が見直されました」</span></div></div>
+      <div class="vocab-grid">
+        <div class="vocab-item" data-lvl="N2"><span class="w jp">高額（こうがく）</span><span class="m">金额巨大</span></div>
+        <div class="vocab-item" data-lvl="N1"><span class="w jp">自己負担（じこふたん）</span><span class="m">自付部分</span></div>
+        <div class="vocab-item" data-lvl="N2"><span class="w jp">見直す（みなおす）</span><span class="m">重新审视</span></div>
+      </div>
+    </article>
+
+    <article class="piece">
+      <p class="piece-title"><span class="tag">WIKIPEDIA · 良質な記事</span>道教</p>
+      <p class="piece-summary">道教是中国三大宗教之一，以老子思想为根本，融合了神仙术、经典仪礼等要素，并非由单一教祖创立，而是长期历史演变的产物。</p>
+      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜とされる</span> — 「被认为是〜／据说是〜」，客观陈述一般看法<span class="quote jp">原文：「時代の経過とともに様々な要素が積み重なった宗教とされる」</span></div></div>
+      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜をもとに</span> — 「以〜为基础/根据」<span class="quote jp">原文：「道教は中国古来の宗教的な諸観念をもとに長い期間を経て醸成された」</span></div></div>
+      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜とはいえない</span> — 「不能说是〜」，委婉否定断言<span class="quote jp">原文：「老子が道教の教祖であるとはいえないが」</span></div></div>
+      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜から〜にかけて</span> — 「从〜到〜」，比〜まで更强调过程延续<span class="quote jp">原文：「後漢末期から魏晋時代にかけての…始まるとされる」</span></div></div>
+      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜とともに</span> — 「随着〜／和〜一起」<span class="quote jp">原文：「時代の経過とともに様々な要素が積み重なった」</span></div></div>
+      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜ことは確かである</span> — 「〜这一点是确实的」，学术性陈述中肯定事实同时留有余地<span class="quote jp">原文：「『道』の概念が道教思想の根本であることは確かである」</span></div></div>
+      <div class="vocab-grid">
+        <div class="vocab-item" data-lvl="N3"><span class="w jp">宗教（しゅうきょう）</span><span class="m">宗教</span></div>
+        <div class="vocab-item" data-lvl="N1"><span class="w jp">儒教（じゅきょう）</span><span class="m">儒教</span></div>
+        <div class="vocab-item" data-lvl="N1"><span class="w jp">神仙術（しんせんじゅつ）</span><span class="m">神仙术</span></div>
+        <div class="vocab-item" data-lvl="N1"><span class="w jp">経典（きょうてん）</span><span class="m">经典</span></div>
+        <div class="vocab-item" data-lvl="N1"><span class="w jp">教祖（きょうそ）</span><span class="m">教主</span></div>
+        <div class="vocab-item" data-lvl="N1"><span class="w jp">教団（きょうだん）</span><span class="m">教团</span></div>
+      </div>
+    </article>
+  </section>
+
+  <details class="archive">
+    <summary>往期归档（暂无更早记录）</summary>
+    <p style="color:var(--ink-soft); font-size:13.5px;">从明天起，每天的新内容会顶到最上面，今天这份会自动收进这里。</p>
+  </details>
+
+  <footer>
+    数据源：<a href="https://github.com/waysup/nihongo-daily" target="_blank">github.com/waysup/nihongo-daily</a> · 完整历史见仓库内 log.md / grammar-log.md / vocab.md · 每日 21:00 (Asia/Shanghai) 自动更新
+  </footer>
+</div>
+
+<script>
+document.getElementById('filters').addEventListener('click', function(e){
+  if(e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('#filters button').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  var lvl = e.target.dataset.lvl;
+  document.querySelectorAll('.gpoint, .vocab-item').forEach(function(el){
+    el.style.display = (lvl === 'all' || el.dataset.lvl === lvl) ? '' : 'none';
+  });
+});
+</script>
+</body>
+</html>
