@@ -180,6 +180,38 @@ details.archive .archived-day summary::-webkit-details-marker{display:none;}
 footer{padding:20px 16px 60px; font-size:12px; color:var(--text-faint); font-family:'JetBrains Mono',monospace;}
 footer a{color:var(--text-faint);}
 
+/* 右下角悬浮导航工具条 */
+.floatbar{
+  position:fixed; right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); z-index:50;
+  display:flex; flex-direction:column; gap:9px;
+}
+.fb-btn{
+  width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  background:color-mix(in srgb, var(--card) 70%, transparent); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border:1px solid var(--border-strong); box-shadow:0 4px 16px rgba(0,0,0,.14);
+  font-size:19px; line-height:1; cursor:pointer; color:var(--text); touch-action:manipulation;
+}
+.fb-btn:hover{border-color:var(--accent); color:var(--accent); text-decoration:none;}
+.fb-panel{
+  position:fixed; right:16px; bottom:calc(74px + env(safe-area-inset-bottom)); z-index:51;
+  display:none; max-height:56vh; overflow-y:auto; min-width:190px; max-width:min(80vw, 280px);
+  background:color-mix(in srgb, var(--card) 86%, transparent); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--border-strong); border-radius:14px; padding:6px; box-shadow:0 8px 28px rgba(0,0,0,.18);
+}
+.fb-panel.show{display:block;}
+.fb-panel a{display:block; padding:8px 11px; border-radius:9px; font-size:13px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.fb-panel a:hover{background:var(--accent-soft); text-decoration:none;}
+.fb-panel a.today{font-weight:800; color:var(--accent);}
+.fb-panel .fb-empty{padding:10px 11px; font-size:12.5px; color:var(--text-faint);}
+
+.toast{
+  position:fixed; left:50%; bottom:calc(84px + env(safe-area-inset-bottom)); z-index:60;
+  transform:translate(-50%, 10px); background:color-mix(in srgb, var(--text) 92%, transparent); color:var(--bg);
+  padding:9px 16px; border-radius:999px; font-size:13px; white-space:nowrap; max-width:86vw; overflow:hidden; text-overflow:ellipsis;
+  opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease; box-shadow:0 8px 22px rgba(0,0,0,.22);
+}
+.toast.show{opacity:1; transform:translate(-50%, 0);}
+
 @media (max-width:480px){
   .topbar{padding:10px 12px;}
   .progress-tweet{padding:12px;}
@@ -995,6 +1027,14 @@ footer a{color:var(--text-faint);}
   </footer>
 </div>
 
+<div class="toast" id="toast"></div>
+<div class="fb-panel" id="fbPanel"></div>
+<div class="floatbar" id="floatbar">
+  <button type="button" class="fb-btn" id="fbTop" title="回到顶部">🔝</button>
+  <button type="button" class="fb-btn" id="fbDates" title="按日期跳转">🗓️</button>
+  <a class="fb-btn" href="review.html" title="复习页">📖</a>
+</div>
+
 <script>
 document.getElementById('filters').addEventListener('click', function(e){
   if(e.target.tagName !== 'BUTTON') return;
@@ -1098,6 +1138,17 @@ document.getElementById('filters').addEventListener('click', function(e){
     }
     return false;
   }
+  // 防御性清理：任何一次 setState（尤其是远端快照）都可能带来不再被 m/b/v 引用的孤儿快照，统一在这里收口
+  function pruneDetails(state){
+    var valid = {};
+    (state.m || []).forEach(function(k){ valid['grammar:' + k] = true; });
+    (state.b || []).forEach(function(k){ valid['grammar:' + k] = true; });
+    (state.v || []).forEach(function(k){ valid['vocab:' + k] = true; });
+    var d = state.d || {};
+    var out = {};
+    Object.keys(d).forEach(function(k){ if(valid[k]) out[k] = d[k]; });
+    return out;
+  }
   function updateDetails(fullKey, snapshot){
     var d = getDetails();
     if(snapshot){ d[fullKey] = snapshot; }
@@ -1173,6 +1224,7 @@ document.getElementById('filters').addEventListener('click', function(e){
       localStorage.setItem(VOCAB_KEY, JSON.stringify(vset));
       updateDetails('vocab:' + rawKey, vNowOn ? captureVocab(wrap) : null);
       notifySync();
+      if(vNowOn) showToast('⭐ 已标记单词 · 点右下角📖去复习页查看');
       return;
     }
     var t = e.target.closest('[data-say]');
@@ -1189,12 +1241,14 @@ document.getElementById('filters').addEventListener('click', function(e){
       localStorage.setItem(MASTER_KEY, JSON.stringify(set));
       updateDetails('grammar:' + key, mNowOn ? captureGrammar(m) : null);
       notifySync();
+      if(mNowOn) showToast('♥ 已加入"记住了" · 点右下角📖去复习页查看');
       return;
     }
     var bm = e.target.closest('.bookmark');
     if(bm){
       var bNowOn = toggleSet(BOOKMARK_KEY, bm.dataset.key, bm, '🔖', '🔖');
       updateDetails('grammar:' + bm.dataset.key, bNowOn ? captureGrammar(bm) : null);
+      if(bNowOn) showToast('🔖 已加入"待复习" · 点右下角📖去复习页查看');
       return;
     }
     var cp = e.target.closest('.copy');
@@ -1269,12 +1323,81 @@ document.getElementById('filters').addEventListener('click', function(e){
       }
     });
   }
+  // 右下角悬浮工具条：按日期跳转（含展开归档），回到顶部，标记后的提示条
+  var toastTimer = null;
+  function showToast(text){
+    var t = document.getElementById('toast');
+    if(!t) return;
+    t.textContent = text;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2200);
+  }
+  function closeFbPanel(){
+    var panel = document.getElementById('fbPanel');
+    if(panel) panel.classList.remove('show');
+  }
+  function jumpToDay(id){
+    var target = document.getElementById(id);
+    if(!target) return;
+    var det = target.tagName === 'DETAILS' ? target : target.closest('details');
+    while(det){ det.open = true; det = det.parentElement ? det.parentElement.closest('details') : null; }
+    target.scrollIntoView({ behavior:'auto', block:'start' });
+    closeFbPanel();
+  }
+  function setupDayNav(){
+    var panel = document.getElementById('fbPanel');
+    if(!panel) return;
+    var days = [];
+    document.querySelectorAll('.day').forEach(function(dayEl, i){
+      var dateEl = dayEl.querySelector('.day-bar .date');
+      var id = 'day-today-' + i;
+      dayEl.id = id;
+      days.push({ id: id, label: dateEl ? dateEl.textContent.trim() : ('今日 ' + (i + 1)), today: true });
+    });
+    document.querySelectorAll('.archived-day').forEach(function(d, i){
+      var sum = d.querySelector('summary');
+      var id = 'day-arch-' + i;
+      d.id = id;
+      days.push({ id: id, label: sum ? sum.textContent.trim() : ('归档 ' + (i + 1)), today: false });
+    });
+    panel.innerHTML = '';
+    if(!days.length){
+      var empty = document.createElement('div');
+      empty.className = 'fb-empty';
+      empty.textContent = '暂无历史';
+      panel.appendChild(empty);
+      return;
+    }
+    days.forEach(function(d){
+      var a = document.createElement('a');
+      a.href = '#' + d.id;
+      a.textContent = (d.today ? '📍 ' : '') + d.label;
+      if(d.today) a.className = 'today';
+      a.addEventListener('click', function(e){ e.preventDefault(); jumpToDay(d.id); });
+      panel.appendChild(a);
+    });
+  }
   document.addEventListener('DOMContentLoaded', function(){
     injectExtraActions();
     injectHtagMarks();
     restoreMastered();
     restoreBookmarked();
     restoreVocabMarks();
+    setupDayNav();
+    var fbTop = document.getElementById('fbTop');
+    var fbDates = document.getElementById('fbDates');
+    if(fbTop) fbTop.addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: 'auto' }); });
+    if(fbDates) fbDates.addEventListener('click', function(e){
+      e.stopPropagation();
+      document.getElementById('fbPanel').classList.toggle('show');
+    });
+    document.addEventListener('click', function(e){
+      var panel = document.getElementById('fbPanel');
+      if(panel && panel.classList.contains('show') && !panel.contains(e.target) && e.target !== fbDates){
+        closeFbPanel();
+      }
+    });
   });
 
   // 供下方 Firebase 同步模块调用：读写本地进度、监听本地变化
@@ -1289,13 +1412,16 @@ document.getElementById('filters').addEventListener('click', function(e){
       };
     },
     setState: function(state){
+      var prunedD = pruneDetails(state);
+      var driftedFromRemote = JSON.stringify(prunedD) !== JSON.stringify(state.d || {});
       localStorage.setItem(MASTER_KEY, JSON.stringify(state.m || []));
       localStorage.setItem(BOOKMARK_KEY, JSON.stringify(state.b || []));
       localStorage.setItem(VOCAB_KEY, JSON.stringify(state.v || []));
-      localStorage.setItem(DETAILS_KEY, JSON.stringify(state.d || {}));
+      localStorage.setItem(DETAILS_KEY, JSON.stringify(prunedD));
       restoreMastered();
       restoreBookmarked();
       restoreVocabMarks();
+      if(driftedFromRemote) notifySync();
     },
     onChange: function(){
       if(localChangeHandler) localChangeHandler(window.nihongoLocal.getState());
@@ -1367,12 +1493,18 @@ document.getElementById('filters').addEventListener('click', function(e){
         console.error('nihongo sync init failed', err);
       });
 
+      // 短时间内连续多次改动只推最后一次，避免两个 setDoc 并发时后发先至互相覆盖
+      var pushTimer = null;
       local.setChangeHandler(function(state){
+        clearTimeout(pushTimer);
+        pushTimer = setTimeout(function(){ pushNow(state); }, 500);
+      });
+      function pushNow(state){
         setDoc(ref, state).catch(function(err){
           setStatus('☁️ 同步失败，稍后重试');
           console.error('nihongo sync push failed', err);
         });
-      });
+      }
     } catch(err){
       setStatus('☁️ 同步初始化失败');
       console.error('nihongo firebase init failed', err);

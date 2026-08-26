@@ -110,6 +110,18 @@ a:hover{text-decoration:underline;}
 .empty{padding:60px 24px; text-align:center; color:var(--text-faint); font-size:14px; line-height:1.8;}
 footer{padding:20px 16px 60px; font-size:12px; color:var(--text-faint); font-family:'JetBrains Mono',monospace;}
 footer a{color:var(--text-faint);}
+
+.floatbar{
+  position:fixed; right:16px; bottom:calc(16px + env(safe-area-inset-bottom)); z-index:50;
+  display:flex; flex-direction:column; gap:9px;
+}
+.fb-btn{
+  width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  background:color-mix(in srgb, var(--card) 70%, transparent); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border:1px solid var(--border-strong); box-shadow:0 4px 16px rgba(0,0,0,.14);
+  font-size:19px; line-height:1; cursor:pointer; color:var(--text); touch-action:manipulation;
+}
+.fb-btn:hover{border-color:var(--accent); color:var(--accent); text-decoration:none;}
 </style>
 </head>
 <body>
@@ -136,6 +148,11 @@ footer a{color:var(--text-faint);}
   <div id="reviewList"></div>
 
   <footer>数据保存在本机浏览器，并通过 Firebase 在你自己的设备间同步 &middot; <a href="index.html">返回学习页</a></footer>
+</div>
+
+<div class="floatbar">
+  <button type="button" class="fb-btn" id="fbTop" title="回到顶部">🔝</button>
+  <a class="fb-btn" href="index.html" title="学习页">🎌</a>
 </div>
 
 <script>
@@ -175,6 +192,18 @@ footer a{color:var(--text-faint);}
   }
   function rawOf(fullKey){ return fullKey.indexOf('grammar:') === 0 ? fullKey.slice(8) : fullKey.slice(6); }
 
+  // 防御性清理：不再被 m/b/v 引用的孤儿快照会导致复习页出现没有取消按钮的"幽灵卡片"，统一在这里收口
+  function pruneDetails(state){
+    var valid = {};
+    (state.m || []).forEach(function(k){ valid['grammar:' + k] = true; });
+    (state.b || []).forEach(function(k){ valid['grammar:' + k] = true; });
+    (state.v || []).forEach(function(k){ valid['vocab:' + k] = true; });
+    var d = state.d || {};
+    var out = {};
+    Object.keys(d).forEach(function(k){ if(valid[k]) out[k] = d[k]; });
+    return out;
+  }
+
   function getState(){
     return {
       m: JSON.parse(localStorage.getItem(MASTER_KEY) || '[]'),
@@ -185,12 +214,14 @@ footer a{color:var(--text-faint);}
   }
   var localChangeHandler = null;
   function setState(state, skipPush){
+    var prunedD = pruneDetails(state);
+    var driftedFromRemote = JSON.stringify(prunedD) !== JSON.stringify(state.d || {});
     localStorage.setItem(MASTER_KEY, JSON.stringify(state.m || []));
     localStorage.setItem(BOOKMARK_KEY, JSON.stringify(state.b || []));
     localStorage.setItem(VOCAB_KEY, JSON.stringify(state.v || []));
-    localStorage.setItem(DETAILS_KEY, JSON.stringify(state.d || {}));
+    localStorage.setItem(DETAILS_KEY, JSON.stringify(prunedD));
     render();
-    if(!skipPush && localChangeHandler) localChangeHandler(state);
+    if((!skipPush || driftedFromRemote) && localChangeHandler) localChangeHandler(getState());
   }
 
   var currentFilter = 'all';
@@ -283,6 +314,8 @@ footer a{color:var(--text-faint);}
   };
 
   render();
+  var fbTop = document.getElementById('fbTop');
+  if(fbTop) fbTop.addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: 'auto' }); });
 })();
 </script>
 
@@ -341,11 +374,16 @@ footer a{color:var(--text-faint);}
       console.error('review sync init failed', err);
     });
 
+    // 短时间内连续多次改动只推最后一次，避免两个 setDoc 并发时后发先至互相覆盖
+    var pushTimer = null;
     local.setChangeHandler(function(state){
-      setDoc(ref, state).catch(function(err){
-        setStatus('☁️ 同步失败，稍后重试');
-        console.error('review sync push failed', err);
-      });
+      clearTimeout(pushTimer);
+      pushTimer = setTimeout(function(){
+        setDoc(ref, state).catch(function(err){
+          setStatus('☁️ 同步失败，稍后重试');
+          console.error('review sync push failed', err);
+        });
+      }, 500);
     });
   } catch(err){
     setStatus('☁️ 同步初始化失败');
