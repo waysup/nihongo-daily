@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>复习页 · 日语学习日志</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#F7F9F9; --card:#FFFFFF; --border:#EBEEF0; --border-strong:#D6DBDD;
+  --text:#0F1419; --text-soft:#536471; --text-faint:#8B98A5;
+  --accent:#2F8FD1; --accent-soft:#2F8FD114;
+  --heart:#F91880; --heart-soft:#F918801a;
+  --n5:#00A876; --n4:#2F8FD1; --n3:#7856E0; --n2:#C87A0A; --n2-soft:#FFAD1F22; --n1:#E0303E;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#15202B; --card:#1E2732; --border:#38444D; --border-strong:#4A5A66;
+    --text:#E7E9EA; --text-soft:#8B98A5; --text-faint:#66757F;
+    --accent:#5AABEA; --accent-soft:#5AABEA22;
+    --heart:#F91880; --heart-soft:#F918802a;
+    --n5:#2ECC94; --n4:#5AABEA; --n3:#9C88F5; --n2:#FFAD1F; --n2-soft:#FFAD1F26; --n1:#F4636F;
+  }
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0; background:var(--bg); color:var(--text); overflow-x:hidden;
+  font-family:-apple-system,'Noto Sans SC','Noto Sans JP',sans-serif; line-height:1.5; font-size:15.5px;
+  -webkit-font-smoothing:antialiased;
+}
+button, a{ touch-action:manipulation; }
+.jp{font-family:'Noto Sans JP','Noto Sans SC',sans-serif;}
+a{color:var(--accent); text-decoration:none;}
+a:hover{text-decoration:underline;}
+.wrap{max-width:600px; margin:0 auto; border-left:1px solid var(--border); border-right:1px solid var(--border); min-height:100vh;}
+@media (max-width:640px){.wrap{border-left:none; border-right:none;}}
+
+.topbar{
+  position:sticky; top:0; z-index:10; background:color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--border); padding:12px 16px;
+}
+.topbar-row{display:flex; align-items:flex-start; justify-content:space-between; gap:10px;}
+.topbar h1{font-family:'Noto Sans JP',sans-serif; font-weight:900; font-size:19px; margin:0;}
+.topbar .meta{font-size:12.5px; color:var(--text-soft); margin-top:2px;}
+.back-link{
+  flex:none; font-family:'JetBrains Mono',monospace; font-size:12.5px; font-weight:700; color:var(--text-soft);
+  border:1px solid var(--border-strong); border-radius:999px; padding:5px 12px; white-space:nowrap;
+}
+.back-link:hover{color:var(--accent); border-color:var(--accent); text-decoration:none;}
+
+.syncline{padding:8px 16px; border-bottom:1px solid var(--border); font-size:12px; color:var(--text-soft);}
+
+.filters{display:flex; gap:6px; flex-wrap:wrap; padding:10px 16px; border-bottom:1px solid var(--border);}
+.filters button{
+  font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; padding:5px 12px;
+  border-radius:999px; border:1px solid var(--border-strong); background:transparent; color:var(--text-soft); cursor:pointer;
+  touch-action:manipulation;
+}
+.filters button.active{background:var(--text); border-color:var(--text); color:var(--bg);}
+
+#reviewList{padding:4px 0;}
+.rcard{padding:14px 16px; border-bottom:1px solid var(--border);}
+.rcard-head{display:flex; align-items:center; flex-wrap:wrap; gap:7px; margin-bottom:4px;}
+.lvl-avatar{
+  flex:none; display:inline-flex; align-items:center; justify-content:center; min-width:22px; height:20px; padding:0 6px;
+  border-radius:10px; font-family:'JetBrains Mono',monospace; font-weight:800; font-size:10.5px; color:#fff;
+}
+.lvl-avatar.N5{background:var(--n5);} .lvl-avatar.N4{background:var(--n4);}
+.lvl-avatar.N3{background:var(--n3);} .lvl-avatar.N2{background:var(--n2); color:#1a1200;} .lvl-avatar.N1{background:var(--n1);}
+.lvl-mini{
+  flex:none; display:inline-flex; align-items:center; justify-content:center; padding:1px 6px;
+  border-radius:8px; font-family:'JetBrains Mono',monospace; font-weight:800; font-size:10px; color:#fff;
+}
+.lvl-mini.N5{background:var(--n5);} .lvl-mini.N4{background:var(--n4);}
+.lvl-mini.N3{background:var(--n3);} .lvl-mini.N2{background:var(--n2); color:#1a1200;} .lvl-mini.N1{background:var(--n1);}
+.pattern-line{font-weight:800; font-size:15px; font-family:'Noto Sans JP',sans-serif;}
+.pattern-romaji{font-family:'JetBrains Mono',monospace; font-weight:500; color:var(--text-faint); font-size:11.5px;}
+.h-word{font-family:'Noto Sans JP',sans-serif; font-weight:700; color:var(--accent); font-size:14.5px;}
+.h-word .kana{font-weight:500; font-size:12.5px; opacity:.85;}
+.h-sub{font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--text-faint);}
+.h-mean{color:var(--text-soft); font-size:14px; margin-top:2px;}
+.reply-explain{color:var(--text); font-size:14px; margin-top:2px;}
+.quote-box{margin-top:8px; border:1px solid var(--border-strong); border-radius:14px; padding:9px 12px; font-size:13px;}
+.quote-box .qlabel{display:block; font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-faint); letter-spacing:.05em; margin-bottom:3px;}
+.quote-box .qtext{font-family:'Noto Sans JP',sans-serif; color:var(--text-soft);}
+.quote-box .qtext mark{background:none; color:var(--accent); font-weight:800; padding:0 1px; border-bottom:2px solid var(--accent);}
+.quote-box .qtrans{display:block; margin-top:6px; padding-top:6px; border-top:1px dashed var(--border); color:var(--text-soft); font-size:12.5px;}
+.rcard-src{margin-top:7px; font-size:12px; color:var(--text-faint);}
+
+.action-row{display:flex; align-items:center; flex-wrap:wrap; gap:6px 18px; margin-top:9px;}
+.icon-btn{
+  display:inline-flex; align-items:center; gap:5px; border:none; background:none; cursor:pointer; flex:none;
+  color:var(--text-faint); font-size:12.5px; font-family:'JetBrains Mono',monospace; padding:4px 6px; border-radius:16px;
+  touch-action:manipulation;
+}
+.icon-btn .ic{font-size:14px;}
+.icon-btn .cnt{white-space:nowrap;}
+.icon-btn.say:hover{color:var(--accent); background:var(--accent-soft);}
+.icon-btn.say.speaking{color:var(--accent);}
+.icon-btn.master.on{color:var(--heart);}
+.icon-btn.master.on:hover{background:var(--heart-soft);}
+.icon-btn.bookmark.on{color:var(--accent);}
+.icon-btn.bookmark.on:hover{background:var(--accent-soft);}
+.icon-btn.vocabmark.on{color:var(--n2);}
+.icon-btn.vocabmark.on:hover{background:var(--n2-soft);}
+
+.empty{padding:60px 24px; text-align:center; color:var(--text-faint); font-size:14px; line-height:1.8;}
+footer{padding:20px 16px 60px; font-size:12px; color:var(--text-faint); font-family:'JetBrains Mono',monospace;}
+footer a{color:var(--text-faint);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="topbar-row">
+      <div>
+        <h1 class="jp">📖 复习页</h1>
+        <p class="meta">所有标记过的语法点和单词，跨设备自动同步</p>
+      </div>
+      <a class="back-link" href="index.html">← 学习页</a>
+    </div>
+  </div>
+
+  <div class="syncline" id="syncStatus">☁️ 进度自动同步：连接中…</div>
+
+  <div class="filters" id="filters">
+    <button type="button" data-f="all" class="active">全部 <span id="cntAll">0</span></button>
+    <button type="button" data-f="grammar">语法 <span id="cntGrammar">0</span></button>
+    <button type="button" data-f="vocab">单词 <span id="cntVocab">0</span></button>
+  </div>
+
+  <div id="reviewList"></div>
+
+  <footer>数据保存在本机浏览器，并通过 Firebase 在你自己的设备间同步 &middot; <a href="index.html">返回学习页</a></footer>
+</div>
+
+<script>
+(function(){
+  var MASTER_KEY = 'nihongo-daily-mastered';
+  var BOOKMARK_KEY = 'nihongo-daily-bookmarked';
+  var VOCAB_KEY = 'nihongo-daily-vocab-marked';
+  var DETAILS_KEY = 'nihongo-daily-details';
+
+  var supported = 'speechSynthesis' in window;
+  var jaVoices = [];
+  function loadVoices(){
+    if(!supported) return;
+    jaVoices = window.speechSynthesis.getVoices().filter(function(v){ return v.lang && v.lang.toLowerCase().indexOf('ja') === 0; });
+  }
+  if(supported){ loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices; }
+  function pickVoice(){
+    if(!jaVoices.length) return null;
+    var byName = jaVoices.find(function(v){ return /google|enhanced|premium|siri|neural/i.test(v.name); });
+    var online = jaVoices.find(function(v){ return v.localService === false; });
+    return byName || online || jaVoices[0];
+  }
+  function speak(text, btn){
+    if(!supported || !text) return;
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    var voice = pickVoice();
+    if(voice){ u.voice = voice; u.lang = voice.lang; } else { u.lang = 'ja-JP'; }
+    if(btn){ btn.classList.add('speaking'); u.onend = function(){ btn.classList.remove('speaking'); }; u.onerror = function(){ btn.classList.remove('speaking'); }; }
+    window.speechSynthesis.speak(u);
+  }
+
+  function esc(s){
+    return (s || '').replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+  function rawOf(fullKey){ return fullKey.indexOf('grammar:') === 0 ? fullKey.slice(8) : fullKey.slice(6); }
+
+  function getState(){
+    return {
+      m: JSON.parse(localStorage.getItem(MASTER_KEY) || '[]'),
+      b: JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]'),
+      v: JSON.parse(localStorage.getItem(VOCAB_KEY) || '[]'),
+      d: JSON.parse(localStorage.getItem(DETAILS_KEY) || '{}')
+    };
+  }
+  var localChangeHandler = null;
+  function setState(state, skipPush){
+    localStorage.setItem(MASTER_KEY, JSON.stringify(state.m || []));
+    localStorage.setItem(BOOKMARK_KEY, JSON.stringify(state.b || []));
+    localStorage.setItem(VOCAB_KEY, JSON.stringify(state.v || []));
+    localStorage.setItem(DETAILS_KEY, JSON.stringify(state.d || {}));
+    render();
+    if(!skipPush && localChangeHandler) localChangeHandler(state);
+  }
+
+  var currentFilter = 'all';
+  document.getElementById('filters').addEventListener('click', function(e){
+    var btn = e.target.closest('button[data-f]');
+    if(!btn) return;
+    currentFilter = btn.dataset.f;
+    document.querySelectorAll('#filters button').forEach(function(b){ b.classList.toggle('active', b === btn); });
+    render();
+  });
+
+  function removeAssoc(fullKey, kind){
+    var state = getState();
+    var raw = rawOf(fullKey);
+    if(kind === 'm') state.m = state.m.filter(function(k){ return k !== raw; });
+    if(kind === 'b') state.b = state.b.filter(function(k){ return k !== raw; });
+    if(kind === 'v') state.v = state.v.filter(function(k){ return k !== raw; });
+    var stillReferenced = fullKey.indexOf('grammar:') === 0
+      ? (state.m.indexOf(raw) !== -1 || state.b.indexOf(raw) !== -1)
+      : (state.v.indexOf(raw) !== -1);
+    if(!stillReferenced) delete state.d[fullKey];
+    setState(state);
+  }
+
+  document.getElementById('reviewList').addEventListener('click', function(e){
+    var say = e.target.closest('[data-say]');
+    if(say){ speak(say.dataset.say, say); return; }
+    var rm = e.target.closest('[data-remove]');
+    if(rm){ removeAssoc(rm.dataset.remove, rm.dataset.kind); return; }
+  });
+
+  function render(){
+    var state = getState();
+    var d = state.d || {};
+    var keys = Object.keys(d);
+    var grammarKeys = keys.filter(function(k){ return d[k].type === 'grammar'; });
+    var vocabKeys = keys.filter(function(k){ return d[k].type === 'vocab'; });
+    document.getElementById('cntAll').textContent = keys.length;
+    document.getElementById('cntGrammar').textContent = grammarKeys.length;
+    document.getElementById('cntVocab').textContent = vocabKeys.length;
+
+    var list = keys.filter(function(k){ return currentFilter === 'all' || d[k].type === currentFilter; });
+    var root = document.getElementById('reviewList');
+    if(!list.length){
+      root.innerHTML = '<div class="empty">还没有标记内容<br>去 <a href="index.html">学习页</a> 点"记住了 / 待复习 / ☆" 就会出现在这里</div>';
+      return;
+    }
+    root.innerHTML = list.map(function(fullKey){
+      var item = d[fullKey];
+      var raw = rawOf(fullKey);
+      if(item.type === 'grammar'){
+        var isM = state.m.indexOf(raw) !== -1;
+        var isB = state.b.indexOf(raw) !== -1;
+        return '<div class="rcard">' +
+          '<div class="rcard-head">' +
+            (item.level ? '<span class="lvl-avatar ' + esc(item.level) + '">' + esc(item.level) + '</span>' : '') +
+            '<span class="pattern-line jp">' + esc(item.pattern) + '</span>' +
+            (item.romaji ? '<span class="pattern-romaji">' + esc(item.romaji) + '</span>' : '') +
+          '</div>' +
+          (item.explain ? '<div class="reply-explain">' + esc(item.explain) + '</div>' : '') +
+          (item.quoteHtml ? '<div class="quote-box"><span class="qlabel">原文引用</span><div class="qtext jp">' + item.quoteHtml + '</div>' +
+            (item.trans ? '<div class="qtrans">' + esc(item.trans) + '</div>' : '') + '</div>' : '') +
+          (item.sourceTitle ? '<div class="rcard-src">' + (item.date ? esc(item.date) + ' &middot; ' : '') +
+            (item.sourceLink ? '<a href="' + esc(item.sourceLink) + '" target="_blank" rel="noopener">' + esc(item.sourceTitle) + ' ↗</a>' : esc(item.sourceTitle)) + '</div>' : '') +
+          '<div class="action-row">' +
+            '<button type="button" class="icon-btn say" data-say="' + esc(item.say || item.pattern) + '"><span class="ic">🔈</span><span class="cnt">朗读</span></button>' +
+            (isM ? '<button type="button" class="icon-btn master on" data-remove="' + esc(fullKey) + '" data-kind="m"><span class="ic">♥</span><span class="cnt">记住了 ✕</span></button>' : '') +
+            (isB ? '<button type="button" class="icon-btn bookmark on" data-remove="' + esc(fullKey) + '" data-kind="b"><span class="ic">🔖</span><span class="cnt">待复习 ✕</span></button>' : '') +
+          '</div></div>';
+      }
+      return '<div class="rcard">' +
+        '<div class="rcard-head">' +
+          (item.level ? '<span class="lvl-mini ' + esc(item.level) + '">' + esc(item.level) + '</span>' : '') +
+          '<span class="h-word jp">' + esc(item.word) + (item.kana ? '<span class="kana">（' + esc(item.kana) + '）</span>' : '') + '</span>' +
+          (item.romaji ? '<span class="h-sub">' + esc(item.romaji) + '</span>' : '') +
+        '</div>' +
+        (item.meaning ? '<div class="h-mean">' + esc(item.meaning) + '</div>' : '') +
+        '<div class="action-row">' +
+          '<button type="button" class="icon-btn say" data-say="' + esc(item.say || item.word) + '"><span class="ic">🔈</span><span class="cnt">朗读</span></button>' +
+          '<button type="button" class="icon-btn vocabmark on" data-remove="' + esc(fullKey) + '" data-kind="v"><span class="ic">★</span><span class="cnt">已标记 ✕</span></button>' +
+        '</div></div>';
+    }).join('');
+  }
+
+  window.reviewLocal = {
+    getState: getState,
+    setState: function(state){ setState(state, true); },
+    onChange: function(){ if(localChangeHandler) localChangeHandler(getState()); },
+    setChangeHandler: function(fn){ localChangeHandler = fn; }
+  };
+
+  render();
+})();
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+  var firebaseConfig = {
+    apiKey: "AIzaSyBBMvIa4U2TXX6ziH3INYyuMHKg930DlIo",
+    authDomain: "nihongo-daily-40390.firebaseapp.com",
+    projectId: "nihongo-daily-40390",
+    storageBucket: "nihongo-daily-40390.firebasestorage.app",
+    messagingSenderId: "873200334177",
+    appId: "1:873200334177:web:e51c4233d79f6818cdc120",
+    measurementId: "G-JQG2T0KBYB"
+  };
+
+  var statusEl = document.getElementById('syncStatus');
+  function setStatus(text){ if(statusEl) statusEl.textContent = text; }
+
+  function unionArr(x, y){ return (x || []).concat((y || []).filter(function(k){ return (x || []).indexOf(k) === -1; })); }
+  function unionState(a, b){
+    return {
+      m: unionArr(a.m, b.m),
+      b: unionArr(a.b, b.b),
+      v: unionArr(a.v, b.v),
+      d: Object.assign({}, b.d || {}, a.d || {})
+    };
+  }
+
+  try {
+    var app = initializeApp(firebaseConfig);
+    var db = getFirestore(app);
+    var ref = doc(db, 'progress', 'main');
+    var local = window.reviewLocal;
+
+    getDoc(ref).then(function(snap){
+      var localState = local.getState();
+      if(snap.exists()){
+        var merged = unionState(localState, snap.data());
+        local.setState(merged);
+        return setDoc(ref, merged);
+      }
+      return setDoc(ref, localState);
+    }).then(function(){
+      setStatus('☁️ 已连接，实时同步中');
+      onSnapshot(ref, function(snap){
+        if(!snap.exists()) return;
+        local.setState(snap.data());
+      }, function(err){
+        setStatus('☁️ 同步出错：' + err.message);
+        console.error('review sync listen failed', err);
+      });
+    }).catch(function(err){
+      setStatus('☁️ 连接失败，进度仅保存在本机');
+      console.error('review sync init failed', err);
+    });
+
+    local.setChangeHandler(function(state){
+      setDoc(ref, state).catch(function(err){
+        setStatus('☁️ 同步失败，稍后重试');
+        console.error('review sync push failed', err);
+      });
+    });
+  } catch(err){
+    setStatus('☁️ 同步初始化失败');
+    console.error('review firebase init failed', err);
+  }
+</script>
+</body>
+</html>

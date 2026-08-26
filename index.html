@@ -48,6 +48,12 @@ a:hover{text-decoration:underline;}
 }
 .topbar h1{font-family:'Noto Sans JP',sans-serif; font-weight:900; font-size:19px; margin:0;}
 .topbar .meta{font-size:12.5px; color:var(--text-soft); margin-top:2px;}
+.topbar-row{display:flex; align-items:flex-start; justify-content:space-between; gap:10px;}
+.review-link{
+  flex:none; font-family:'JetBrains Mono',monospace; font-size:12.5px; font-weight:700; color:var(--accent);
+  border:1px solid var(--accent); border-radius:999px; padding:5px 12px; white-space:nowrap; touch-action:manipulation;
+}
+.review-link:hover{background:var(--accent-soft); text-decoration:none;}
 
 /* 进度条区，像置顶推文 */
 .progress-tweet{padding:14px 16px; border-bottom:1px solid var(--border);}
@@ -160,6 +166,8 @@ a:hover{text-decoration:underline;}
 .htag .lvl-mini.N5{background:var(--n5);} .htag .lvl-mini.N4{background:var(--n4);}
 .htag .lvl-mini.N3{background:var(--n3);} .htag .lvl-mini.N2{background:var(--n2); color:#1a1200;} .htag .lvl-mini.N1{background:var(--n1);}
 .htag:hover{filter:brightness(0.97);}
+.htag-mark{border:none; background:none; cursor:pointer; touch-action:manipulation; font-size:13px; color:var(--text-faint); padding:0 0 0 3px; margin-left:1px; line-height:1; vertical-align:middle;}
+.htag-mark.on{color:var(--n2);}
 
 details.archive{border-top:8px solid var(--border);}
 details.archive summary{cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text-soft); padding:16px; list-style:none; display:flex; align-items:center; gap:8px;}
@@ -190,8 +198,13 @@ footer a{color:var(--text-faint);}
 <div class="wrap">
 
   <div class="topbar">
-    <h1 class="jp">🎌 日语学习日志</h1>
-    <p class="meta">目标 2026-12 JLPT N2 &middot; NHK Easy / NHK NEWS WEB / 维基百科 &middot; 例句均标注原文出处，绝无编造</p>
+    <div class="topbar-row">
+      <div>
+        <h1 class="jp">🎌 日语学习日志</h1>
+        <p class="meta">目标 2026-12 JLPT N2 &middot; NHK Easy / NHK NEWS WEB / 维基百科 &middot; 例句均标注原文出处，绝无编造</p>
+      </div>
+      <a class="review-link" href="review.html">📖 复习</a>
+    </div>
   </div>
 
   <div class="progress-tweet">
@@ -1054,6 +1067,8 @@ document.getElementById('filters').addEventListener('click', function(e){
     if(v) localStorage.setItem(VOICE_KEY, v.name);
   });
   var BOOKMARK_KEY = 'nihongo-daily-bookmarked';
+  var VOCAB_KEY = 'nihongo-daily-vocab-marked';
+  var DETAILS_KEY = 'nihongo-daily-details';
 
   function notifySync(){ if(window.nihongoLocal && window.nihongoLocal.onChange) window.nihongoLocal.onChange(); }
 
@@ -1065,6 +1080,72 @@ document.getElementById('filters').addEventListener('click', function(e){
     else { set.splice(idx,1); btn.classList.remove('on'); if(btn.querySelector('.ic')) btn.querySelector('.ic').textContent = offIcon; }
     localStorage.setItem(storageKey, JSON.stringify(set));
     notifySync();
+    return nowOn;
+  }
+
+  // 复习页用：给每个标记项存一份完整快照，方便脱离原文单独展示
+  function getDetails(){ return JSON.parse(localStorage.getItem(DETAILS_KEY) || '{}'); }
+  function isKeyReferenced(fullKey){
+    if(fullKey.indexOf('grammar:') === 0){
+      var raw = fullKey.slice(8);
+      var m = JSON.parse(localStorage.getItem(MASTER_KEY) || '[]');
+      var b = JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]');
+      return m.indexOf(raw) !== -1 || b.indexOf(raw) !== -1;
+    }
+    if(fullKey.indexOf('vocab:') === 0){
+      var v = JSON.parse(localStorage.getItem(VOCAB_KEY) || '[]');
+      return v.indexOf(fullKey.slice(6)) !== -1;
+    }
+    return false;
+  }
+  function updateDetails(fullKey, snapshot){
+    var d = getDetails();
+    if(snapshot){ d[fullKey] = snapshot; }
+    else if(!isKeyReferenced(fullKey)){ delete d[fullKey]; }
+    localStorage.setItem(DETAILS_KEY, JSON.stringify(d));
+  }
+  function captureGrammar(el){
+    var reply = el.closest('.reply');
+    var tweet = el.closest('.tweet');
+    var day = el.closest('.day');
+    if(!reply) return null;
+    var lvlEl = reply.querySelector('.lvl-avatar');
+    var lvlMatch = lvlEl ? lvlEl.className.match(/\bN[1-5]\b/) : null;
+    var titleA = tweet ? tweet.querySelector('.tweet-title a') : null;
+    var dateEl = day ? day.querySelector('.day-bar .date') : null;
+    var sayBtn = reply.querySelector('.icon-btn.say');
+    var pick = function(sel, root){ var e = (root||reply).querySelector(sel); return e ? e.textContent.trim() : ''; };
+    return {
+      type: 'grammar',
+      level: lvlMatch ? lvlMatch[0] : '',
+      pattern: pick('.pattern-line'),
+      romaji: pick('.pattern-romaji'),
+      say: sayBtn ? sayBtn.dataset.say : '',
+      explain: pick('.reply-explain'),
+      quoteHtml: (reply.querySelector('.qtext') || {}).innerHTML || '',
+      trans: pick('.qtrans'),
+      sourceTitle: titleA ? titleA.textContent.trim().replace(/\s*[↗↘]\s*$/, '') : '',
+      sourceLink: titleA ? titleA.getAttribute('href') : '',
+      date: dateEl ? dateEl.textContent.trim() : ''
+    };
+  }
+  function captureVocab(wrap){
+    if(!wrap) return null;
+    var lvlEl = wrap.querySelector('.lvl-mini');
+    var wordEl = wrap.querySelector('.h-word');
+    var kanaEl = wordEl ? wordEl.querySelector('.kana') : null;
+    var kanaText = kanaEl ? kanaEl.textContent.trim() : '';
+    var wordText = wordEl ? wordEl.textContent.replace(kanaText, '').trim() : '';
+    var pick = function(sel){ var e = wrap.querySelector(sel); return e ? e.textContent.trim() : ''; };
+    return {
+      type: 'vocab',
+      level: lvlEl ? lvlEl.textContent.trim() : '',
+      word: wordText,
+      kana: kanaText.replace(/[（）()]/g, ''),
+      romaji: pick('.h-sub'),
+      meaning: pick('.h-mean'),
+      say: wrap.dataset.say || ''
+    };
   }
 
   function buildCardText(actionRow){
@@ -1079,6 +1160,21 @@ document.getElementById('filters').addEventListener('click', function(e){
   }
 
   document.addEventListener('click', function(e){
+    var vm = e.target.closest('.htag-mark');
+    if(vm){
+      var wrap = vm.closest('.htag');
+      var rawKey = wrap ? wrap.dataset.say : null;
+      if(!rawKey) return;
+      var vset = JSON.parse(localStorage.getItem(VOCAB_KEY) || '[]');
+      var vidx = vset.indexOf(rawKey);
+      var vNowOn = vidx === -1;
+      if(vNowOn){ vset.push(rawKey); vm.classList.add('on'); vm.textContent = '★'; }
+      else { vset.splice(vidx,1); vm.classList.remove('on'); vm.textContent = '☆'; }
+      localStorage.setItem(VOCAB_KEY, JSON.stringify(vset));
+      updateDetails('vocab:' + rawKey, vNowOn ? captureVocab(wrap) : null);
+      notifySync();
+      return;
+    }
     var t = e.target.closest('[data-say]');
     if(t){ speak(t.dataset.say, t); return; }
     if(e.target.id === 'voiceTest'){ speak('こんにちは、これはテストです。'); return; }
@@ -1087,14 +1183,20 @@ document.getElementById('filters').addEventListener('click', function(e){
       var key = m.dataset.key;
       var set = JSON.parse(localStorage.getItem(MASTER_KEY) || '[]');
       var idx = set.indexOf(key);
-      if(idx === -1){ set.push(key); m.classList.add('on'); m.querySelector('.ic').textContent = '♥'; m.querySelector('.cnt').textContent = '记住了'; }
+      var mNowOn = idx === -1;
+      if(mNowOn){ set.push(key); m.classList.add('on'); m.querySelector('.ic').textContent = '♥'; m.querySelector('.cnt').textContent = '记住了'; }
       else { set.splice(idx,1); m.classList.remove('on'); m.querySelector('.ic').textContent = '♡'; }
       localStorage.setItem(MASTER_KEY, JSON.stringify(set));
+      updateDetails('grammar:' + key, mNowOn ? captureGrammar(m) : null);
       notifySync();
       return;
     }
     var bm = e.target.closest('.bookmark');
-    if(bm){ toggleSet(BOOKMARK_KEY, bm.dataset.key, bm, '🔖', '🔖'); return; }
+    if(bm){
+      var bNowOn = toggleSet(BOOKMARK_KEY, bm.dataset.key, bm, '🔖', '🔖');
+      updateDetails('grammar:' + bm.dataset.key, bNowOn ? captureGrammar(bm) : null);
+      return;
+    }
     var cp = e.target.closest('.copy');
     if(cp){
       var text = buildCardText(cp.closest('.action-row'));
@@ -1141,10 +1243,38 @@ document.getElementById('filters').addEventListener('click', function(e){
       btn.classList.toggle('on', set.indexOf(btn.dataset.key) !== -1);
     });
   }
+  function restoreVocabMarks(){
+    var set = JSON.parse(localStorage.getItem(VOCAB_KEY) || '[]');
+    document.querySelectorAll('.htag-mark').forEach(function(btn){
+      var wrap = btn.closest('.htag');
+      var on = wrap && set.indexOf(wrap.dataset.say) !== -1;
+      btn.classList.toggle('on', on);
+      btn.textContent = on ? '★' : '☆';
+    });
+  }
+  function injectHtagMarks(){
+    document.querySelectorAll('.htag').forEach(function(old){
+      if(old.tagName === 'BUTTON'){
+        var span = document.createElement('span');
+        span.className = old.className;
+        if(old.dataset.say) span.dataset.say = old.dataset.say;
+        span.innerHTML = old.innerHTML;
+        old.replaceWith(span);
+        old = span;
+      }
+      if(!old.querySelector('.htag-mark')){
+        var mark = document.createElement('button');
+        mark.type = 'button'; mark.className = 'htag-mark'; mark.textContent = '☆';
+        old.appendChild(mark);
+      }
+    });
+  }
   document.addEventListener('DOMContentLoaded', function(){
     injectExtraActions();
+    injectHtagMarks();
     restoreMastered();
     restoreBookmarked();
+    restoreVocabMarks();
   });
 
   // 供下方 Firebase 同步模块调用：读写本地进度、监听本地变化
@@ -1153,14 +1283,19 @@ document.getElementById('filters').addEventListener('click', function(e){
     getState: function(){
       return {
         m: JSON.parse(localStorage.getItem(MASTER_KEY) || '[]'),
-        b: JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]')
+        b: JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]'),
+        v: JSON.parse(localStorage.getItem(VOCAB_KEY) || '[]'),
+        d: getDetails()
       };
     },
     setState: function(state){
       localStorage.setItem(MASTER_KEY, JSON.stringify(state.m || []));
       localStorage.setItem(BOOKMARK_KEY, JSON.stringify(state.b || []));
+      localStorage.setItem(VOCAB_KEY, JSON.stringify(state.v || []));
+      localStorage.setItem(DETAILS_KEY, JSON.stringify(state.d || {}));
       restoreMastered();
       restoreBookmarked();
+      restoreVocabMarks();
     },
     onChange: function(){
       if(localChangeHandler) localChangeHandler(window.nihongoLocal.getState());
@@ -1194,10 +1329,14 @@ document.getElementById('filters').addEventListener('click', function(e){
     });
   }
 
+  function unionArr(x, y){ return (x || []).concat((y || []).filter(function(k){ return (x || []).indexOf(k) === -1; })); }
   function unionState(a, b){
-    var m = (a.m || []).concat((b.m || []).filter(function(k){ return (a.m || []).indexOf(k) === -1; }));
-    var bm = (a.b || []).concat((b.b || []).filter(function(k){ return (a.b || []).indexOf(k) === -1; }));
-    return { m: m, b: bm };
+    return {
+      m: unionArr(a.m, b.m),
+      b: unionArr(a.b, b.b),
+      v: unionArr(a.v, b.v),
+      d: Object.assign({}, b.d || {}, a.d || {})
+    };
   }
 
   waitForLocal().then(function(local){
