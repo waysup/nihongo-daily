@@ -27,11 +27,13 @@
   }
 }
 *{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
 body{
-  margin:0; background:var(--bg); color:var(--text);
+  margin:0; background:var(--bg); color:var(--text); overflow-x:hidden;
   font-family:-apple-system,'Noto Sans SC','Noto Sans JP',sans-serif; line-height:1.5; font-size:15.5px;
   -webkit-font-smoothing:antialiased;
 }
+button, a{ touch-action:manipulation; }
 .jp{font-family:'Noto Sans JP','Noto Sans SC',sans-serif;}
 ::selection{background:var(--accent-soft);}
 a{color:var(--accent); text-decoration:none;}
@@ -125,12 +127,13 @@ a:hover{text-decoration:underline;}
 .quote-box .qtext mark{background:none; color:var(--accent); font-weight:800; padding:0 1px; border-bottom:2px solid var(--accent);}
 .quote-box .qtrans{display:block; margin-top:6px; padding-top:6px; border-top:1px dashed var(--border); color:var(--text-soft); font-size:12.5px;}
 
-.action-row{display:flex; align-items:center; gap:22px; margin-top:9px;}
+.action-row{display:flex; align-items:center; flex-wrap:wrap; gap:6px 20px; margin-top:9px;}
 .icon-btn{
-  display:inline-flex; align-items:center; gap:5px; border:none; background:none; cursor:pointer;
+  display:inline-flex; align-items:center; gap:5px; border:none; background:none; cursor:pointer; flex:none;
   color:var(--text-faint); font-size:12.5px; font-family:'JetBrains Mono',monospace; padding:4px 6px; border-radius:16px;
 }
 .icon-btn .ic{font-size:14px;}
+.icon-btn .cnt{white-space:nowrap;}
 .icon-btn.say:hover{color:var(--accent); background:var(--accent-soft);}
 .icon-btn.say.speaking{color:var(--accent);}
 .icon-btn.master:hover{color:var(--heart); background:var(--heart-soft);}
@@ -168,6 +171,19 @@ details.archive .archived-day summary::-webkit-details-marker{display:none;}
 
 footer{padding:20px 16px 60px; font-size:12px; color:var(--text-faint); font-family:'JetBrains Mono',monospace;}
 footer a{color:var(--text-faint);}
+
+@media (max-width:480px){
+  .topbar{padding:10px 12px;}
+  .progress-tweet{padding:12px;}
+  .filters{padding:10px 12px;}
+  .day-bar{padding:10px 12px;}
+  .tweet{padding:10px 12px 4px;}
+  .thread{padding-left:10px; margin-left:10px;}
+  .reply{padding-left:12px;}
+  .hashtags{padding:10px 12px 14px 24px;}
+  .action-row{gap:6px 14px;}
+  .icon-btn{font-size:11.5px; padding:4px 3px;}
+}
 </style>
 </head>
 <body>
