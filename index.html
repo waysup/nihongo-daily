@@ -6,148 +6,175 @@
 <title>日语学习日志 · NHK + 维基百科</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎌</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@500;600&display=swap">
 <style>
 :root{
-  --paper:#F7F4EC; --paper-raised:#FFFFFF; --ink:#22282E; --ink-soft:#5C6670;
-  --accent:#3E5C8A; --accent-soft:#3E5C8A14; --line:#DCD5C4; --line-strong:#B9AF97;
-  --n5:#7CA982; --n4:#5B9BD5; --n3:#8B7FC7; --n2:#D97D3D; --n1:#C4506B;
-  --n5-bg:#7CA98220; --n4-bg:#5B9BD520; --n3-bg:#8B7FC720; --n2-bg:#D97D3D22; --n1-bg:#C4506B20;
+  --bg:#F7F9F9; --card:#FFFFFF; --card-hover:#F7F9F9; --border:#EBEEF0; --border-strong:#D6DBDD;
+  --text:#0F1419; --text-soft:#536471; --text-faint:#8B98A5;
+  --accent:#2F8FD1; --accent-soft:#2F8FD114; --accent-ink:#FFFFFF;
+  --heart:#F91880; --heart-soft:#F918801a;
+  --n5:#00A876; --n5-soft:#00A87618; --n4:#2F8FD1; --n4-soft:#2F8FD118;
+  --n3:#7856E0; --n3-soft:#7856E018; --n2:#C87A0A; --n2-soft:#FFAD1F22; --n1:#E0303E; --n1-soft:#E0303E16;
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --paper:#1B1E23; --paper-raised:#252932; --ink:#E8E6E0; --ink-soft:#9BA3AC;
-    --accent:#7DA0D9; --accent-soft:#7DA0D924; --line:#333B45; --line-strong:#454F5B;
-    --n5:#8FC397; --n4:#7CB3E8; --n3:#A79AE0; --n2:#F0954E; --n1:#DE7089;
-    --n5-bg:#8FC39722; --n4-bg:#7CB3E822; --n3-bg:#A79AE022; --n2-bg:#F0954E26; --n1-bg:#DE708922;
+    --bg:#15202B; --card:#1E2732; --card-hover:#22303C; --border:#38444D; --border-strong:#4A5A66;
+    --text:#E7E9EA; --text-soft:#8B98A5; --text-faint:#66757F;
+    --accent:#5AABEA; --accent-soft:#5AABEA22; --accent-ink:#0F1419;
+    --heart:#F91880; --heart-soft:#F918802a;
+    --n5:#2ECC94; --n5-soft:#2ECC9422; --n4:#5AABEA; --n4-soft:#5AABEA22;
+    --n3:#9C88F5; --n3-soft:#9C88F522; --n2:#FFAD1F; --n2-soft:#FFAD1F26; --n1:#F4636F; --n1-soft:#F4636F22;
   }
 }
 *{box-sizing:border-box;}
 body{
-  margin:0; background:var(--paper); color:var(--ink);
-  font-family:'Noto Sans SC','Noto Sans JP',sans-serif; line-height:1.75; font-size:16px;
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:-apple-system,'Noto Sans SC','Noto Sans JP',sans-serif; line-height:1.5; font-size:15.5px;
   -webkit-font-smoothing:antialiased;
 }
 .jp{font-family:'Noto Sans JP','Noto Sans SC',sans-serif;}
 ::selection{background:var(--accent-soft);}
-a{color:var(--accent); text-decoration-thickness:1px;}
-.wrap{max-width:760px; margin:0 auto; padding:36px 20px 90px;}
+a{color:var(--accent); text-decoration:none;}
+a:hover{text-decoration:underline;}
+.wrap{max-width:600px; margin:0 auto; border-left:1px solid var(--border); border-right:1px solid var(--border); min-height:100vh;}
+@media (max-width:640px){.wrap{border-left:none; border-right:none;}}
 
-header.masthead{margin-bottom:28px;}
-.eyebrow{font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 8px;}
-h1{font-family:'Noto Sans JP',sans-serif; font-weight:900; font-size:clamp(26px,6vw,34px); margin:0 0 6px;}
-.sub{color:var(--ink-soft); font-size:14.5px; margin:0;}
-
-.progress-card{
-  background:var(--paper-raised); border:1px solid var(--line); border-radius:10px;
-  padding:18px 20px; margin:22px 0 30px;
+/* 顶部吸顶栏，仿推特Home header */
+.topbar{
+  position:sticky; top:0; z-index:10; background:color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--border); padding:12px 16px;
 }
-.progress-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; flex-wrap:wrap; gap:6px;}
-.progress-top .label{font-size:13.5px; color:var(--ink-soft);}
-.progress-top .num{font-family:'JetBrains Mono',monospace; font-weight:600; font-size:14px;}
-.progress-top .num strong{color:var(--n2); font-size:20px;}
-.bar{height:10px; border-radius:6px; background:var(--line); overflow:hidden;}
-.bar-fill{height:100%; background:linear-gradient(90deg,var(--n2),var(--accent)); border-radius:6px; transition:width .4s;}
+.topbar h1{font-family:'Noto Sans JP',sans-serif; font-weight:900; font-size:19px; margin:0;}
+.topbar .meta{font-size:12.5px; color:var(--text-soft); margin-top:2px;}
 
-.filters{display:flex; gap:8px; flex-wrap:wrap; margin:0 0 24px;}
+/* 进度条区，像置顶推文 */
+.progress-tweet{padding:14px 16px; border-bottom:1px solid var(--border);}
+.progress-head{display:flex; align-items:center; gap:8px; margin-bottom:8px;}
+.pin{color:var(--text-faint); font-size:12px; font-weight:700;}
+.progress-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; flex-wrap:wrap; gap:4px; font-size:13.5px;}
+.progress-top .num strong{color:var(--n2); font-size:19px; font-weight:900;}
+.bar{height:8px; border-radius:5px; background:var(--border); overflow:hidden;}
+.bar-fill{height:100%; background:linear-gradient(90deg,var(--n2),var(--accent)); border-radius:5px; transition:width .5s;}
+
+.voice-picker{display:none; align-items:center; gap:8px; margin-top:10px; font-size:12px; color:var(--text-soft); flex-wrap:wrap;}
+.voice-picker.ready{display:flex;}
+.voice-picker select{font-family:inherit; font-size:12px; background:var(--card); color:var(--text); border:1px solid var(--border-strong); border-radius:16px; padding:4px 10px;}
+.voice-picker button{font-family:'JetBrains Mono',monospace; font-size:11px; border:1px solid var(--border-strong); background:var(--card); color:var(--text-soft); border-radius:16px; padding:4px 11px; cursor:pointer;}
+.voice-picker button:hover{color:var(--accent); border-color:var(--accent);}
+
+.filters{display:flex; gap:6px; flex-wrap:wrap; padding:10px 16px; border-bottom:1px solid var(--border);}
 .filters button{
-  font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600; padding:6px 12px;
-  border-radius:20px; border:1px solid var(--line-strong); background:var(--paper-raised); color:var(--ink-soft);
-  cursor:pointer; transition:all .15s;
+  font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; padding:5px 12px;
+  border-radius:999px; border:1px solid var(--border-strong); background:transparent; color:var(--text-soft); cursor:pointer;
 }
-.filters button.active{background:var(--accent); border-color:var(--accent); color:#fff;}
-.filters button[data-lvl="N2"].active{background:var(--n2); border-color:var(--n2);}
+.filters button.active{background:var(--text); border-color:var(--text); color:var(--bg);}
+.filters button[data-lvl="N2"].active{background:var(--n2); border-color:var(--n2); color:#1a1200;}
 
-section.day{
-  background:var(--paper-raised); border:1px solid var(--line); border-radius:10px;
-  padding:24px 22px; margin-bottom:20px;
+/* 一天 = 一个 feed 区块 */
+.day{border-bottom:8px solid var(--border);}
+.day-bar{display:flex; align-items:center; gap:10px; padding:12px 16px; color:var(--text-soft); font-size:13px;}
+.day-bar .date{font-weight:800; color:var(--text); font-size:14.5px;}
+
+/* 每篇材料 = 一条根推文 */
+.tweet{padding:12px 16px 4px; border-bottom:1px solid var(--border);}
+.tweet-head{display:flex; gap:10px;}
+.avatar{
+  flex:none; width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:19px; color:#fff;
 }
-section.day.today{border-color:var(--accent); border-width:1.5px;}
-.day-date{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--accent); font-weight:600; margin-bottom:4px;}
-.day-links{display:flex; flex-wrap:wrap; gap:10px; font-size:13px; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid var(--line);}
-.day-links a{padding:3px 0;}
+.avatar.src-easy{background:linear-gradient(135deg,#00A876,#2F8FD1);}
+.avatar.src-n2{background:linear-gradient(135deg,#FFAD1F,#E0303E);}
+.avatar.src-wiki{background:linear-gradient(135deg,#7856E0,#2F8FD1);}
+.tweet-body{flex:1; min-width:0;}
+.tweet-names{display:flex; align-items:baseline; gap:5px; flex-wrap:wrap; font-size:14.5px;}
+.tweet-names .name{font-weight:800;}
+.tweet-names .handle{color:var(--text-faint); font-size:13.5px;}
+.tweet-names .dot{color:var(--text-faint);}
+.tweet-title{margin:2px 0 6px; font-weight:700; font-size:15px;}
+.tweet-title a{color:var(--text);}
+.tweet-title a:hover{color:var(--accent);}
+.tweet-summary{margin:0 0 10px; color:var(--text); font-size:14.5px; line-height:1.55;}
 
-article.piece{margin-bottom:22px;}
-article.piece:last-child{margin-bottom:0;}
-.piece-title{font-weight:700; font-size:15.5px; margin:0 0 4px;}
-.piece-title a{color:var(--ink); text-decoration:none; border-bottom:1px dashed var(--line-strong);}
-.piece-title a:hover{color:var(--accent); border-bottom-color:var(--accent);}
-.piece-title .tag{font-family:'JetBrains Mono',monospace; font-size:10.5px; font-weight:600; color:var(--ink-soft); background:var(--accent-soft); padding:2px 7px; border-radius:4px; margin-right:6px; vertical-align:middle;}
-.piece-summary{font-size:14.5px; color:var(--ink-soft); margin:0 0 12px;}
-
-.gpoint{display:flex; gap:10px; padding:9px 0; border-top:1px solid var(--line); font-size:14px;}
-.gpoint:first-of-type{border-top:none; padding-top:2px;}
-.lvl{
-  flex:none; font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; padding:2px 7px;
-  border-radius:4px; height:fit-content; margin-top:2px;
+/* 每个语法点 = 缩进的回复，带 thread 竖线 */
+.thread{position:relative; padding-left:22px; margin-left:22px; border-left:2px solid var(--border);}
+.reply{position:relative; padding:10px 0 14px 20px; border-bottom:1px dashed var(--border);}
+.reply:last-child{border-bottom:none;}
+.reply-head{display:flex; align-items:flex-start; gap:9px;}
+.lvl-avatar{
+  flex:none; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-family:'JetBrains Mono',monospace; font-weight:800; font-size:10.5px; color:#fff; margin-top:1px;
 }
-.lvl.N5{color:var(--n5); background:var(--n5-bg);} .lvl.N4{color:var(--n4); background:var(--n4-bg);}
-.lvl.N3{color:var(--n3); background:var(--n3-bg);} .lvl.N2{color:var(--n2); background:var(--n2-bg);}
-.lvl.N1{color:var(--n1); background:var(--n1-bg);}
-.gpoint .pattern{font-family:'Noto Sans JP',sans-serif; font-weight:700;}
-.gpoint .quote{display:block; font-family:'Noto Sans JP',sans-serif; color:var(--ink-soft); font-size:13.5px; margin-top:2px;}
-.gpoint .recur{display:block; font-size:12.5px; color:var(--accent); margin-top:3px;}
+.lvl-avatar.N5{background:var(--n5);} .lvl-avatar.N4{background:var(--n4);}
+.lvl-avatar.N3{background:var(--n3);} .lvl-avatar.N2{background:var(--n2); color:#1a1200;} .lvl-avatar.N1{background:var(--n1);}
+.reply-body{flex:1; min-width:0;}
+.pattern-line{font-weight:800; font-size:15px; font-family:'Noto Sans JP',sans-serif;}
+.pattern-romaji{font-family:'JetBrains Mono',monospace; font-weight:500; color:var(--text-faint); font-size:11.5px; margin-left:2px;}
+.reply-explain{color:var(--text); font-size:14px; margin-top:2px;}
 
-.vocab-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px 14px; margin-top:6px;}
-.vocab-item{font-size:13.5px; padding:6px 0 8px; border-top:1px dashed var(--line); min-width:0;}
-.vocab-item .w{display:block; font-family:'Noto Sans JP',sans-serif; font-weight:600; overflow-wrap:break-word;}
-.vocab-item .romaji{display:block; font-family:'JetBrains Mono',monospace; font-weight:500; color:var(--accent); font-size:11px; margin-top:2px; overflow-wrap:break-word;}
-.vocab-item .m{display:block; color:var(--ink-soft); font-size:12.5px; margin-top:2px;}
-.gpoint .romaji{display:block; font-family:'JetBrains Mono',monospace; font-weight:500; color:var(--accent); font-size:11.5px; margin-top:2px;}
-
-.say-btn{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:20px; height:20px; margin-left:6px; padding:0; vertical-align:middle;
-  border:none; border-radius:50%; background:var(--accent-soft); color:var(--accent);
-  font-size:11px; cursor:pointer; line-height:1;
+.quote-box{
+  margin-top:8px; border:1px solid var(--border-strong); border-radius:14px; padding:9px 12px; font-size:13px;
 }
-.say-btn:hover{background:var(--accent); color:#fff;}
-.say-btn:active{transform:scale(.92);}
-.say-btn.speaking{background:var(--n2); color:#fff;}
+.quote-box .qlabel{display:block; font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-faint); letter-spacing:.05em; margin-bottom:3px;}
+.quote-box .qtext{font-family:'Noto Sans JP',sans-serif; color:var(--text-soft);}
 
-details.archive{margin-top:8px;}
-details.archive summary{cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--ink-soft); padding:14px 0; list-style:none; display:flex; align-items:center; gap:8px;}
+.action-row{display:flex; align-items:center; gap:22px; margin-top:9px;}
+.icon-btn{
+  display:inline-flex; align-items:center; gap:5px; border:none; background:none; cursor:pointer;
+  color:var(--text-faint); font-size:12.5px; font-family:'JetBrains Mono',monospace; padding:4px 6px; border-radius:16px;
+}
+.icon-btn .ic{font-size:14px;}
+.icon-btn.say:hover{color:var(--accent); background:var(--accent-soft);}
+.icon-btn.say.speaking{color:var(--accent);}
+.icon-btn.master:hover{color:var(--heart); background:var(--heart-soft);}
+.icon-btn.master.on{color:var(--heart);}
+.icon-btn.master.on .ic{filter:none;}
+
+/* 生词 = 话题标签行 */
+.hashtags{display:flex; flex-wrap:wrap; gap:8px; padding:10px 16px 16px 44px;}
+.htag{
+  display:inline-flex; align-items:center; gap:5px; background:var(--accent-soft); border-radius:16px;
+  padding:5px 11px 5px 12px; cursor:pointer; border:none; font-family:inherit;
+}
+.htag .h-word{font-family:'Noto Sans JP',sans-serif; font-weight:700; color:var(--accent); font-size:13.5px;}
+.htag .h-sub{font-size:11px; color:var(--text-faint); font-family:'JetBrains Mono',monospace;}
+.htag .h-mean{font-size:11.5px; color:var(--text-soft);}
+.htag .lvl-mini{font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:800; padding:1px 5px; border-radius:8px; color:#fff;}
+.htag .lvl-mini.N5{background:var(--n5);} .htag .lvl-mini.N4{background:var(--n4);}
+.htag .lvl-mini.N3{background:var(--n3);} .htag .lvl-mini.N2{background:var(--n2); color:#1a1200;} .htag .lvl-mini.N1{background:var(--n1);}
+.htag:hover{filter:brightness(0.97);}
+
+details.archive{border-top:8px solid var(--border);}
+details.archive summary{cursor:pointer; font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--text-soft); padding:16px; list-style:none; display:flex; align-items:center; gap:8px;}
 details.archive summary::before{content:"▸"; display:inline-block; transition:transform .15s;}
 details.archive[open] summary::before{transform:rotate(90deg);}
 details.archive summary::-webkit-details-marker{display:none;}
+details.archive .archived-day summary{cursor:pointer; padding:12px 16px; font-size:13.5px; font-weight:700; border-bottom:1px solid var(--border); list-style:none;}
+details.archive .archived-day summary::-webkit-details-marker{display:none;}
 
-footer{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft); font-family:'JetBrains Mono',monospace;}
-footer a{color:var(--ink-soft);}
-
-.voice-picker{display:none; align-items:center; gap:8px; margin:14px 0 0; font-size:12.5px; color:var(--ink-soft);}
-.voice-picker.ready{display:flex;}
-.voice-picker select{
-  font-family:inherit; font-size:12.5px; background:var(--paper-raised); color:var(--ink);
-  border:1px solid var(--line-strong); border-radius:6px; padding:4px 8px; max-width:220px;
-}
-.voice-picker button{
-  font-family:'JetBrains Mono',monospace; font-size:11px; border:1px solid var(--line-strong); background:var(--paper-raised);
-  color:var(--ink-soft); border-radius:6px; padding:4px 9px; cursor:pointer;
-}
-.voice-picker button:hover{color:var(--accent); border-color:var(--accent);}
-
-@media (max-width:600px){.wrap{padding:24px 16px 70px;}}
+footer{padding:20px 16px 60px; font-size:12px; color:var(--text-faint); font-family:'JetBrains Mono',monospace;}
+footer a{color:var(--text-faint);}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="masthead">
-    <p class="eyebrow">daily nihongo &middot; 目标 2026-12 JLPT N2</p>
-    <h1>日语学习日志</h1>
-    <p class="sub">每天从 NHK Easy / NHK NEWS WEB / 维基百科 精选条目里提炼语法点和生词 &middot; 例句均标注原文出处，绝无编造</p>
+
+  <div class="topbar">
+    <h1 class="jp">🎌 日语学习日志</h1>
+    <p class="meta">目标 2026-12 JLPT N2 &middot; NHK Easy / NHK NEWS WEB / 维基百科 &middot; 例句均标注原文出处，绝无编造</p>
+  </div>
+
+  <div class="progress-tweet">
+    <div class="progress-head"><span class="pin">📌 置顶 · N2 覆盖进度</span></div>
+    <div class="progress-top">
+      <span>大纲约200个语法点（估算）</span>
+      <span class="num">累计 <strong id="n2count">7</strong> 个 &middot; <span id="n2pct">3.5%</span></span>
+    </div>
+    <div class="bar"><div class="bar-fill" id="n2bar" style="width:3.5%"></div></div>
     <div class="voice-picker" id="voicePicker">
       <span>🔊 朗读语音：</span>
       <select id="voiceSelect"></select>
       <button type="button" id="voiceTest">试听</button>
     </div>
-  </header>
-
-  <div class="progress-card">
-    <div class="progress-top">
-      <span class="label">N2 语法覆盖进度（大纲约200个，估算）</span>
-      <span class="num">累计 <strong id="n2count">7</strong> 个 &middot; <span id="n2pct">3.5%</span></span>
-    </div>
-    <div class="bar"><div class="bar-fill" id="n2bar" style="width:3.5%"></div></div>
   </div>
 
   <div class="filters" id="filters">
@@ -159,83 +186,317 @@ footer a{color:var(--ink-soft);}
     <button data-lvl="N1">N1</button>
   </div>
 
-  <section class="day today">
-    <div class="day-date">今日 &middot; 2026-08-25</div>
-    <div class="day-links">
-      <a href="https://nhkeasier.com/story/9897/" target="src-story9897" rel="noopener">📰 NHK Easy 原文 ↗</a>
-      <a href="https://news.web.nhk/newsweb/na/nd-20260825de46130" target="src-46130" rel="noopener">📰 NHK普通版①原文 ↗</a>
-      <a href="https://news.web.nhk/newsweb/na/nd-20260825de46156" target="src-46156" rel="noopener">📰 NHK普通版②原文 ↗</a>
-      <a href="https://ja.wikipedia.org/wiki/道教" target="src-daojiao" rel="noopener">📚 维基百科原文 ↗</a>
+  <div class="day">
+    <div class="day-bar"><span class="date">今日 · 2026-08-25</span></div>
+
+    <div class="tweet">
+      <div class="tweet-head">
+        <div class="avatar src-easy">📰</div>
+        <div class="tweet-body">
+          <div class="tweet-names"><span class="name">NHK Easy</span><span class="handle">@nhk_easy</span><span class="dot">·</span><span class="handle">基础层 N4-N3</span></div>
+          <p class="tweet-title"><a href="https://nhkeasier.com/story/9897/" target="src-story9897" rel="noopener">23日に関東地方で震度5弱の地震 ↗</a></p>
+          <p class="tweet-summary">23日凌晨关东地区发生震度5弱地震，多地有震感，专家提醒一周内仍需警惕同等强度余震。</p>
+        </div>
+      </div>
+      <div class="thread">
+        <div class="reply" data-lvl="N4">
+          <div class="reply-head">
+            <div class="lvl-avatar N4">N4</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜てほしい</span><span class="pattern-romaji">te hoshii</span></div>
+              <p class="reply-explain">希望对方做某事</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">地震が起きたときの避難などについて考えてほしい</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="てほしい"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="てほしい"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply" data-lvl="N4">
+          <div class="reply-head">
+            <div class="lvl-avatar N4">N4</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜について</span><span class="pattern-romaji">ni tsuite</span></div>
+              <p class="reply-explain">「关于〜」，提示话题对象</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">地震が起きたときの避難などについて考えてほしい</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="について"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="について"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply" data-lvl="N4">
+          <div class="reply-head">
+            <div class="lvl-avatar N4">N4</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜（の）とき</span><span class="pattern-romaji">(no) toki</span></div>
+              <p class="reply-explain">「〜的时候」</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">地震が起きたとき</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="とき"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="のとき"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply" data-lvl="N4">
+          <div class="reply-head">
+            <div class="lvl-avatar N4">N4</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜かもしれません</span><span class="pattern-romaji">kamoshiremasen</span></div>
+              <p class="reply-explain">较低把握度的推测「说不定〜」</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">1週間ぐらいは同じぐらい大きい地震があるかもしれません</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="かもしれません"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="かもしれません"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply" data-lvl="N4">
+          <div class="reply-head">
+            <div class="lvl-avatar N4">N4</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜と話しています</span><span class="pattern-romaji">to hanashiteimasu</span></div>
+              <p class="reply-explain">引用他人发言的固定句式</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">気象庁は『…気をつけてください』と話しています</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="と話しています"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="と話しています"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hashtags">
+        <button class="htag" data-say="じしん"><span class="lvl-mini N4">N4</span><span class="h-word">#地震</span><span class="h-sub">jishin</span><span class="h-mean">地震</span></button>
+        <button class="htag" data-say="ゆれる"><span class="lvl-mini N3">N3</span><span class="h-word">#揺れる</span><span class="h-sub">yureru</span><span class="h-mean">摇晃</span></button>
+        <button class="htag" data-say="しんど"><span class="lvl-mini N2">N2</span><span class="h-word">#震度</span><span class="h-sub">shindo</span><span class="h-mean">震度</span></button>
+        <button class="htag" data-say="ころぶ"><span class="lvl-mini N3">N3</span><span class="h-word">#転ぶ</span><span class="h-sub">korobu</span><span class="h-mean">摔倒</span></button>
+        <button class="htag" data-say="けが"><span class="lvl-mini N4">N4</span><span class="h-word">#怪我</span><span class="h-sub">kega</span><span class="h-mean">受伤</span></button>
+        <button class="htag" data-say="せんもんか"><span class="lvl-mini N2">N2</span><span class="h-word">#専門家</span><span class="h-sub">senmonka</span><span class="h-mean">专家</span></button>
+        <button class="htag" data-say="ひなん"><span class="lvl-mini N2">N2</span><span class="h-word">#避難</span><span class="h-sub">hinan</span><span class="h-mean">避难</span></button>
+        <button class="htag" data-say="きしょうちょう"><span class="lvl-mini N2">N2</span><span class="h-word">#気象庁</span><span class="h-sub">kishouchou</span><span class="h-mean">气象厅</span></button>
+      </div>
     </div>
 
-    <article class="piece">
-      <p class="piece-title"><span class="tag">NHK EASY</span><a href="https://nhkeasier.com/story/9897/" target="src-story9897" rel="noopener">23日に関東地方で震度5弱の地震 ↗</a></p>
-      <p class="piece-summary">23日凌晨关东地区发生震度5弱地震，多地有震感，专家提醒一周内仍需警惕同等强度余震。</p>
-      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜てほしい</span><span class="romaji">te hoshii</span> — 希望对方做某事<span class="quote jp">原文：「地震が起きたときの避難などについて考えてほしい」</span></div></div>
-      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜について</span><span class="romaji">ni tsuite</span> — 「关于〜」，提示话题对象<span class="quote jp">原文：「地震が起きたときの避難などについて考えてほしい」</span></div></div>
-      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜（の）とき</span><span class="romaji">(no) toki</span> — 「〜的时候」<span class="quote jp">原文：「地震が起きたとき」</span></div></div>
-      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜かもしれません</span><span class="romaji">kamoshiremasen</span> — 较低把握度的推测「说不定〜」<span class="quote jp">原文：「1週間ぐらいは同じぐらい大きい地震があるかもしれません」</span></div></div>
-      <div class="gpoint" data-lvl="N4"><span class="lvl N4">N4</span><div><span class="pattern">〜と話しています</span> — 引用他人发言的固定句式<span class="quote jp">原文：「気象庁は『…気をつけてください』と話しています」</span></div></div>
-      <div class="vocab-grid">
-        <div class="vocab-item" data-lvl="N4"><span class="w jp">地震（じしん）</span><span class="romaji">jishin</span><span class="m">地震</span></div>
-        <div class="vocab-item" data-lvl="N3"><span class="w jp">揺れる（ゆれる）</span><span class="romaji">yureru</span><span class="m">摇晃</span></div>
-        <div class="vocab-item" data-lvl="N2"><span class="w jp">震度（しんど）</span><span class="romaji">shindo</span><span class="m">震度</span></div>
-        <div class="vocab-item" data-lvl="N3"><span class="w jp">転ぶ（ころぶ）</span><span class="romaji">korobu</span><span class="m">摔倒</span></div>
-        <div class="vocab-item" data-lvl="N4"><span class="w jp">怪我（けが）</span><span class="romaji">kega</span><span class="m">受伤</span></div>
-        <div class="vocab-item" data-lvl="N2"><span class="w jp">専門家（せんもんか）</span><span class="romaji">senmonka</span><span class="m">专家</span></div>
-        <div class="vocab-item" data-lvl="N2"><span class="w jp">避難（ひなん）</span><span class="romaji">hinan</span><span class="m">避难</span></div>
-        <div class="vocab-item" data-lvl="N2"><span class="w jp">気象庁（きしょうちょう）</span><span class="romaji">kishouchou</span><span class="m">气象厅</span></div>
+    <div class="tweet">
+      <div class="tweet-head">
+        <div class="avatar src-n2">📰</div>
+        <div class="tweet-body">
+          <div class="tweet-names"><span class="name">NHK NEWS WEB</span><span class="handle">@nhk_news</span><span class="dot">·</span><span class="handle">N2 锚点</span></div>
+          <p class="tweet-title"><a href="https://news.web.nhk/newsweb/na/nd-20260825de46130" target="src-46130" rel="noopener">クマ撃退スプレー 市販製品の「性能」に大きな差 ↗</a></p>
+          <p class="tweet-summary">消费者厅、环境省、国民生活中心联合对12款市售驱熊喷雾做了喷射测试，发现不同产品的喷射距离和持续时间差别很大，性能参差不齐。</p>
+        </div>
       </div>
-    </article>
+      <div class="thread">
+        <div class="reply" data-lvl="N2">
+          <div class="reply-head">
+            <div class="lvl-avatar N2">N2</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">长句直接修饰名词</span></div>
+              <p class="reply-explain">一整句话可以直接放在名词前面当"定语"，不需要"的"或"which/that"这类连接词</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">クマ撃退スプレーとして販売されている12製品について…</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="クマ撃退スプレーとして販売されている"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="长句修饰名词"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply" data-lvl="N2">
+          <div class="reply-head">
+            <div class="lvl-avatar N2">N2</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜（の）結果</span><span class="pattern-romaji">(no) kekka</span></div>
+              <p class="reply-explain">「做了〜之后，结果是〜」，承接前面动作引出新情况</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">噴射テストを行った結果、…性能が大きく異なることが確認されました</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="けっか"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="の結果"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply" data-lvl="N3">
+          <div class="reply-head">
+            <div class="lvl-avatar N3">N3</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜によって</span><span class="pattern-romaji">ni yotte</span></div>
+              <p class="reply-explain">这里是「根据〜不同而不同」，不是「因为」</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">製品によって噴射の距離や時間など、性能が大きく異なる</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="によって"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="によって"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hashtags">
+        <button class="htag" data-say="げきたい"><span class="lvl-mini N1">N1</span><span class="h-word">#撃退</span><span class="h-sub">gekitai</span><span class="h-mean">击退</span></button>
+        <button class="htag" data-say="ふんしゃ"><span class="lvl-mini N1">N1</span><span class="h-word">#噴射</span><span class="h-sub">funsha</span><span class="h-mean">喷射</span></button>
+        <button class="htag" data-say="せいのう"><span class="lvl-mini N2">N2</span><span class="h-word">#性能</span><span class="h-sub">seinou</span><span class="h-mean">性能</span></button>
+      </div>
+    </div>
 
-    <article class="piece">
-      <p class="piece-title"><span class="tag">NHK 普通版 · N2锚点</span><a href="https://news.web.nhk/newsweb/na/nd-20260825de46130" target="src-46130" rel="noopener">クマ撃退スプレー 市販製品の「性能」に大きな差 ↗</a></p>
-      <p class="piece-summary">消费者厅、环境省、国民生活中心联合对12款市售驱熊喷雾做了喷射测试，发现不同产品的喷射距离和持续时间差别很大，性能参差不齐。</p>
-      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">长句直接修饰名词</span> — 一整句话可以直接放在名词前面当"定语"，不需要"的"或"which/that"这类连接词<span class="quote jp">原文：「クマ撃退スプレーとして販売されている12製品について…」</span></div></div>
-      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜（の）結果</span><span class="romaji">(no) kekka</span> — 「做了〜之后，结果是〜」，承接前面动作引出新情况<span class="quote jp">原文：「噴射テストを行った結果、…性能が大きく異なることが確認されました」</span></div></div>
-      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜によって</span><span class="romaji">ni yotte</span> — 这里是「根据〜不同而不同」，不是「因为」<span class="quote jp">原文：「製品によって噴射の距離や時間など、性能が大きく異なる」</span></div></div>
-      <div class="vocab-grid">
-        <div class="vocab-item" data-lvl="N1"><span class="w jp">撃退（げきたい）</span><span class="romaji">gekitai</span><span class="m">击退</span></div>
-        <div class="vocab-item" data-lvl="N1"><span class="w jp">噴射（ふんしゃ）</span><span class="romaji">funsha</span><span class="m">喷射</span></div>
-        <div class="vocab-item" data-lvl="N2"><span class="w jp">性能（せいのう）</span><span class="romaji">seinou</span><span class="m">性能</span></div>
+    <div class="tweet">
+      <div class="tweet-head">
+        <div class="avatar src-n2">📰</div>
+        <div class="tweet-body">
+          <div class="tweet-names"><span class="name">NHK NEWS WEB</span><span class="handle">@nhk_news</span><span class="dot">·</span><span class="handle">N2 锚点</span></div>
+          <p class="tweet-title"><a href="https://news.web.nhk/newsweb/na/nd-20260825de46156" target="src-46156" rel="noopener">高額療養費制度 なぜ8月から見直し？ ↗</a></p>
+          <p class="tweet-summary">为重症患者设自付上限的高额疗养费制度从8月起做了调整，报道解释了改动内容及对家庭开支的影响。</p>
+        </div>
       </div>
-    </article>
+      <div class="thread">
+        <div class="reply" data-lvl="N3">
+          <div class="reply-head">
+            <div class="lvl-avatar N3">N3</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜にとって</span><span class="pattern-romaji">ni totte</span></div>
+              <p class="reply-explain">「对〜来说」，站在某个立场做评价</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">重い病気などで治療を続ける患者にとって負担を抑えて…</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="にとって"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="にとって"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply" data-lvl="N3">
+          <div class="reply-head">
+            <div class="lvl-avatar N3">N3</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜が見直される</span><span class="pattern-romaji">ga minaosareru</span></div>
+              <p class="reply-explain">「見直す（重新审视）」的被动形式，常用于制度类新闻</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">…高額療養費制度が見直されました</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="みなおされる"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="が見直される"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hashtags">
+        <button class="htag" data-say="こうがく"><span class="lvl-mini N2">N2</span><span class="h-word">#高額</span><span class="h-sub">kougaku</span><span class="h-mean">金额巨大</span></button>
+        <button class="htag" data-say="じこふたん"><span class="lvl-mini N1">N1</span><span class="h-word">#自己負担</span><span class="h-sub">jikofutan</span><span class="h-mean">自付部分</span></button>
+        <button class="htag" data-say="みなおす"><span class="lvl-mini N2">N2</span><span class="h-word">#見直す</span><span class="h-sub">minaosu</span><span class="h-mean">重新审视</span></button>
+      </div>
+    </div>
 
-    <article class="piece">
-      <p class="piece-title"><span class="tag">NHK 普通版 · N2锚点</span><a href="https://news.web.nhk/newsweb/na/nd-20260825de46156" target="src-46156" rel="noopener">高額療養費制度 なぜ8月から見直し？ ↗</a></p>
-      <p class="piece-summary">为重症患者设自付上限的高额疗养费制度从8月起做了调整，报道解释了改动内容及对家庭开支的影响。</p>
-      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜にとって</span><span class="romaji">ni totte</span> — 「对〜来说」，站在某个立场做评价<span class="quote jp">原文：「重い病気などで治療を続ける患者にとって負担を抑えて…」</span></div></div>
-      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜が見直される</span><span class="romaji">ga minaosareru</span> — 「見直す（重新审视）」的被动形式，常用于制度类新闻<span class="quote jp">原文：「…高額療養費制度が見直されました」</span></div></div>
-      <div class="vocab-grid">
-        <div class="vocab-item" data-lvl="N2"><span class="w jp">高額（こうがく）</span><span class="romaji">kougaku</span><span class="m">金额巨大</span></div>
-        <div class="vocab-item" data-lvl="N1"><span class="w jp">自己負担（じこふたん）</span><span class="romaji">jikofutan</span><span class="m">自付部分</span></div>
-        <div class="vocab-item" data-lvl="N2"><span class="w jp">見直す（みなおす）</span><span class="romaji">minaosu</span><span class="m">重新审视</span></div>
+    <div class="tweet">
+      <div class="tweet-head">
+        <div class="avatar src-wiki">📚</div>
+        <div class="tweet-body">
+          <div class="tweet-names"><span class="name">Wikipedia</span><span class="handle">@wikipedia_ja</span><span class="dot">·</span><span class="handle">拔高层 · 良質な記事</span></div>
+          <p class="tweet-title"><a href="https://ja.wikipedia.org/wiki/道教" target="src-daojiao" rel="noopener">道教 ↗</a></p>
+          <p class="tweet-summary">道教是中国三大宗教之一，以老子思想为根本，融合了神仙术、经典仪礼等要素，并非由单一教祖创立，而是长期历史演变的产物。</p>
+        </div>
       </div>
-    </article>
-
-    <article class="piece">
-      <p class="piece-title"><span class="tag">WIKIPEDIA · 良質な記事</span><a href="https://ja.wikipedia.org/wiki/道教" target="src-daojiao" rel="noopener">道教 ↗</a></p>
-      <p class="piece-summary">道教是中国三大宗教之一，以老子思想为根本，融合了神仙术、经典仪礼等要素，并非由单一教祖创立，而是长期历史演变的产物。</p>
-      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜とされる</span><span class="romaji">to sareru</span> — 「被认为是〜／据说是〜」，客观陈述一般看法<span class="quote jp">原文：「時代の経過とともに様々な要素が積み重なった宗教とされる」</span></div></div>
-      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜をもとに</span><span class="romaji">wo moto ni</span> — 「以〜为基础/根据」<span class="quote jp">原文：「道教は中国古来の宗教的な諸観念をもとに長い期間を経て醸成された」</span></div></div>
-      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜とはいえない</span><span class="romaji">to wa ienai</span> — 「不能说是〜」，委婉否定断言<span class="quote jp">原文：「老子が道教の教祖であるとはいえないが」</span></div></div>
-      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜から〜にかけて</span><span class="romaji">kara ~ ni kakete</span> — 「从〜到〜」，比〜まで更强调过程延续<span class="quote jp">原文：「後漢末期から魏晋時代にかけての…始まるとされる」</span></div></div>
-      <div class="gpoint" data-lvl="N3"><span class="lvl N3">N3</span><div><span class="pattern">〜とともに</span><span class="romaji">to tomo ni</span> — 「随着〜／和〜一起」<span class="quote jp">原文：「時代の経過とともに様々な要素が積み重なった」</span></div></div>
-      <div class="gpoint" data-lvl="N2"><span class="lvl N2">N2</span><div><span class="pattern">〜ことは確かである</span><span class="romaji">koto wa tashika de aru</span> — 「〜这一点是确实的」，学术性陈述中肯定事实同时留有余地<span class="quote jp">原文：「『道』の概念が道教思想の根本であることは確かである」</span></div></div>
-      <div class="vocab-grid">
-        <div class="vocab-item" data-lvl="N3"><span class="w jp">宗教（しゅうきょう）</span><span class="romaji">shuukyou</span><span class="m">宗教</span></div>
-        <div class="vocab-item" data-lvl="N1"><span class="w jp">儒教（じゅきょう）</span><span class="romaji">jukyou</span><span class="m">儒教</span></div>
-        <div class="vocab-item" data-lvl="N1"><span class="w jp">神仙術（しんせんじゅつ）</span><span class="romaji">shinsenjutsu</span><span class="m">神仙术</span></div>
-        <div class="vocab-item" data-lvl="N1"><span class="w jp">経典（きょうてん）</span><span class="romaji">kyouten</span><span class="m">经典</span></div>
-        <div class="vocab-item" data-lvl="N1"><span class="w jp">教祖（きょうそ）</span><span class="romaji">kyouso</span><span class="m">教主</span></div>
-        <div class="vocab-item" data-lvl="N1"><span class="w jp">教団（きょうだん）</span><span class="romaji">kyoudan</span><span class="m">教团</span></div>
+      <div class="thread">
+        <div class="reply" data-lvl="N2">
+          <div class="reply-head">
+            <div class="lvl-avatar N2">N2</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜とされる</span><span class="pattern-romaji">to sareru</span></div>
+              <p class="reply-explain">「被认为是〜／据说是〜」，客观陈述一般看法</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">時代の経過とともに様々な要素が積み重なった宗教とされる</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="とされる"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="とされる"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply" data-lvl="N2">
+          <div class="reply-head">
+            <div class="lvl-avatar N2">N2</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜をもとに</span><span class="pattern-romaji">wo moto ni</span></div>
+              <p class="reply-explain">「以〜为基础/根据」</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">道教は中国古来の宗教的な諸観念をもとに長い期間を経て醸成された</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="をもとに"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="をもとに"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply" data-lvl="N2">
+          <div class="reply-head">
+            <div class="lvl-avatar N2">N2</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜とはいえない</span><span class="pattern-romaji">to wa ienai</span></div>
+              <p class="reply-explain">「不能说是〜」，委婉否定断言</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">老子が道教の教祖であるとはいえないが</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="とはいえない"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="とはいえない"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply" data-lvl="N2">
+          <div class="reply-head">
+            <div class="lvl-avatar N2">N2</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜から〜にかけて</span><span class="pattern-romaji">kara ~ ni kakete</span></div>
+              <p class="reply-explain">「从〜到〜」，比〜まで更强调过程延续</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">後漢末期から魏晋時代にかけての…始まるとされる</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="からにかけて"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="から～にかけて"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply" data-lvl="N3">
+          <div class="reply-head">
+            <div class="lvl-avatar N3">N3</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜とともに</span><span class="pattern-romaji">to tomo ni</span></div>
+              <p class="reply-explain">「随着〜／和〜一起」</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">時代の経過とともに様々な要素が積み重なった</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="とともに"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="とともに"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reply" data-lvl="N2">
+          <div class="reply-head">
+            <div class="lvl-avatar N2">N2</div>
+            <div class="reply-body">
+              <div><span class="pattern-line jp">〜ことは確かである</span><span class="pattern-romaji">koto wa tashika de aru</span></div>
+              <p class="reply-explain">「〜这一点是确实的」，学术性陈述中肯定事实同时留有余地</p>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">『道』の概念が道教思想の根本であることは確かである</span></div>
+              <div class="action-row">
+                <button class="icon-btn say" data-say="ことはたしかである"><span class="ic">🔊</span>朗读</button>
+                <button class="icon-btn master" data-key="ことは確かである"><span class="ic">♡</span><span class="cnt">记住了</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </article>
-  </section>
+      <div class="hashtags">
+        <button class="htag" data-say="しゅうきょう"><span class="lvl-mini N3">N3</span><span class="h-word">#宗教</span><span class="h-sub">shuukyou</span><span class="h-mean">宗教</span></button>
+        <button class="htag" data-say="じゅきょう"><span class="lvl-mini N1">N1</span><span class="h-word">#儒教</span><span class="h-sub">jukyou</span><span class="h-mean">儒教</span></button>
+        <button class="htag" data-say="しんせんじゅつ"><span class="lvl-mini N1">N1</span><span class="h-word">#神仙術</span><span class="h-sub">shinsenjutsu</span><span class="h-mean">神仙术</span></button>
+        <button class="htag" data-say="きょうてん"><span class="lvl-mini N1">N1</span><span class="h-word">#経典</span><span class="h-sub">kyouten</span><span class="h-mean">经典</span></button>
+        <button class="htag" data-say="きょうそ"><span class="lvl-mini N1">N1</span><span class="h-word">#教祖</span><span class="h-sub">kyouso</span><span class="h-mean">教主</span></button>
+        <button class="htag" data-say="きょうだん"><span class="lvl-mini N1">N1</span><span class="h-word">#教団</span><span class="h-sub">kyoudan</span><span class="h-mean">教团</span></button>
+      </div>
+    </div>
+  </div>
 
   <details class="archive">
     <summary>往期归档（暂无更早记录）</summary>
-    <p style="color:var(--ink-soft); font-size:13.5px;">从明天起，每天的新内容会顶到最上面，今天这份会自动收进这里。</p>
+    <p style="color:var(--text-faint); font-size:13.5px; padding:0 16px 16px;">从明天起，每天的新内容会顶到最上面，今天这份会自动收进这里。</p>
   </details>
 
   <footer>
@@ -249,35 +510,29 @@ document.getElementById('filters').addEventListener('click', function(e){
   document.querySelectorAll('#filters button').forEach(b => b.classList.remove('active'));
   e.target.classList.add('active');
   var lvl = e.target.dataset.lvl;
-  document.querySelectorAll('.gpoint, .vocab-item').forEach(function(el){
-    el.style.display = (lvl === 'all' || el.dataset.lvl === lvl) ? '' : 'none';
+  document.querySelectorAll('.reply, .htag').forEach(function(el){
+    var elLvl = el.dataset.lvl || (el.querySelector('.lvl-mini') && el.querySelector('.lvl-mini').classList[1]);
+    el.style.display = (lvl === 'all' || elLvl === lvl) ? '' : 'none';
   });
 });
 
-// 朗读功能：给每个生词和语法点自动加喇叭按钮，点击用浏览器自带的语音合成读出日语发音
 (function(){
   var supported = 'speechSynthesis' in window;
   var jaVoices = [];
-
   var VOICE_KEY = 'nihongo-daily-voice';
+  var MASTER_KEY = 'nihongo-daily-mastered';
 
   function loadVoices(){
     if(!supported) return;
-    jaVoices = window.speechSynthesis.getVoices().filter(function(v){
-      return v.lang && v.lang.toLowerCase().indexOf('ja') === 0;
-    });
+    jaVoices = window.speechSynthesis.getVoices().filter(function(v){ return v.lang && v.lang.toLowerCase().indexOf('ja') === 0; });
     populateVoicePicker();
   }
-  if(supported){
-    loadVoices();
-    window.speechSynthesis.onvoiceschanged = loadVoices; // 语音列表是异步加载的，首次调用时经常是空的
-  }
+  if(supported){ loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices; }
 
   function populateVoicePicker(){
     var wrap = document.getElementById('voicePicker');
     var sel = document.getElementById('voiceSelect');
-    if(!wrap || !sel || !jaVoices.length) return;
-    if(sel.options.length === jaVoices.length) return; // 已经填过了
+    if(!wrap || !sel || !jaVoices.length || sel.options.length === jaVoices.length) return;
     sel.innerHTML = '';
     jaVoices.forEach(function(v, i){
       var opt = document.createElement('option');
@@ -295,21 +550,10 @@ document.getElementById('filters').addEventListener('click', function(e){
     if(!jaVoices.length) return null;
     var sel = document.getElementById('voiceSelect');
     if(sel && sel.value !== '') return jaVoices[parseInt(sel.value, 10)];
-    // 没手动选过的话，优先级：非本地(联网合成，通常更自然) > 名字带Google/Enhanced/Premium/Siri/Neural > 随便一个
-    var byQualityName = jaVoices.find(function(v){ return /google|enhanced|premium|siri|neural/i.test(v.name); });
+    var byName = jaVoices.find(function(v){ return /google|enhanced|premium|siri|neural/i.test(v.name); });
     var online = jaVoices.find(function(v){ return v.localService === false; });
-    return byQualityName || online || jaVoices[0];
+    return byName || online || jaVoices[0];
   }
-
-  document.addEventListener('change', function(e){
-    if(e.target.id !== 'voiceSelect') return;
-    var v = jaVoices[parseInt(e.target.value, 10)];
-    if(v) localStorage.setItem(VOICE_KEY, v.name);
-  });
-  document.addEventListener('click', function(e){
-    if(e.target.id !== 'voiceTest') return;
-    speak('こんにちは、これはテストです。');
-  });
 
   function speak(text, btn){
     if(!supported){ alert('这个浏览器不支持语音朗读，换Chrome/Safari试试'); return; }
@@ -317,8 +561,7 @@ document.getElementById('filters').addEventListener('click', function(e){
     var u = new SpeechSynthesisUtterance(text);
     var voice = pickBestVoice();
     if(voice){ u.voice = voice; u.lang = voice.lang; } else { u.lang = 'ja-JP'; }
-    u.rate = 1;
-    u.pitch = 1;
+    u.rate = 1; u.pitch = 1;
     if(btn){
       btn.classList.add('speaking');
       u.onend = function(){ btn.classList.remove('speaking'); };
@@ -327,41 +570,33 @@ document.getElementById('filters').addEventListener('click', function(e){
     window.speechSynthesis.speak(u);
   }
 
-  function makeBtn(text){
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'say-btn';
-    btn.setAttribute('aria-label', '朗读发音');
-    btn.textContent = '🔊';
-    btn.addEventListener('click', function(e){
-      e.preventDefault(); e.stopPropagation();
-      speak(text, btn);
-    });
-    return btn;
-  }
+  document.addEventListener('change', function(e){
+    if(e.target.id !== 'voiceSelect') return;
+    var v = jaVoices[parseInt(e.target.value, 10)];
+    if(v) localStorage.setItem(VOICE_KEY, v.name);
+  });
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-say]');
+    if(t){ speak(t.dataset.say, t); return; }
+    if(e.target.id === 'voiceTest'){ speak('こんにちは、これはテストです。'); return; }
+    var m = e.target.closest('.master');
+    if(m){
+      var key = m.dataset.key;
+      var set = JSON.parse(localStorage.getItem(MASTER_KEY) || '[]');
+      var idx = set.indexOf(key);
+      if(idx === -1){ set.push(key); m.classList.add('on'); m.querySelector('.ic').textContent = '♥'; m.querySelector('.cnt').textContent = '记住了'; }
+      else { set.splice(idx,1); m.classList.remove('on'); m.querySelector('.ic').textContent = '♡'; }
+      localStorage.setItem(MASTER_KEY, JSON.stringify(set));
+    }
+  });
 
-  function addSpeakers(){
-    if(!supported) return;
-    // 生词：优先读括号里的假名读音，比读汉字更准
-    document.querySelectorAll('.vocab-item .w').forEach(function(el){
-      if(el.dataset.spoken) return;
-      el.dataset.spoken = '1';
-      var full = el.textContent;
-      var m = full.match(/[（(]([^）)]+)[）)]/);
-      var text = m ? m[1] : full;
-      el.appendChild(makeBtn(text));
-    });
-    // 语法点：去掉开头的〜和句末的补充说明，读整个语法结构
-    document.querySelectorAll('.gpoint .pattern').forEach(function(el){
-      if(el.dataset.spoken) return;
-      el.dataset.spoken = '1';
-      var text = el.textContent.replace(/^〜/, '').trim();
-      el.appendChild(makeBtn(text));
+  function restoreMastered(){
+    var set = JSON.parse(localStorage.getItem(MASTER_KEY) || '[]');
+    document.querySelectorAll('.master').forEach(function(btn){
+      if(set.indexOf(btn.dataset.key) !== -1){ btn.classList.add('on'); btn.querySelector('.ic').textContent = '♥'; }
     });
   }
-
-  document.addEventListener('DOMContentLoaded', addSpeakers);
-  // details/archive 里的内容默认不在DOM可见范围外，但依然存在于DOM里，展开时按钮已经加好，无需额外处理
+  document.addEventListener('DOMContentLoaded', restoreMastered);
 })();
 </script>
 </body>
