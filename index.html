@@ -191,12 +191,8 @@ footer a{color:var(--text-faint);}
       <button type="button" id="voiceTest">试听</button>
     </div>
     <div class="voice-picker ready">
-      <span>💾 "记住了"/"待复习"进度同步：</span>
-      <button type="button" id="syncExport">导出</button>
-      <button type="button" id="syncImport">导入</button>
-      <span id="syncMsg" style="color:var(--n5); font-size:11.5px;"></span>
+      <span id="syncStatus">☁️ 进度自动同步：连接中…</span>
     </div>
-    <textarea id="syncBox" class="sync-box" placeholder="导出后这里会出现一段同步码，复制到另一台设备粘贴进来再点导入即可（两边数据会合并，不会覆盖清空）"></textarea>
   </div>
 
   <div class="filters" id="filters">
@@ -1043,6 +1039,8 @@ document.getElementById('filters').addEventListener('click', function(e){
   });
   var BOOKMARK_KEY = 'nihongo-daily-bookmarked';
 
+  function notifySync(){ if(window.nihongoLocal && window.nihongoLocal.onChange) window.nihongoLocal.onChange(); }
+
   function toggleSet(storageKey, key, btn, onIcon, offIcon){
     var set = JSON.parse(localStorage.getItem(storageKey) || '[]');
     var idx = set.indexOf(key);
@@ -1050,6 +1048,7 @@ document.getElementById('filters').addEventListener('click', function(e){
     if(nowOn){ set.push(key); btn.classList.add('on'); if(btn.querySelector('.ic')) btn.querySelector('.ic').textContent = onIcon; }
     else { set.splice(idx,1); btn.classList.remove('on'); if(btn.querySelector('.ic')) btn.querySelector('.ic').textContent = offIcon; }
     localStorage.setItem(storageKey, JSON.stringify(set));
+    notifySync();
   }
 
   function buildCardText(actionRow){
@@ -1075,6 +1074,7 @@ document.getElementById('filters').addEventListener('click', function(e){
       if(idx === -1){ set.push(key); m.classList.add('on'); m.querySelector('.ic').textContent = '♥'; m.querySelector('.cnt').textContent = '记住了'; }
       else { set.splice(idx,1); m.classList.remove('on'); m.querySelector('.ic').textContent = '♡'; }
       localStorage.setItem(MASTER_KEY, JSON.stringify(set));
+      notifySync();
       return;
     }
     var bm = e.target.closest('.bookmark');
@@ -1113,68 +1113,116 @@ document.getElementById('filters').addEventListener('click', function(e){
   function restoreMastered(){
     var set = JSON.parse(localStorage.getItem(MASTER_KEY) || '[]');
     document.querySelectorAll('.master').forEach(function(btn){
-      if(set.indexOf(btn.dataset.key) !== -1){ btn.classList.add('on'); btn.querySelector('.ic').textContent = '♥'; }
+      var on = set.indexOf(btn.dataset.key) !== -1;
+      btn.classList.toggle('on', on);
+      var ic = btn.querySelector('.ic');
+      if(ic) ic.textContent = on ? '♥' : '♡';
     });
   }
   function restoreBookmarked(){
     var set = JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]');
     document.querySelectorAll('.bookmark').forEach(function(btn){
-      if(set.indexOf(btn.dataset.key) !== -1) btn.classList.add('on');
+      btn.classList.toggle('on', set.indexOf(btn.dataset.key) !== -1);
     });
   }
-  // 进度同步：导出成一段文字码，另一台设备粘贴导入，两边取并集合并（不覆盖清空）
-  function b64EncodeUtf8(str){ return btoa(unescape(encodeURIComponent(str))); }
-  function b64DecodeUtf8(str){ return decodeURIComponent(escape(atob(str))); }
-
-  function initSync(){
-    var exportBtn = document.getElementById('syncExport');
-    var importBtn = document.getElementById('syncImport');
-    var box = document.getElementById('syncBox');
-    var msg = document.getElementById('syncMsg');
-    if(!exportBtn || !importBtn || !box) return;
-
-    exportBtn.addEventListener('click', function(){
-      var data = {
-        m: JSON.parse(localStorage.getItem(MASTER_KEY) || '[]'),
-        b: JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]')
-      };
-      var code = b64EncodeUtf8(JSON.stringify(data));
-      box.value = code;
-      box.classList.add('show');
-      box.select();
-      if(navigator.clipboard){
-        navigator.clipboard.writeText(code).then(function(){
-          if(msg) msg.textContent = '已生成并复制，去另一台设备粘贴导入';
-        });
-      } else if(msg){ msg.textContent = '已生成，手动复制这段文字'; }
-      setTimeout(function(){ if(msg) msg.textContent = ''; }, 4000);
-    });
-
-    importBtn.addEventListener('click', function(){
-      var raw = box.value.trim();
-      if(!raw){ box.classList.add('show'); box.focus(); return; }
-      var data;
-      try { data = JSON.parse(b64DecodeUtf8(raw)); } catch(err){ if(msg){ msg.textContent = '同步码格式不对，检查一下有没有复制完整'; msg.style.color = 'var(--heart)'; } return; }
-      var curM = JSON.parse(localStorage.getItem(MASTER_KEY) || '[]');
-      var curB = JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]');
-      var mergedM = curM.concat((data.m || []).filter(function(k){ return curM.indexOf(k) === -1; }));
-      var mergedB = curB.concat((data.b || []).filter(function(k){ return curB.indexOf(k) === -1; }));
-      localStorage.setItem(MASTER_KEY, JSON.stringify(mergedM));
-      localStorage.setItem(BOOKMARK_KEY, JSON.stringify(mergedB));
-      restoreMastered();
-      restoreBookmarked();
-      if(msg){ msg.style.color = 'var(--n5)'; msg.textContent = '已合并：记住了 ' + mergedM.length + ' 条，待复习 ' + mergedB.length + ' 条'; }
-      setTimeout(function(){ if(msg) msg.textContent = ''; }, 5000);
-    });
-  }
-
   document.addEventListener('DOMContentLoaded', function(){
     injectExtraActions();
     restoreMastered();
     restoreBookmarked();
-    initSync();
   });
+
+  // 供下方 Firebase 同步模块调用：读写本地进度、监听本地变化
+  var localChangeHandler = null;
+  window.nihongoLocal = {
+    getState: function(){
+      return {
+        m: JSON.parse(localStorage.getItem(MASTER_KEY) || '[]'),
+        b: JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]')
+      };
+    },
+    setState: function(state){
+      localStorage.setItem(MASTER_KEY, JSON.stringify(state.m || []));
+      localStorage.setItem(BOOKMARK_KEY, JSON.stringify(state.b || []));
+      restoreMastered();
+      restoreBookmarked();
+    },
+    onChange: function(){
+      if(localChangeHandler) localChangeHandler(window.nihongoLocal.getState());
+    },
+    setChangeHandler: function(fn){ localChangeHandler = fn; }
+  };
 })();
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+  var firebaseConfig = {
+    apiKey: "AIzaSyBBMvIa4U2TXX6ziH3INYyuMHKg930DlIo",
+    authDomain: "nihongo-daily-40390.firebaseapp.com",
+    projectId: "nihongo-daily-40390",
+    storageBucket: "nihongo-daily-40390.firebasestorage.app",
+    messagingSenderId: "873200334177",
+    appId: "1:873200334177:web:e51c4233d79f6818cdc120",
+    measurementId: "G-JQG2T0KBYB"
+  };
+
+  var statusEl = document.getElementById('syncStatus');
+  function setStatus(text){ if(statusEl) statusEl.textContent = text; }
+
+  function waitForLocal(){
+    return new Promise(function(resolve){
+      if(window.nihongoLocal) return resolve(window.nihongoLocal);
+      document.addEventListener('DOMContentLoaded', function(){ resolve(window.nihongoLocal); });
+    });
+  }
+
+  function unionState(a, b){
+    var m = (a.m || []).concat((b.m || []).filter(function(k){ return (a.m || []).indexOf(k) === -1; }));
+    var bm = (a.b || []).concat((b.b || []).filter(function(k){ return (a.b || []).indexOf(k) === -1; }));
+    return { m: m, b: bm };
+  }
+
+  waitForLocal().then(function(local){
+    try {
+      var app = initializeApp(firebaseConfig);
+      var db = getFirestore(app);
+      var ref = doc(db, 'progress', 'main');
+
+      getDoc(ref).then(function(snap){
+        var localState = local.getState();
+        if(snap.exists()){
+          var merged = unionState(localState, snap.data());
+          local.setState(merged);
+          return setDoc(ref, merged);
+        }
+        return setDoc(ref, localState);
+      }).then(function(){
+        setStatus('☁️ 已连接，实时同步中');
+        onSnapshot(ref, function(snap){
+          if(!snap.exists()) return;
+          local.setState(snap.data());
+        }, function(err){
+          setStatus('☁️ 同步出错：' + err.message);
+          console.error('nihongo sync listen failed', err);
+        });
+      }).catch(function(err){
+        setStatus('☁️ 连接失败，进度仅保存在本机');
+        console.error('nihongo sync init failed', err);
+      });
+
+      local.setChangeHandler(function(state){
+        setDoc(ref, state).catch(function(err){
+          setStatus('☁️ 同步失败，稍后重试');
+          console.error('nihongo sync push failed', err);
+        });
+      });
+    } catch(err){
+      setStatus('☁️ 同步初始化失败');
+      console.error('nihongo firebase init failed', err);
+    }
+  });
 </script>
 </body>
 </html>
