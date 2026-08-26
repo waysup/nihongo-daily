@@ -116,6 +116,8 @@ a:hover{text-decoration:underline;}
 }
 .quote-box .qlabel{display:block; font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-faint); letter-spacing:.05em; margin-bottom:3px;}
 .quote-box .qtext{font-family:'Noto Sans JP',sans-serif; color:var(--text-soft);}
+.quote-box .qtext mark{background:none; color:var(--accent); font-weight:800; padding:0 1px; border-bottom:2px solid var(--accent);}
+.quote-box .qtrans{display:block; margin-top:6px; padding-top:6px; border-top:1px dashed var(--border); color:var(--text-soft); font-size:12.5px;}
 
 .action-row{display:flex; align-items:center; gap:22px; margin-top:9px;}
 .icon-btn{
@@ -136,6 +138,7 @@ a:hover{text-decoration:underline;}
   padding:5px 11px 5px 12px; cursor:pointer; border:none; font-family:inherit;
 }
 .htag .h-word{font-family:'Noto Sans JP',sans-serif; font-weight:700; color:var(--accent); font-size:13.5px;}
+.htag .h-word .kana{font-weight:500; font-size:12px; opacity:.85;}
 .htag .h-sub{font-size:11px; color:var(--text-faint); font-family:'JetBrains Mono',monospace;}
 .htag .h-mean{font-size:11.5px; color:var(--text-soft);}
 .htag .lvl-mini{font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:800; padding:1px 5px; border-radius:8px; color:#fff;}
@@ -205,7 +208,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜てほしい</span><span class="pattern-romaji">te hoshii</span></div>
               <p class="reply-explain">希望对方做某事</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">地震が起きたときの避難などについて考えてほしい</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">地震が起きたときの避難などについて<mark>考えてほしい</mark></span><span class="qtrans">希望大家能考虑一下地震发生时的避难等问题</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="てほしい"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="てほしい"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -219,7 +222,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜について</span><span class="pattern-romaji">ni tsuite</span></div>
               <p class="reply-explain">「关于〜」，提示话题对象</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">地震が起きたときの避難などについて考えてほしい</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">地震が起きたときの避難など<mark>について</mark>考えてほしい</span><span class="qtrans">希望大家能考虑一下地震发生时的避难等问题</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="について"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="について"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -233,7 +236,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜（の）とき</span><span class="pattern-romaji">(no) toki</span></div>
               <p class="reply-explain">「〜的时候」</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">地震が起きたとき</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">地震が起きた<mark>とき</mark></span><span class="qtrans">地震发生的时候</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="とき"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="のとき"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -247,7 +250,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜かもしれません</span><span class="pattern-romaji">kamoshiremasen</span></div>
               <p class="reply-explain">较低把握度的推测「说不定〜」</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">1週間ぐらいは同じぐらい大きい地震があるかもしれません</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">1週間ぐらいは同じぐらい大きい地震がある<mark>かもしれません</mark></span><span class="qtrans">一周左右的时间内，说不定还会有同等强度的地震</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="かもしれません"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="かもしれません"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -261,7 +264,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜と話しています</span><span class="pattern-romaji">to hanashiteimasu</span></div>
               <p class="reply-explain">引用他人发言的固定句式</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">気象庁は『…気をつけてください』と話しています</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">気象庁は『…気をつけてください』<mark>と話しています</mark></span><span class="qtrans">气象厅表示"请大家多加注意"</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="と話しています"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="と話しています"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -271,14 +274,14 @@ footer a{color:var(--text-faint);}
         </div>
       </div>
       <div class="hashtags">
-        <button class="htag" data-say="じしん"><span class="lvl-mini N4">N4</span><span class="h-word">#地震</span><span class="h-sub">jishin</span><span class="h-mean">地震</span></button>
-        <button class="htag" data-say="ゆれる"><span class="lvl-mini N3">N3</span><span class="h-word">#揺れる</span><span class="h-sub">yureru</span><span class="h-mean">摇晃</span></button>
-        <button class="htag" data-say="しんど"><span class="lvl-mini N2">N2</span><span class="h-word">#震度</span><span class="h-sub">shindo</span><span class="h-mean">震度</span></button>
-        <button class="htag" data-say="ころぶ"><span class="lvl-mini N3">N3</span><span class="h-word">#転ぶ</span><span class="h-sub">korobu</span><span class="h-mean">摔倒</span></button>
-        <button class="htag" data-say="けが"><span class="lvl-mini N4">N4</span><span class="h-word">#怪我</span><span class="h-sub">kega</span><span class="h-mean">受伤</span></button>
-        <button class="htag" data-say="せんもんか"><span class="lvl-mini N2">N2</span><span class="h-word">#専門家</span><span class="h-sub">senmonka</span><span class="h-mean">专家</span></button>
-        <button class="htag" data-say="ひなん"><span class="lvl-mini N2">N2</span><span class="h-word">#避難</span><span class="h-sub">hinan</span><span class="h-mean">避难</span></button>
-        <button class="htag" data-say="きしょうちょう"><span class="lvl-mini N2">N2</span><span class="h-word">#気象庁</span><span class="h-sub">kishouchou</span><span class="h-mean">气象厅</span></button>
+        <button class="htag" data-say="じしん"><span class="lvl-mini N4">N4</span><span class="h-word">#地震<span class="kana">（じしん）</span></span><span class="h-sub">jishin</span><span class="h-mean">地震</span></button>
+        <button class="htag" data-say="ゆれる"><span class="lvl-mini N3">N3</span><span class="h-word">#揺れる<span class="kana">（ゆれる）</span></span><span class="h-sub">yureru</span><span class="h-mean">摇晃</span></button>
+        <button class="htag" data-say="しんど"><span class="lvl-mini N2">N2</span><span class="h-word">#震度<span class="kana">（しんど）</span></span><span class="h-sub">shindo</span><span class="h-mean">震度</span></button>
+        <button class="htag" data-say="ころぶ"><span class="lvl-mini N3">N3</span><span class="h-word">#転ぶ<span class="kana">（ころぶ）</span></span><span class="h-sub">korobu</span><span class="h-mean">摔倒</span></button>
+        <button class="htag" data-say="けが"><span class="lvl-mini N4">N4</span><span class="h-word">#怪我<span class="kana">（けが）</span></span><span class="h-sub">kega</span><span class="h-mean">受伤</span></button>
+        <button class="htag" data-say="せんもんか"><span class="lvl-mini N2">N2</span><span class="h-word">#専門家<span class="kana">（せんもんか）</span></span><span class="h-sub">senmonka</span><span class="h-mean">专家</span></button>
+        <button class="htag" data-say="ひなん"><span class="lvl-mini N2">N2</span><span class="h-word">#避難<span class="kana">（ひなん）</span></span><span class="h-sub">hinan</span><span class="h-mean">避难</span></button>
+        <button class="htag" data-say="きしょうちょう"><span class="lvl-mini N2">N2</span><span class="h-word">#気象庁<span class="kana">（きしょうちょう）</span></span><span class="h-sub">kishouchou</span><span class="h-mean">气象厅</span></button>
       </div>
     </div>
 
@@ -298,7 +301,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">长句直接修饰名词</span></div>
               <p class="reply-explain">一整句话可以直接放在名词前面当"定语"，不需要"的"或"which/that"这类连接词</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">クマ撃退スプレーとして販売されている12製品について…</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext"><mark>クマ撃退スプレーとして販売されている</mark>12製品について…</span><span class="qtrans">关于作为驱熊喷雾出售的12款产品…</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="クマ撃退スプレーとして販売されている"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="长句修饰名词"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -312,7 +315,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜（の）結果</span><span class="pattern-romaji">(no) kekka</span></div>
               <p class="reply-explain">「做了〜之后，结果是〜」，承接前面动作引出新情况</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">噴射テストを行った結果、…性能が大きく異なることが確認されました</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">噴射テストを行った<mark>結果</mark>、…性能が大きく異なることが確認されました</span><span class="qtrans">做了喷射测试后，结果确认了…性能差异很大</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="けっか"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="の結果"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -326,7 +329,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜によって</span><span class="pattern-romaji">ni yotte</span></div>
               <p class="reply-explain">这里是「根据〜不同而不同」，不是「因为」</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">製品によって噴射の距離や時間など、性能が大きく異なる</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">製品<mark>によって</mark>噴射の距離や時間など、性能が大きく異なる</span><span class="qtrans">根据产品不同，喷射距离和时间等性能差异很大</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="によって"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="によって"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -336,9 +339,9 @@ footer a{color:var(--text-faint);}
         </div>
       </div>
       <div class="hashtags">
-        <button class="htag" data-say="げきたい"><span class="lvl-mini N1">N1</span><span class="h-word">#撃退</span><span class="h-sub">gekitai</span><span class="h-mean">击退</span></button>
-        <button class="htag" data-say="ふんしゃ"><span class="lvl-mini N1">N1</span><span class="h-word">#噴射</span><span class="h-sub">funsha</span><span class="h-mean">喷射</span></button>
-        <button class="htag" data-say="せいのう"><span class="lvl-mini N2">N2</span><span class="h-word">#性能</span><span class="h-sub">seinou</span><span class="h-mean">性能</span></button>
+        <button class="htag" data-say="げきたい"><span class="lvl-mini N1">N1</span><span class="h-word">#撃退<span class="kana">（げきたい）</span></span><span class="h-sub">gekitai</span><span class="h-mean">击退</span></button>
+        <button class="htag" data-say="ふんしゃ"><span class="lvl-mini N1">N1</span><span class="h-word">#噴射<span class="kana">（ふんしゃ）</span></span><span class="h-sub">funsha</span><span class="h-mean">喷射</span></button>
+        <button class="htag" data-say="せいのう"><span class="lvl-mini N2">N2</span><span class="h-word">#性能<span class="kana">（せいのう）</span></span><span class="h-sub">seinou</span><span class="h-mean">性能</span></button>
       </div>
     </div>
 
@@ -358,7 +361,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜にとって</span><span class="pattern-romaji">ni totte</span></div>
               <p class="reply-explain">「对〜来说」，站在某个立场做评价</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">重い病気などで治療を続ける患者にとって負担を抑えて…</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">重い病気などで治療を続ける患者<mark>にとって</mark>負担を抑えて…</span><span class="qtrans">对因重病等持续接受治疗的患者来说，减轻负担…</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="にとって"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="にとって"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -372,7 +375,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜が見直される</span><span class="pattern-romaji">ga minaosareru</span></div>
               <p class="reply-explain">「見直す（重新审视）」的被动形式，常用于制度类新闻</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">…高額療養費制度が見直されました</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">…高額療養費制度が<mark>見直されました</mark></span><span class="qtrans">高额疗养费制度被重新修订了</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="みなおされる"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="が見直される"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -382,9 +385,9 @@ footer a{color:var(--text-faint);}
         </div>
       </div>
       <div class="hashtags">
-        <button class="htag" data-say="こうがく"><span class="lvl-mini N2">N2</span><span class="h-word">#高額</span><span class="h-sub">kougaku</span><span class="h-mean">金额巨大</span></button>
-        <button class="htag" data-say="じこふたん"><span class="lvl-mini N1">N1</span><span class="h-word">#自己負担</span><span class="h-sub">jikofutan</span><span class="h-mean">自付部分</span></button>
-        <button class="htag" data-say="みなおす"><span class="lvl-mini N2">N2</span><span class="h-word">#見直す</span><span class="h-sub">minaosu</span><span class="h-mean">重新审视</span></button>
+        <button class="htag" data-say="こうがく"><span class="lvl-mini N2">N2</span><span class="h-word">#高額<span class="kana">（こうがく）</span></span><span class="h-sub">kougaku</span><span class="h-mean">金额巨大</span></button>
+        <button class="htag" data-say="じこふたん"><span class="lvl-mini N1">N1</span><span class="h-word">#自己負担<span class="kana">（じこふたん）</span></span><span class="h-sub">jikofutan</span><span class="h-mean">自付部分</span></button>
+        <button class="htag" data-say="みなおす"><span class="lvl-mini N2">N2</span><span class="h-word">#見直す<span class="kana">（みなおす）</span></span><span class="h-sub">minaosu</span><span class="h-mean">重新审视</span></button>
       </div>
     </div>
 
@@ -404,7 +407,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜とされる</span><span class="pattern-romaji">to sareru</span></div>
               <p class="reply-explain">「被认为是〜／据说是〜」，客观陈述一般看法</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">時代の経過とともに様々な要素が積み重なった宗教とされる</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">時代の経過とともに様々な要素が積み重なった宗教<mark>とされる</mark></span><span class="qtrans">被认为是随着时代变迁不断累积各种要素而形成的宗教</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="とされる"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="とされる"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -418,7 +421,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜をもとに</span><span class="pattern-romaji">wo moto ni</span></div>
               <p class="reply-explain">「以〜为基础/根据」</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">道教は中国古来の宗教的な諸観念をもとに長い期間を経て醸成された</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">道教は中国古来の宗教的な諸観念<mark>をもとに</mark>長い期間を経て醸成された</span><span class="qtrans">道教是以中国自古以来的宗教观念为基础，经过长期演变而形成的</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="をもとに"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="をもとに"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -432,7 +435,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜とはいえない</span><span class="pattern-romaji">to wa ienai</span></div>
               <p class="reply-explain">「不能说是〜」，委婉否定断言</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">老子が道教の教祖であるとはいえないが</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">老子が道教の教祖である<mark>とはいえない</mark>が</span><span class="qtrans">虽然不能说老子就是道教的创始人，但…</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="とはいえない"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="とはいえない"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -446,7 +449,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜から〜にかけて</span><span class="pattern-romaji">kara ~ ni kakete</span></div>
               <p class="reply-explain">「从〜到〜」，比〜まで更强调过程延续</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">後漢末期から魏晋時代にかけての…始まるとされる</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">後漢末期<mark>から</mark>魏晋時代<mark>にかけて</mark>の…始まるとされる</span><span class="qtrans">被认为始于后汉末期到魏晋时代这段时期</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="からにかけて"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="から～にかけて"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -460,7 +463,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜とともに</span><span class="pattern-romaji">to tomo ni</span></div>
               <p class="reply-explain">「随着〜／和〜一起」</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">時代の経過とともに様々な要素が積み重なった</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">時代の経過<mark>とともに</mark>様々な要素が積み重なった</span><span class="qtrans">随着时代变迁，各种要素不断累积</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="とともに"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="とともに"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -474,7 +477,7 @@ footer a{color:var(--text-faint);}
             <div class="reply-body">
               <div><span class="pattern-line jp">〜ことは確かである</span><span class="pattern-romaji">koto wa tashika de aru</span></div>
               <p class="reply-explain">「〜这一点是确实的」，学术性陈述中肯定事实同时留有余地</p>
-              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">『道』の概念が道教思想の根本であることは確かである</span></div>
+              <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">『道』の概念が道教思想の根本である<mark>ことは確かである</mark></span><span class="qtrans">"道"的概念是道教思想的根本，这一点是确实的</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="ことはたしかである"><span class="ic">🔊</span>朗读</button>
                 <button class="icon-btn master" data-key="ことは確かである"><span class="ic">♡</span><span class="cnt">记住了</span></button>
@@ -484,12 +487,12 @@ footer a{color:var(--text-faint);}
         </div>
       </div>
       <div class="hashtags">
-        <button class="htag" data-say="しゅうきょう"><span class="lvl-mini N3">N3</span><span class="h-word">#宗教</span><span class="h-sub">shuukyou</span><span class="h-mean">宗教</span></button>
-        <button class="htag" data-say="じゅきょう"><span class="lvl-mini N1">N1</span><span class="h-word">#儒教</span><span class="h-sub">jukyou</span><span class="h-mean">儒教</span></button>
-        <button class="htag" data-say="しんせんじゅつ"><span class="lvl-mini N1">N1</span><span class="h-word">#神仙術</span><span class="h-sub">shinsenjutsu</span><span class="h-mean">神仙术</span></button>
-        <button class="htag" data-say="きょうてん"><span class="lvl-mini N1">N1</span><span class="h-word">#経典</span><span class="h-sub">kyouten</span><span class="h-mean">经典</span></button>
-        <button class="htag" data-say="きょうそ"><span class="lvl-mini N1">N1</span><span class="h-word">#教祖</span><span class="h-sub">kyouso</span><span class="h-mean">教主</span></button>
-        <button class="htag" data-say="きょうだん"><span class="lvl-mini N1">N1</span><span class="h-word">#教団</span><span class="h-sub">kyoudan</span><span class="h-mean">教团</span></button>
+        <button class="htag" data-say="しゅうきょう"><span class="lvl-mini N3">N3</span><span class="h-word">#宗教<span class="kana">（しゅうきょう）</span></span><span class="h-sub">shuukyou</span><span class="h-mean">宗教</span></button>
+        <button class="htag" data-say="じゅきょう"><span class="lvl-mini N1">N1</span><span class="h-word">#儒教<span class="kana">（じゅきょう）</span></span><span class="h-sub">jukyou</span><span class="h-mean">儒教</span></button>
+        <button class="htag" data-say="しんせんじゅつ"><span class="lvl-mini N1">N1</span><span class="h-word">#神仙術<span class="kana">（しんせんじゅつ）</span></span><span class="h-sub">shinsenjutsu</span><span class="h-mean">神仙术</span></button>
+        <button class="htag" data-say="きょうてん"><span class="lvl-mini N1">N1</span><span class="h-word">#経典<span class="kana">（きょうてん）</span></span><span class="h-sub">kyouten</span><span class="h-mean">经典</span></button>
+        <button class="htag" data-say="きょうそ"><span class="lvl-mini N1">N1</span><span class="h-word">#教祖<span class="kana">（きょうそ）</span></span><span class="h-sub">kyouso</span><span class="h-mean">教主</span></button>
+        <button class="htag" data-say="きょうだん"><span class="lvl-mini N1">N1</span><span class="h-word">#教団<span class="kana">（きょうだん）</span></span><span class="h-sub">kyoudan</span><span class="h-mean">教团</span></button>
       </div>
     </div>
   </div>
