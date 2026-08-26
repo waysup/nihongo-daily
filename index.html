@@ -61,6 +61,12 @@ a:hover{text-decoration:underline;}
 .voice-picker select{font-family:inherit; font-size:12px; background:var(--card); color:var(--text); border:1px solid var(--border-strong); border-radius:16px; padding:4px 10px;}
 .voice-picker button{font-family:'JetBrains Mono',monospace; font-size:11px; border:1px solid var(--border-strong); background:var(--card); color:var(--text-soft); border-radius:16px; padding:4px 11px; cursor:pointer;}
 .voice-picker button:hover{color:var(--accent); border-color:var(--accent);}
+.sync-box{
+  display:none; width:100%; margin-top:8px; box-sizing:border-box; font-family:'JetBrains Mono',monospace; font-size:11px;
+  background:var(--card); color:var(--text-soft); border:1px solid var(--border-strong); border-radius:8px; padding:8px 10px;
+  min-height:52px; resize:vertical;
+}
+.sync-box.show{display:block;}
 
 .filters{display:flex; gap:6px; flex-wrap:wrap; padding:10px 16px; border-bottom:1px solid var(--border);}
 .filters button{
@@ -184,6 +190,13 @@ footer a{color:var(--text-faint);}
       <select id="voiceSelect"></select>
       <button type="button" id="voiceTest">试听</button>
     </div>
+    <div class="voice-picker ready">
+      <span>💾 "记住了"/"待复习"进度同步：</span>
+      <button type="button" id="syncExport">导出</button>
+      <button type="button" id="syncImport">导入</button>
+      <span id="syncMsg" style="color:var(--n5); font-size:11.5px;"></span>
+    </div>
+    <textarea id="syncBox" class="sync-box" placeholder="导出后这里会出现一段同步码，复制到另一台设备粘贴进来再点导入即可（两边数据会合并，不会覆盖清空）"></textarea>
   </div>
 
   <div class="filters" id="filters">
@@ -1109,10 +1122,57 @@ document.getElementById('filters').addEventListener('click', function(e){
       if(set.indexOf(btn.dataset.key) !== -1) btn.classList.add('on');
     });
   }
+  // 进度同步：导出成一段文字码，另一台设备粘贴导入，两边取并集合并（不覆盖清空）
+  function b64EncodeUtf8(str){ return btoa(unescape(encodeURIComponent(str))); }
+  function b64DecodeUtf8(str){ return decodeURIComponent(escape(atob(str))); }
+
+  function initSync(){
+    var exportBtn = document.getElementById('syncExport');
+    var importBtn = document.getElementById('syncImport');
+    var box = document.getElementById('syncBox');
+    var msg = document.getElementById('syncMsg');
+    if(!exportBtn || !importBtn || !box) return;
+
+    exportBtn.addEventListener('click', function(){
+      var data = {
+        m: JSON.parse(localStorage.getItem(MASTER_KEY) || '[]'),
+        b: JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]')
+      };
+      var code = b64EncodeUtf8(JSON.stringify(data));
+      box.value = code;
+      box.classList.add('show');
+      box.select();
+      if(navigator.clipboard){
+        navigator.clipboard.writeText(code).then(function(){
+          if(msg) msg.textContent = '已生成并复制，去另一台设备粘贴导入';
+        });
+      } else if(msg){ msg.textContent = '已生成，手动复制这段文字'; }
+      setTimeout(function(){ if(msg) msg.textContent = ''; }, 4000);
+    });
+
+    importBtn.addEventListener('click', function(){
+      var raw = box.value.trim();
+      if(!raw){ box.classList.add('show'); box.focus(); return; }
+      var data;
+      try { data = JSON.parse(b64DecodeUtf8(raw)); } catch(err){ if(msg){ msg.textContent = '同步码格式不对，检查一下有没有复制完整'; msg.style.color = 'var(--heart)'; } return; }
+      var curM = JSON.parse(localStorage.getItem(MASTER_KEY) || '[]');
+      var curB = JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]');
+      var mergedM = curM.concat((data.m || []).filter(function(k){ return curM.indexOf(k) === -1; }));
+      var mergedB = curB.concat((data.b || []).filter(function(k){ return curB.indexOf(k) === -1; }));
+      localStorage.setItem(MASTER_KEY, JSON.stringify(mergedM));
+      localStorage.setItem(BOOKMARK_KEY, JSON.stringify(mergedB));
+      restoreMastered();
+      restoreBookmarked();
+      if(msg){ msg.style.color = 'var(--n5)'; msg.textContent = '已合并：记住了 ' + mergedM.length + ' 条，待复习 ' + mergedB.length + ' 条'; }
+      setTimeout(function(){ if(msg) msg.textContent = ''; }, 5000);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function(){
     injectExtraActions();
     restoreMastered();
     restoreBookmarked();
+    initSync();
   });
 })();
 </script>
