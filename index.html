@@ -130,6 +130,10 @@ a:hover{text-decoration:underline;}
 .icon-btn.master:hover{color:var(--heart); background:var(--heart-soft);}
 .icon-btn.master.on{color:var(--heart);}
 .icon-btn.master.on .ic{filter:none;}
+.icon-btn.bookmark:hover{color:var(--accent); background:var(--accent-soft);}
+.icon-btn.bookmark.on{color:var(--accent);}
+.icon-btn.copy:hover{color:var(--n5); background:var(--n5-soft);}
+.icon-btn.copy.copied{color:var(--n5);}
 
 /* 生词 = 话题标签行 */
 .hashtags{display:flex; flex-wrap:wrap; gap:8px; padding:10px 16px 16px 44px;}
@@ -137,6 +141,8 @@ a:hover{text-decoration:underline;}
   display:inline-flex; align-items:center; gap:5px; background:var(--accent-soft); border-radius:16px;
   padding:5px 11px 5px 12px; cursor:pointer; border:none; font-family:inherit;
 }
+.htag::after{content:"🔊"; font-size:10px; opacity:.5; margin-left:1px;}
+.htag:hover::after{opacity:1;}
 .htag .h-word{font-family:'Noto Sans JP',sans-serif; font-weight:700; color:var(--accent); font-size:13.5px;}
 .htag .h-word .kana{font-weight:500; font-size:12px; opacity:.85;}
 .htag .h-sub{font-size:11px; color:var(--text-faint); font-family:'JetBrains Mono',monospace;}
@@ -1022,6 +1028,28 @@ document.getElementById('filters').addEventListener('click', function(e){
     var v = jaVoices[parseInt(e.target.value, 10)];
     if(v) localStorage.setItem(VOICE_KEY, v.name);
   });
+  var BOOKMARK_KEY = 'nihongo-daily-bookmarked';
+
+  function toggleSet(storageKey, key, btn, onIcon, offIcon){
+    var set = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    var idx = set.indexOf(key);
+    var nowOn = idx === -1;
+    if(nowOn){ set.push(key); btn.classList.add('on'); if(btn.querySelector('.ic')) btn.querySelector('.ic').textContent = onIcon; }
+    else { set.splice(idx,1); btn.classList.remove('on'); if(btn.querySelector('.ic')) btn.querySelector('.ic').textContent = offIcon; }
+    localStorage.setItem(storageKey, JSON.stringify(set));
+  }
+
+  function buildCardText(actionRow){
+    var body = actionRow.closest('.reply-body');
+    if(!body) return '';
+    var pick = function(sel){ var el = body.querySelector(sel); return el ? el.textContent.trim() : ''; };
+    var lines = [pick('.pattern-line') + (pick('.pattern-romaji') ? ' (' + pick('.pattern-romaji') + ')' : '')];
+    if(pick('.reply-explain')) lines.push(pick('.reply-explain'));
+    if(pick('.qtext')) lines.push('例：' + pick('.qtext'));
+    if(pick('.qtrans')) lines.push('译：' + pick('.qtrans'));
+    return lines.join('\n');
+  }
+
   document.addEventListener('click', function(e){
     var t = e.target.closest('[data-say]');
     if(t){ speak(t.dataset.say, t); return; }
@@ -1034,8 +1062,40 @@ document.getElementById('filters').addEventListener('click', function(e){
       if(idx === -1){ set.push(key); m.classList.add('on'); m.querySelector('.ic').textContent = '♥'; m.querySelector('.cnt').textContent = '记住了'; }
       else { set.splice(idx,1); m.classList.remove('on'); m.querySelector('.ic').textContent = '♡'; }
       localStorage.setItem(MASTER_KEY, JSON.stringify(set));
+      return;
+    }
+    var bm = e.target.closest('.bookmark');
+    if(bm){ toggleSet(BOOKMARK_KEY, bm.dataset.key, bm, '🔖', '🔖'); return; }
+    var cp = e.target.closest('.copy');
+    if(cp){
+      var text = buildCardText(cp.closest('.action-row'));
+      if(navigator.clipboard && text){
+        navigator.clipboard.writeText(text).then(function(){
+          cp.classList.add('copied');
+          var cnt = cp.querySelector('.cnt');
+          if(cnt){ var old = cnt.textContent; cnt.textContent = '已复制'; setTimeout(function(){ cnt.textContent = old; cp.classList.remove('copied'); }, 1300); }
+        });
+      }
+      return;
     }
   });
+
+  function injectExtraActions(){
+    document.querySelectorAll('.action-row').forEach(function(row){
+      if(row.querySelector('.bookmark')) return;
+      var masterBtn = row.querySelector('.master');
+      var key = masterBtn ? masterBtn.dataset.key : null;
+      if(!key) return;
+      var bm = document.createElement('button');
+      bm.type = 'button'; bm.className = 'icon-btn bookmark'; bm.dataset.key = key;
+      bm.innerHTML = '<span class="ic">🔖</span><span class="cnt">待复习</span>';
+      row.appendChild(bm);
+      var cp = document.createElement('button');
+      cp.type = 'button'; cp.className = 'icon-btn copy';
+      cp.innerHTML = '<span class="ic">📋</span><span class="cnt">复制</span>';
+      row.appendChild(cp);
+    });
+  }
 
   function restoreMastered(){
     var set = JSON.parse(localStorage.getItem(MASTER_KEY) || '[]');
@@ -1043,7 +1103,17 @@ document.getElementById('filters').addEventListener('click', function(e){
       if(set.indexOf(btn.dataset.key) !== -1){ btn.classList.add('on'); btn.querySelector('.ic').textContent = '♥'; }
     });
   }
-  document.addEventListener('DOMContentLoaded', restoreMastered);
+  function restoreBookmarked(){
+    var set = JSON.parse(localStorage.getItem(BOOKMARK_KEY) || '[]');
+    document.querySelectorAll('.bookmark').forEach(function(btn){
+      if(set.indexOf(btn.dataset.key) !== -1) btn.classList.add('on');
+    });
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    injectExtraActions();
+    restoreMastered();
+    restoreBookmarked();
+  });
 })();
 </script>
 </body>
