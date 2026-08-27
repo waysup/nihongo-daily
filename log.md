@@ -6,6 +6,16 @@
 - Wikipedia: 条目标题
 -->
 
+## 2026-08-27
+- NHK Easy（当日页面 https://nhkeasier.com/2026/08/27/ 直接有更新，当日4篇全部读完）：
+  - https://nhkeasier.com/story/9908/ 「石川県と富山県に「大雨特別警報」が出た　災害に気をつけて」
+  - https://nhkeasier.com/story/9909/ 「大雨で被害　家に水が入ったり山が崩れたりした」
+  - https://nhkeasier.com/story/9910/ 「ネパールと中国の国境で「土石流」　273人が亡くなった」
+  - https://nhkeasier.com/story/9911/ 「山梨県の新しいぶどう　市場に出す仕事が忙しい」
+- NHK普通版（www3.nhk.or.jp/news/ 仍无法访问，改用 news.web.nhk/newsweb：首页新闻列表可正常读取，但当天多篇候选文章正文被前端JS渲染或返回403，无法取得可引用原文——「【被害まとめ】石川 富山 一時レベル5大雨特別警報」「石川 富山の大雨特別警報を切り替え」「ネパール・中国の国境地帯で土石流」「プロ野球結果」均尝试后放弃；仅下面这篇能取到少量可引用正文，N2锚点本次只新增1篇）：
+  - https://news.web.nhk/newsweb/na/nd-20260827de46651 「芸術家 草間彌生さん死去　97歳　水玉モチーフの作品で知られる」
+- Wikipedia: 彗星（秀逸な記事）https://ja.wikipedia.org/wiki/彗星
+
 ## 2026-08-26
 - NHK Easy（当日页面 https://nhkeasier.com/2026/08/26/ 无更新，回溯1天至 08-25 页面，当日4篇全部读完）：
   - https://nhkeasier.com/story/9900/ 「危険な暑さ「疲れている人は特に熱中症に気をつけて」」
