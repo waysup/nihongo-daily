@@ -6,6 +6,16 @@
 - Wikipedia: 条目标题
 -->
 
+## 2026-08-28
+- NHK Easy（当日页面 https://nhkeasier.com/2026/08/28/ 直接有更新，当日4篇全部读完）：
+  - https://nhkeasier.com/story/9912/ 「雨が降りやすい天気が続きそう」
+  - https://nhkeasier.com/story/9913/ 「熊本の地震から1か月　安心して生活できる家の用意が必要」
+  - https://nhkeasier.com/story/9914/ 「ネパールで「土石流」　橋が壊れて助ける品物を届けるのが難しい」
+  - https://nhkeasier.com/story/9915/ 「野菜の値段　9月はトマトやきゅうりが高い」
+- NHK普通版（www3.nhk.or.jp/news/ 仍无法访问，改用 news.web.nhk/newsweb：首页新闻列表可正常读取，「熊本地震1か月」「ネパール土石流552人死亡」两篇候选文章正文同样被前端JS截断、无法取得完整可引用原文，尝试后放弃；仅下面这篇能取到完整可引用段落，N2锚点本次新增1篇）：
+  - https://news.web.nhk/newsweb/na/nd-20260828de46874 「パワハラ認定の山中 横浜市長が辞職届「けじめつけるべき」」
+- Wikipedia: 深海魚（秀逸な記事）https://ja.wikipedia.org/wiki/深海魚
+
 ## 2026-08-27
 - NHK Easy（当日页面 https://nhkeasier.com/2026/08/27/ 直接有更新，当日4篇全部读完）：
   - https://nhkeasier.com/story/9908/ 「石川県と富山県に「大雨特別警報」が出た　災害に気をつけて」
