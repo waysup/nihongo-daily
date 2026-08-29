@@ -6,6 +6,13 @@
 - Wikipedia: 条目标题
 -->
 
+## 2026-08-29
+- NHK Easy（当日页面 https://nhkeasier.com/2026/08/29/ 返回404；RSS feed https://nhkeasier.com/feed/ 的最新条目仍是08-28发布的4篇，没有新文章；额外核实了过去几个周六/周日的日历页 2026/08/22、2026/08/23、2026/08/15、2026/08/16，全部404，可判断NHK Easy在周末不发布新内容——今天是周六，本身就没有新文章，08-28的4篇已在昨天完整读完并收录，故本次NHK Easy部分空缺）
+- NHK普通版（www3.nhk.or.jp/news/ 会301跳转到 news.web.nhk/newsweb，可正常访问；因NHK Easy今天空缺，改用NHK普通版补充2篇作为今日N2锚点。两篇正文均只有开头1句完整可引用，后续内容被"確認您的使用意向"会员墙截断）：
+  - https://news.web.nhk/newsweb/na/nd-20260829de47180 「福井 勝山市　約8300世帯に避難指示」
+  - https://news.web.nhk/newsweb/na/nd-20260829de47121 「ネパール土石流　633人が死亡　二次災害のリスクを警戒」
+- Wikipedia: 黄砂（秀逸な記事）https://ja.wikipedia.org/wiki/黄砂
+
 ## 2026-08-28
 - NHK Easy（当日页面 https://nhkeasier.com/2026/08/28/ 直接有更新，当日4篇全部读完）：
   - https://nhkeasier.com/story/9912/ 「雨が降りやすい天気が続きそう」
