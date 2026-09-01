@@ -19,6 +19,8 @@ index.html 的 `.quote-box` / `.htag` / `.reply` 必须满足以下全部规则�
 7. **已掌握的语法点跳过不再讲解**：页面"记住了"按钮点击后同步进 Firebase Firestore（项目 `nihongo-daily-40390`，公开可读）。**写 grammar-log.md / index.html 之前，先读取**：
    `https://firestore.googleapis.com/v1/projects/nihongo-daily-40390/databases/(default)/documents/progress/main?key=AIzaSyBBMvIa4U2TXX6ziH3INYyuMHKg930DlIo`
    从 `fields.m.arrayValue.values[].stringValue` 取出已掌握语法点列表。当天素材如果又出现这些语法点，跳过、不要再单独写 `.reply` 讲解它，除非它已从 `m` 数组里被用户移除（取消了"记住了"）。一句话里若同时有已掌握点和新语法点，只讲新的那个，不要因为有已掌握点就跳过整句。Firestore 读取失败时按"已掌握库为空"处理，不要中断任务。
+8. **NHK Easy 标题链接：跳到当天日历页的对应位置，不要跳去单篇 story permalink 页**。写法：`href="https://nhkeasier.com/YYYY/MM/DD/#:~:text=<对该篇标题在日历页上原样渲染出的文字（含逐字假名注音、按 NHK Easier 自己的格式，如"多おおくの場所ばしょで猛暑日もうしょび"）做 URL 百分号编码>"`，`target="nhk-easy"`（同一个 target，所有 NHK Easy 链接共用一个浏览器标签页，点哪篇就把这个标签页导航过去，不再新开分页）。`#:~:text=` 是浏览器原生的 Text Fragment 功能（Chrome/Edge 支持，会自动滚动到该文字出现的位置并高亮；Safari/Firefox 可能不支持滚动，但链接本身仍然有效，只是落在日历页顶部）。獲取标题文字的方法：先 curl 那天的日历页 `https://nhkeasier.com/YYYY/MM/DD/`（注意可能不是运行当天，是文章实际发布日，回溯规则见下方历史记录），找到对应 `<article>` 里 `<h3>...</h3>` 的内容，把里面所有标签去掉后剩下的纯文字（漢字和假名会交替出现，这是网站自己的排版，照抄不要精简）就是要拿去做 text fragment 的字符串。
+9. **维基百科选文方向：聚焦日本文化/历史/当代政治社会**。仍然只能选秀逸/良质条目（质量门槛不变），但选题范围从"任意学科"收窄为**和日本这个国家本身相关**的主题——日本历史（时代、事件、人物、制度）、传统文化（艺能、宗教、习俗、建筑、饮食等）、当代政治与社会（选举制度、社会议题、地方自治、经济政策沿革等）——目的是帮用户通过阅读真正理解日本这个国家，不要再选纯自然科学/地理/生物类跟"日本"关系不大的条目（黄砂、彗星、深海魚、オーロラ、雨氷这几个过去选过的话题，以后不要再选这类）。
 
 ## 2026-09-01
 - NHK Easy（当日页面 https://nhkeasier.com/2026/09/01/ 直接有更新，当日4篇全部读完）：
