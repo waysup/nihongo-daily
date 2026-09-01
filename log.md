@@ -6,6 +6,20 @@
 - Wikipedia: 条目标题
 -->
 
+## 【标准模板规则 · 每次运行前必读，2026-09-01起生效】
+
+index.html 的 `.quote-box` / `.htag` / `.reply` 必须满足以下全部规则，写之前建议先看一个最新 day 里的现成例子照抄格式：
+
+1. **中文翻译**：`.quote-box` 里必须有 `.qtrans`，是对已合法引用的单句配翻译（不是整篇翻译，不违反版权边界）。
+2. **语法高亮**：原句中体现语法结构的部分用 `<mark>...</mark>` 包住，范围尽量只包语法标志本身；两段式语法（如〜から〜にかけて）用两个 `<mark>`。
+3. **生词假名**：`.h-word` 必须含假名读音，格式 `<span class="h-word">#漢字<span class="kana">（ひらがな）</span></span>`。
+4. **原句整句注音**：`.qtext` 里每个含漢字的词都要用 `<ruby>漢字<rt>假名</rt></ruby>` 包住（纯假名/片假名部分不用包）；如果 `<mark>` 里本身含漢字，ruby 写在 mark 内部，例如 `<mark><ruby>場合<rt>ばあい</rt></ruby></mark>`。
+5. **朗读按钮覆盖整句**：`.reply` 里"朗读"按钮的 `data-say` 必须是该 `.qtext` **完整原句**的纯假名注音（不含标签），绝不能只从语法标志出现的位置截取——写完之后对照一遍 `.qtext` 确认没有截断前半句或后半句。
+6. **语法尽量全覆盖**：当天每篇 NHK Easy 文章、选中的 NHK 普通版文章、维基条目里，只要出现有教学价值的语法结构（不限N几），都写进 `.reply`，不要每篇只挑1-2个敷衍。
+7. **已掌握的语法点跳过不再讲解**：页面"记住了"按钮点击后同步进 Firebase Firestore（项目 `nihongo-daily-40390`，公开可读）。**写 grammar-log.md / index.html 之前，先读取**：
+   `https://firestore.googleapis.com/v1/projects/nihongo-daily-40390/databases/(default)/documents/progress/main?key=AIzaSyBBMvIa4U2TXX6ziH3INYyuMHKg930DlIo`
+   从 `fields.m.arrayValue.values[].stringValue` 取出已掌握语法点列表。当天素材如果又出现这些语法点，跳过、不要再单独写 `.reply` 讲解它，除非它已从 `m` 数组里被用户移除（取消了"记住了"）。一句话里若同时有已掌握点和新语法点，只讲新的那个，不要因为有已掌握点就跳过整句。Firestore 读取失败时按"已掌握库为空"处理，不要中断任务。
+
 ## 2026-09-01
 - NHK Easy（当日页面 https://nhkeasier.com/2026/09/01/ 直接有更新，当日4篇全部读完）：
   - https://nhkeasier.com/story/9920/ 「多くの場所で猛暑日　北海道や東北ではこれから雨に気をつけて」
