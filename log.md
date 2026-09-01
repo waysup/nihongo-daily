@@ -6,6 +6,17 @@
 - Wikipedia: 条目标题
 -->
 
+## 2026-09-01
+- NHK Easy（当日页面 https://nhkeasier.com/2026/09/01/ 直接有更新，当日4篇全部读完）：
+  - https://nhkeasier.com/story/9920/ 「多くの場所で猛暑日　北海道や東北ではこれから雨に気をつけて」
+  - https://nhkeasier.com/story/9921/ 「福井県　大雨のあと家具などたくさんのごみ」
+  - https://nhkeasier.com/story/9922/ 「9月1日　子どもたちが津波から逃げる訓練をした」
+  - https://nhkeasier.com/story/9923/ 「車のスピード　「生活道路」を走るときは時速30kmまで」
+- NHK普通版（news.web.nhk/newsweb 可正常访问首页新闻列表；选取2篇作为今日N2锚点）：
+  - https://news.web.nhk/newsweb/na/nd-20260901de47558 「台風24号　2日～4日ごろに沖縄・奄美に近づく見込み」（正文较短，两段均可完整引用，无会员墙限制）
+  - https://news.web.nhk/newsweb/na/nd-20260901de47575 「ネパール土石流死者1000人超　要支援6万人超　被災者心のケアも」（与08-29「633人死亡」、08-30「768人死亡」、08-31「919人死亡」为同一事件的数字更新：919人→1019人死亡，4700人以上→4400人以上不明〈搜救进展使不明人数略降〉，是连续第4天报道的进展；正文除开头1句外被"確認您的使用意向"会员墙截断）
+- Wikipedia: 利根川（秀逸な記事）https://ja.wikipedia.org/wiki/利根川
+
 ## 2026-08-31
 - NHK Easy（当日页面 https://nhkeasier.com/2026/08/31/ 直接有更新，当日4篇全部读完）：
   - https://nhkeasier.com/story/9916/ 「福井県でとてもたくさんの雨が降った」
