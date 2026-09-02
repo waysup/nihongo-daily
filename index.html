@@ -76,6 +76,13 @@ a:hover{text-decoration:underline;}
 }
 .sync-box.show{display:block;}
 
+/* 音乐栏目：学习间隙的听歌区，嵌入网易云播放器 */
+.music-card{padding:14px 16px; border-bottom:8px solid var(--border);}
+.music-head{display:flex; align-items:center; gap:8px; margin-bottom:6px;}
+.music-sub{margin:0 0 10px; font-size:12.5px; color:var(--text-soft); line-height:1.5;}
+.music-frame-wrap{border-radius:10px; overflow:hidden; border:1px solid var(--border-strong);}
+.music-card iframe{display:block; width:100%; border:none;}
+
 .filters{display:flex; gap:6px; flex-wrap:wrap; padding:10px 16px; border-bottom:1px solid var(--border);}
 .filters button{
   font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700; padding:5px 12px;
@@ -217,6 +224,7 @@ footer a{color:var(--text-faint);}
 @media (max-width:480px){
   .topbar{padding:10px 12px;}
   .progress-tweet{padding:12px;}
+  .music-card{padding:12px;}
   .filters{padding:10px 12px;}
   .day-bar{padding:10px 12px;}
   .tweet{padding:10px 12px 4px;}
@@ -255,6 +263,14 @@ footer a{color:var(--text-faint);}
     </div>
     <div class="voice-picker ready">
       <span id="syncStatus">☁️ 进度自动同步：连接中…</span>
+    </div>
+  </div>
+
+  <div class="music-card">
+    <div class="music-head"><span class="pin">🎵 学习间隙 · 中島みゆき 歌单</span></div>
+    <p class="music-sub">日本国宝级唱作歌姬，出道近50年，歌词本身也是很好的日语听力/阅读材料；网易云歌单「【中島美雪】全曲集」收录355首作品，远超50首。</p>
+    <div class="music-frame-wrap">
+      <iframe frameborder="no" marginwidth="0" marginheight="0" width="100%" height="450" src="//music.163.com/outchain/player?type=2&amp;id=57217843&amp;auto=0&amp;height=430"></iframe>
     </div>
   </div>
 
