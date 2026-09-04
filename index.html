@@ -64,6 +64,12 @@ a:hover{text-decoration:underline;}
 .bar{height:8px; border-radius:5px; background:var(--border); overflow:hidden;}
 .bar-fill{height:100%; background:linear-gradient(90deg,var(--n2),var(--accent)); border-radius:5px; transition:width .5s;}
 
+.lvl-progress-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:10px; padding-top:10px; border-top:1px dashed var(--border);}
+.lvl-chip{flex:1 1 76px; min-width:64px;}
+.lvl-chip-top{display:flex; align-items:baseline; gap:5px;}
+.lvl-chip-num{font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-soft);}
+.lvl-chip-bar{height:4px; border-radius:3px; background:var(--border); overflow:hidden; margin-top:4px;}
+.lvl-chip-fill{height:100%; border-radius:3px;}
 .voice-picker{display:none; align-items:center; gap:8px; margin-top:10px; font-size:12px; color:var(--text-soft); flex-wrap:wrap;}
 .voice-picker.ready{display:flex;}
 .voice-picker select{font-family:inherit; font-size:12px; background:var(--card); color:var(--text); border:1px solid var(--border-strong); border-radius:16px; padding:4px 10px;}
@@ -75,13 +81,6 @@ a:hover{text-decoration:underline;}
   min-height:52px; resize:vertical;
 }
 .sync-box.show{display:block;}
-
-/* 音乐栏目：学习间隙的听歌区，嵌入网易云播放器 */
-.music-card{padding:14px 16px; border-bottom:8px solid var(--border);}
-.music-head{display:flex; align-items:center; gap:8px; margin-bottom:6px;}
-.music-sub{margin:0 0 10px; font-size:12.5px; color:var(--text-soft); line-height:1.5;}
-.music-frame-wrap{border-radius:10px; overflow:hidden; border:1px solid var(--border-strong);}
-.music-card iframe{display:block; width:100%; border:none;}
 
 .filters{display:flex; gap:6px; flex-wrap:wrap; padding:10px 16px; border-bottom:1px solid var(--border);}
 .filters button{
@@ -131,6 +130,8 @@ a:hover{text-decoration:underline;}
 .pattern-line{font-weight:800; font-size:15px; font-family:'Noto Sans JP',sans-serif;}
 .pattern-romaji{font-family:'JetBrains Mono',monospace; font-weight:500; color:var(--text-faint); font-size:11.5px; margin-left:2px;}
 .reply-explain{color:var(--text); font-size:14px; margin-top:2px;}
+.reply-explain a.date-jump{color:var(--accent); text-decoration:underline; text-decoration-style:dotted; text-underline-offset:2px; cursor:pointer;}
+.reply-explain a.date-jump:hover{text-decoration-style:solid;}
 
 .quote-box{
   margin-top:8px; border:1px solid var(--border-strong); border-radius:14px; padding:9px 12px; font-size:13px;
@@ -171,9 +172,9 @@ a:hover{text-decoration:underline;}
 .htag .h-word .kana{font-weight:500; font-size:12px; opacity:.85;}
 .htag .h-sub{font-size:11px; color:var(--text-faint); font-family:'JetBrains Mono',monospace;}
 .htag .h-mean{font-size:11.5px; color:var(--text-soft);}
-.htag .lvl-mini{font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:800; padding:1px 5px; border-radius:8px; color:#fff;}
-.htag .lvl-mini.N5{background:var(--n5);} .htag .lvl-mini.N4{background:var(--n4);}
-.htag .lvl-mini.N3{background:var(--n3);} .htag .lvl-mini.N2{background:var(--n2); color:#1a1200;} .htag .lvl-mini.N1{background:var(--n1);}
+.lvl-mini{font-family:'JetBrains Mono',monospace; font-size:9px; font-weight:800; padding:1px 5px; border-radius:8px; color:#fff;}
+.lvl-mini.N5{background:var(--n5);} .lvl-mini.N4{background:var(--n4);}
+.lvl-mini.N3{background:var(--n3);} .lvl-mini.N2{background:var(--n2); color:#1a1200;} .lvl-mini.N1{background:var(--n1);}
 .htag:hover{filter:brightness(0.97);}
 .htag-mark{border:none; background:none; cursor:pointer; touch-action:manipulation; font-size:13px; color:var(--text-faint); padding:0 0 0 3px; margin-left:1px; line-height:1; vertical-align:middle;}
 .htag-mark.on{color:var(--n2);}
@@ -224,7 +225,6 @@ footer a{color:var(--text-faint);}
 @media (max-width:480px){
   .topbar{padding:10px 12px;}
   .progress-tweet{padding:12px;}
-  .music-card{padding:12px;}
   .filters{padding:10px 12px;}
   .day-bar{padding:10px 12px;}
   .tweet{padding:10px 12px 4px;}
@@ -256,6 +256,28 @@ footer a{color:var(--text-faint);}
       <span class="num">累计 <strong id="n2count">54</strong> 个 &middot; <span id="n2pct">27.0%</span></span>
     </div>
     <div class="bar"><div class="bar-fill" id="n2bar" style="width:27.0%"></div></div>
+    <div class="lvl-progress-row">
+      <div class="lvl-chip">
+        <div class="lvl-chip-top"><span class="lvl-mini N5">N5</span><span class="lvl-chip-num">1/80</span></div>
+        <div class="lvl-chip-bar"><div class="lvl-chip-fill" style="width:1.3%;background:var(--n5)"></div></div>
+      </div>
+      <div class="lvl-chip">
+        <div class="lvl-chip-top"><span class="lvl-mini N4">N4</span><span class="lvl-chip-num">29/120</span></div>
+        <div class="lvl-chip-bar"><div class="lvl-chip-fill" style="width:24.2%;background:var(--n4)"></div></div>
+      </div>
+      <div class="lvl-chip">
+        <div class="lvl-chip-top"><span class="lvl-mini N3">N3</span><span class="lvl-chip-num">34/180</span></div>
+        <div class="lvl-chip-bar"><div class="lvl-chip-fill" style="width:18.9%;background:var(--n3)"></div></div>
+      </div>
+      <div class="lvl-chip">
+        <div class="lvl-chip-top"><span class="lvl-mini N2">N2</span><span class="lvl-chip-num">54/200</span></div>
+        <div class="lvl-chip-bar"><div class="lvl-chip-fill" style="width:27.0%;background:var(--n2)"></div></div>
+      </div>
+      <div class="lvl-chip">
+        <div class="lvl-chip-top"><span class="lvl-mini N1">N1</span><span class="lvl-chip-num">0/180</span></div>
+        <div class="lvl-chip-bar"><div class="lvl-chip-fill" style="width:0%;background:var(--n1)"></div></div>
+      </div>
+    </div>
     <div class="voice-picker" id="voicePicker">
       <span>🔊 朗读语音：</span>
       <select id="voiceSelect"></select>
@@ -263,14 +285,6 @@ footer a{color:var(--text-faint);}
     </div>
     <div class="voice-picker ready">
       <span id="syncStatus">☁️ 进度自动同步：连接中…</span>
-    </div>
-  </div>
-
-  <div class="music-card">
-    <div class="music-head"><span class="pin">🎵 学习间隙 · 中島みゆき 歌单</span></div>
-    <p class="music-sub">日本国宝级唱作歌姬，出道近50年，歌词本身也是很好的日语听力/阅读材料；网易云歌单「【中島美雪】全曲集」收录355首作品，远超50首。</p>
-    <div class="music-frame-wrap">
-      <iframe frameborder="no" marginwidth="0" marginheight="0" width="100%" height="450" src="//music.163.com/outchain/player?type=2&amp;id=57217843&amp;auto=0&amp;height=430"></iframe>
     </div>
   </div>
 
@@ -315,7 +329,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N3">N3</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">動詞た形＋所があります</span><span class="pattern-romaji">tokoro ga arimasu（复现）</span></div>
-              <p class="reply-explain">09-02学过「〜ている所があります」（正在〜的状态，有些地方……），今天变成了"动词た形（过去式）＋所があります"，意思是"（已经）有些地方〜了"，强调的是已经发生过的具体结果，而不是正在进行的状态</p>
+              <p class="reply-explain"><a href="#day-2026-09-02" class="date-jump">09-02</a>学过「〜ている所があります」（正在〜的状态，有些地方……），今天变成了"动词た形（过去式）＋所があります"，意思是"（已经）有些地方〜了"，强调的是已经发生过的具体结果，而不是正在进行的状态</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext"><ruby>2日<rt>ふつか</rt></ruby>、たくさん<ruby>雨<rt>あめ</rt></ruby>が<ruby>降<rt>ふ</rt></ruby>った<ruby>青森県<rt>あおもりけん</rt></ruby>では、<ruby>3<rt>みっ</rt></ruby><ruby>日<rt>か</rt></ruby>もたくさん<ruby>雨<rt>あめ</rt></ruby>が<mark><ruby>降<rt>ふ</rt></ruby>った<ruby>所<rt>ところ</rt></ruby>があります</mark></span><span class="qtrans">2日普降大雨的青森县，3日部分地区雨势依然很大。</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="ふつか、たくさんあめがふったあおもりけんでは、みっかもたくさんあめがふったところがあります"><span class="ic">🔊</span>朗读</button>
@@ -439,7 +453,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N4">N4</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜ため（目的）</span><span class="pattern-romaji">tame（复现，目的用法）</span></div>
-              <p class="reply-explain">「ため」08-27学过表示"原因"的用法（〜ため／〜ためです＝"是因为〜"），今天是同一个词的另一种常见用法——表示"目的"，"动词辞书形＋ため（です）"＝"是为了〜（做这件事）"，要根据前后文区分：前面接的是"想要达成的目的"还是"已经发生的原因"</p>
+              <p class="reply-explain">「ため」<a href="#day-2026-08-27" class="date-jump">08-27</a>学过表示"原因"的用法（〜ため／〜ためです＝"是因为〜"），今天是同一个词的另一种常见用法——表示"目的"，"动词辞书形＋ため（です）"＝"是为了〜（做这件事）"，要根据前后文区分：前面接的是"想要达成的目的"还是"已经发生的原因"</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">ふぐを<ruby>海<rt>うみ</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で<ruby>大<rt>おお</rt></ruby>きくする<mark>ためです</mark></span><span class="qtrans">是为了让河豚在海里长大。</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="ふぐをうみのなかでおおきくするためです"><span class="ic">🔊</span>朗读</button>
@@ -531,7 +545,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N2">N2</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜を営む</span><span class="pattern-romaji">wo itonamu</span></div>
-              <p class="reply-explain">「営む（经营、从事）」的辞书形，可以直接放在名词前面做定语，"実家が「まんじゅうや」を営む市長"＝"老家经营着饅頭屋的市长"，跟09-02学过的「〜を含む」是同一种"动词辞书形直接修饰后面名词"的书面语手法</p>
+              <p class="reply-explain">「営む（经营、从事）」的辞书形，可以直接放在名词前面做定语，"実家が「まんじゅうや」を営む市長"＝"老家经营着饅頭屋的市长"，跟<a href="#day-2026-09-02" class="date-jump">09-02</a>学过的「〜を含む」是同一种"动词辞书形直接修饰后面名词"的书面语手法</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext"><ruby>選挙<rt>せんきょ</rt></ruby>で<ruby>候補者<rt>こうほしゃ</rt></ruby>の<ruby>名前<rt>なまえ</rt></ruby>の<ruby>代<rt>か</rt></ruby>わりに「まんじゅうや」と<ruby>書<rt>か</rt></ruby>かれた<ruby>票<rt>ひょう</rt></ruby>は<ruby>有効<rt>ゆうこう</rt></ruby>なのか。<ruby>実家<rt>じっか</rt></ruby>が「まんじゅうや」<mark>を<ruby>営<rt>いとな</rt></ruby>む</mark><ruby>市長<rt>しちょう</rt></ruby>が<ruby>訴<rt>うった</rt></ruby>えを<ruby>起<rt>お</rt></ruby>こした<ruby>裁判<rt>さいばん</rt></ruby></span><span class="qtrans">选举中，如果选票上写的不是候选人姓名，而是"饅頭屋"字样，这样的选票算不算有效票？——这起诉讼，正是由老家经营着"饅頭屋"的市长提起的。</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="せんきょでこうほしゃのなまえのかわりに「まんじゅうや」とかかれたひょうはゆうこうなのか。じっかが「まんじゅうや」をいとなむしちょうがうったえをおこしたさいばん"><span class="ic">🔊</span>朗读</button>
@@ -721,7 +735,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N4">N4</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">疑问词＋〜か、わかりません</span><span class="pattern-romaji">（复现）</span></div>
-              <p class="reply-explain">08-31学过：「わかりません（不知道）」前面接一个带疑问词（どこ、いつ、なに等）的小句子，再加「か」，整体意思是"不知道到底是……"，这次疑问词换成了「どこ」</p>
+              <p class="reply-explain"><a href="#day-2026-08-31" class="date-jump">08-31</a>学过：「わかりません（不知道）」前面接一个带疑问词（どこ、いつ、なに等）的小句子，再加「か」，整体意思是"不知道到底是……"，这次疑问词换成了「どこ」</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">そして、3900<ruby>人<rt>にん</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>がどこにいる<mark>かわかりません</mark></span><span class="qtrans">而且，还有3900多人不知道身在何处。</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="そして、3900にんいじょうがどこにいるかわかりません"><span class="ic">🔊</span>朗读</button>
@@ -767,7 +781,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N4">N4</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜ないように</span><span class="pattern-romaji">nai you ni（复现）</span></div>
-              <p class="reply-explain">09-01学过："为了不〜、以免〜"，表示做某个动作是为了避免后面提到的不好的结果发生，今天在消防员灭火的语境里再次出现</p>
+              <p class="reply-explain"><a href="#day-2026-09-01" class="date-jump">09-01</a>学过："为了不〜、以免〜"，表示做某个动作是为了避免后面提到的不好的结果发生，今天在消防员灭火的语境里再次出现</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext"><ruby>火<rt>ひ</rt></ruby>を<ruby>消<rt>け</rt></ruby>す<ruby>消防<rt>しょうぼう</rt></ruby>の<ruby>人<rt>ひと</rt></ruby>たちが、<ruby>昼<rt>ひる</rt></ruby>も<ruby>夜<rt>よる</rt></ruby>も<ruby>水<rt>みず</rt></ruby>をかけて、<ruby>他<rt>ほか</rt></ruby>の<ruby>建物<rt>たてもの</rt></ruby>に<ruby>火<rt>ひ</rt></ruby>が<ruby>移<rt>うつ</rt></ruby>ら<mark>ないように</mark>しました</span><span class="qtrans">负责灭火的消防员们不分昼夜地喷水，以免火势蔓延到其他建筑物。</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="ひをけすしょうぼうのひとたちが、ひるもよるもみずをかけて、ほかのたてものにひがうつらないようにしました"><span class="ic">🔊</span>朗读</button>
@@ -799,7 +813,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N3">N3</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜という</span><span class="pattern-romaji">to iu（复现）</span></div>
-              <p class="reply-explain">08-27学过「という」用于转述别人说的话（"说是〜"），今天是它另一种常见用法——放在名字/称呼后面，直接给后面的名词下定义，"叫做〜的……"</p>
+              <p class="reply-explain"><a href="#day-2026-08-27" class="date-jump">08-27</a>学过「という」用于转述别人说的话（"说是〜"），今天是它另一种常见用法——放在名字/称呼后面，直接给后面的名词下定义，"叫做〜的……"</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext"><ruby>北海道乙部町<rt>ほっかいどうおとべちょう</rt></ruby>で、<ruby>子<rt>こ</rt></ruby>どもたちが「かかし」<mark>という</mark><ruby>人形<rt>にんぎょう</rt></ruby>を<ruby>作<rt>つく</rt></ruby>りました</span><span class="qtrans">北海道乙部町的孩子们制作了一种叫做"稻草人"的人偶。</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="ほっかいどうおとべちょうで、こどもたちが「かかし」というにんぎょうをつくりました"><span class="ic">🔊</span>朗读</button>
@@ -859,7 +873,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N4">N4</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜たあと</span><span class="pattern-romaji">ta ato</span></div>
-              <p class="reply-explain">动词た形＋あと，"做完〜之后"，表示一个动作完成之后接着发生的事；句尾「見込みです」08-26、09-01都学过，今天已是第3次出现</p>
+              <p class="reply-explain">动词た形＋あと，"做完〜之后"，表示一个动作完成之后接着发生的事；句尾「見込みです」08-26、<a href="#day-2026-09-01" class="date-jump">09-01</a>都学过，今天已是第3次出现</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext"><ruby>台風<rt>たいふう</rt></ruby>24<ruby>号<rt>ごう</rt></ruby>は4<ruby>日<rt>か</rt></ruby>にかけて<ruby>沖縄<rt>おきなわ</rt></ruby>・<ruby>奄美<rt>あまみ</rt></ruby>に<ruby>接近<rt>せっきん</rt></ruby>し<mark>たあと</mark><ruby>動<rt>うご</rt></ruby>きが<ruby>遅<rt>おそ</rt></ruby>くなる<ruby>見込<rt>みこ</rt></ruby>みです</span><span class="qtrans">24号台风预计将于4日前后逼近冲绳、奄美地区，之后移动速度会放缓。</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="たいふう24ごうは4かにかけておきなわ・あまみにせっきんしたあとうごきがおそくなるみこみです"><span class="ic">🔊</span>朗读</button>
@@ -891,7 +905,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N2">N2</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜となり</span><span class="pattern-romaji">to nari（复现）</span></div>
-              <p class="reply-explain">09-01学过「となり」（となる的ます形连用中止形），今天是连续第2天在同一事件的数字更新报道里复现——"2日で1週間となり"＝"到2日已经变成整整一周了"</p>
+              <p class="reply-explain"><a href="#day-2026-09-01" class="date-jump">09-01</a>学过「となり」（となる的ます形连用中止形），今天是连续第2天在同一事件的数字更新报道里复现——"2日で1週間となり"＝"到2日已经变成整整一周了"</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">ネパールと<ruby>中国<rt>ちゅうごく</rt></ruby>の<ruby>国境<rt>こっきょう</rt></ruby><ruby>付近<rt>ふきん</rt></ruby>で<ruby>起<rt>お</rt></ruby>きた<ruby>大規模<rt>だいきぼ</rt></ruby>な<ruby>土石流<rt>どせきりゅう</rt></ruby>の<ruby>発生<rt>はっせい</rt></ruby>から2<ruby>日<rt>か</rt></ruby>で1<ruby>週間<rt>しゅうかん</rt></ruby><mark>となり</mark>、<ruby>両国<rt>りょうこく</rt></ruby>ではこれまでに1000<ruby>人<rt>にん</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>が<ruby>死亡<rt>しぼう</rt></ruby>、<ruby>日本人<rt>にっぽんじん</rt></ruby>5<ruby>人<rt>にん</rt></ruby>を<ruby>含<rt>ふく</rt></ruby>む4400<ruby>人<rt>にん</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>の<ruby>行方<rt>ゆくえ</rt></ruby>がわからなくなっています</span><span class="qtrans">尼泊尔与中国边境附近发生的大规模泥石流，到2日已经过去整整一周，两国合计确认死亡人数超过1000人，包括5名日本人在内共4400多人下落不明。</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="ネパールとちゅうごくのこっきょうふきんでおきただいきぼなどせきりゅうのはっせいから2かで1しゅうかんとなり、りょうこくではこれまでに1000にんいじょうがしぼう、にっぽんじん5にんをふくむ4400にんいじょうのゆくえがわからなくなっています"><span class="ic">🔊</span>朗读</button>
@@ -937,7 +951,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N2">N2</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜に基づき</span><span class="pattern-romaji">ni motozuki（复现）</span></div>
-              <p class="reply-explain">08-31「南硫黄島」条目学过："根据〜、基于〜"，说明后面的动作或决定是以前面提到的依据做出的，这次是"根据安政五国条约"设立居留地</p>
+              <p class="reply-explain"><a href="#day-2026-08-31" class="date-jump">08-31</a>「南硫黄島」条目学过："根据〜、基于〜"，说明后面的动作或决定是以前面提到的依据做出的，这次是"根据安政五国条约"设立居留地</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext"><ruby>安政<rt>あんせい</rt></ruby><ruby>五<rt>ご</rt></ruby>カ<ruby>国<rt>こく</rt></ruby><ruby>条約<rt>じょうやく</rt></ruby>に<mark><ruby>基<rt>もと</rt></ruby>づき</mark>、1868<ruby>年<rt>ねん</rt></ruby>1<ruby>月<rt>がつ</rt></ruby>1<ruby>日<rt>にち</rt></ruby>（<ruby>慶応<rt>けいおう</rt></ruby>3<ruby>年<rt>ねん</rt></ruby>12<ruby>月<rt>がつ</rt></ruby>7<ruby>日<rt>にち</rt></ruby>）から1899<ruby>年<rt>ねん</rt></ruby>（<ruby>明治<rt>めいじ</rt></ruby>32<ruby>年<rt>ねん</rt></ruby>）7<ruby>月<rt>がつ</rt></ruby>16<ruby>日<rt>にち</rt></ruby>までの<ruby>間<rt>あいだ</rt></ruby>、<ruby>兵庫津<rt>ひょうごのつ</rt></ruby>の<ruby>約<rt>やく</rt></ruby>3.5km<ruby>東<rt>ひがし</rt></ruby>に<ruby>位置<rt>いち</rt></ruby>する<ruby>神戸村<rt>こうべむら</rt></ruby>（<ruby>後<rt>のち</rt></ruby>の<ruby>兵庫県<rt>ひょうごけん</rt></ruby><ruby>神戸市<rt>こうべし</rt></ruby><ruby>中央区<rt>ちゅうおうく</rt></ruby>）に<ruby>設<rt>もう</rt></ruby>けられた<ruby>外国人<rt>がいこくじん</rt></ruby><ruby>居留地<rt>きょりゅうち</rt></ruby>である</span><span class="qtrans">神户外国人居留地是根据安政五国条约，从1868年（庆应3年）1月1日到1899年（明治32年）7月16日期间，设置在兵库津以东约3.5公里处的神户村（后来的兵库县神户市中央区）的外国人居留地。</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="あんせいごカこくじょうやくにもとづき、1868ねん1がつ1にち（けいおう3ねん12がつ7にち）から1899ねん（めいじ32ねん）7がつ16にちまでのあいだ、ひょうごのつのやく3.5kmひがしにいちするこうべむら（のちのひょうごけんこうべしちゅうおうく）にもうけられたがいこくじんきょりゅうちである"><span class="ic">🔊</span>朗读</button>
@@ -1064,7 +1078,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N3">N3</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">このため</span><span class="pattern-romaji">kono tame（复现）</span></div>
-              <p class="reply-explain">08-27学过「〜ためです」表原因，这里是句首直接用「このため」＝"因此、正因为如此"，承接上一句的原因，引出后面的结果</p>
+              <p class="reply-explain"><a href="#day-2026-08-27" class="date-jump">08-27</a>学过「〜ためです」表原因，这里是句首直接用「このため」＝"因此、正因为如此"，承接上一句的原因，引出后面的结果</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext"><ruby>家<rt>いえ</rt></ruby>の<ruby>中<rt>なか</rt></ruby>にも<ruby>水<rt>みず</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りました。<mark>このため</mark>、<ruby>使<rt>つか</rt></ruby>うことができなくなった<ruby>家具<rt>かぐ</rt></ruby>などのごみがたくさんあります</span><span class="qtrans">家里也进了水，因此，出现了大量无法再使用的家具等垃圾</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="いえのなかにもみずがはいりました。このため、つかうことができなくなったかぐなどのごみがたくさんあります"><span class="ic">🔊</span>朗读</button>
@@ -1078,7 +1092,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N2">N2</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜のほか</span><span class="pattern-romaji">no hoka（复现）</span></div>
-              <p class="reply-explain">08-29「黄砂」条目学过："除了〜（还）……"，说完一个地方之后，再补充说明还有其他地方也在做同样的事</p>
+              <p class="reply-explain"><a href="#day-2026-08-29" class="date-jump">08-29</a>「黄砂」条目学过："除了〜（还）……"，说完一个地方之后，再补充说明还有其他地方也在做同样的事</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext"><ruby>福井県<rt>ふくいけん</rt></ruby>では<ruby>坂井市<rt>さかいし</rt></ruby><mark>のほか</mark>、<ruby>福井市<rt>ふくいし</rt></ruby>と<ruby>大野市<rt>おおのし</rt></ruby>、<ruby>勝山市<rt>かつやまし</rt></ruby>でも、ごみを<ruby>集<rt>あつ</rt></ruby>めています</span><span class="qtrans">在福井县，除了坂井市，福井市、大野市、胜山市也在收集垃圾</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="ふくいけんではさかいしのほか、ふくいしとおおのし、かつやましでもごみをあつめています"><span class="ic">🔊</span>朗读</button>
@@ -1170,7 +1184,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N3">N3</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜場合</span><span class="pattern-romaji">baai（复现）</span></div>
-              <p class="reply-explain">08-31「常陸大宮市」条目学过："〜的情况下"，前面接一个具体的条件或情形，后面说明在这种情况下会怎么样</p>
+              <p class="reply-explain"><a href="#day-2026-08-31" class="date-jump">08-31</a>「常陸大宮市」条目学过："〜的情况下"，前面接一个具体的条件或情形，后面说明在这种情况下会怎么样</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">60kmで<ruby>走<rt>はし</rt></ruby>った<mark><ruby>場合<rt>ばあい</rt></ruby></mark>、しばらくの<ruby>間<rt>あいだ</rt></ruby>、<ruby>運転<rt>うんてん</rt></ruby>できなくなります</span><span class="qtrans">如果以60公里的速度行驶，将在一段时间内无法开车</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="60きろではしったばあい、しばらくのあいだ、うんてんできなくなります"><span class="ic">🔊</span>朗读</button>
@@ -1247,7 +1261,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N2">N2</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜となり</span><span class="pattern-romaji">to nari（复现）</span></div>
-              <p class="reply-explain">「となる」08-29/08-30学过「となっています」，「動詞ます形＋、」的連用中止形手法08-30起多次学过，这次是两者结合：「となる」的ます形「なり」直接加逗号——"变成了〜，然后……"，客观陈述数字变化后再接着说下一件事</p>
+              <p class="reply-explain">「となる」<a href="#day-2026-08-29" class="date-jump">08-29</a>/<a href="#day-2026-08-30" class="date-jump">08-30</a>学过「となっています」，「動詞ます形＋、」的連用中止形手法<a href="#day-2026-08-30" class="date-jump">08-30</a>起多次学过，这次是两者结合：「となる」的ます形「なり」直接加逗号——"变成了〜，然后……"，客观陈述数字变化后再接着说下一件事</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext"><ruby>死亡<rt>しぼう</rt></ruby>が<ruby>確認<rt>かくにん</rt></ruby>された<ruby>人<rt>ひと</rt></ruby>は1019<ruby>人<rt>にん</rt></ruby><mark>となり</mark>、<ruby>現地<rt>げんち</rt></ruby>では4400<ruby>人<rt>にん</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>の<ruby>行方不明者<rt>ゆくえふめいしゃ</rt></ruby>の<ruby>捜索<rt>そうさく</rt></ruby>や<ruby>救助<rt>きゅうじょ</rt></ruby><ruby>活動<rt>かつどう</rt></ruby>が<ruby>続<rt>つづ</rt></ruby>いています</span><span class="qtrans">已确认死亡人数达到1019人，当地针对4400多名下落不明者的搜索救助活动仍在持续</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="しぼうがかくにんされたひとは1019にんとなり、げんちでは4400にんいじょうのゆくえふめいしゃのそうさくやきゅうじょかつどうがつづいています"><span class="ic">🔊</span>朗读</button>
@@ -1335,7 +1349,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N2">N2</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">動詞ます形＋、（連用中止形）</span><span class="pattern-romaji">（复现）</span></div>
-              <p class="reply-explain">08-30起多次学过：「崩壊し」是「崩壊する」的ます形去掉ます直接加逗号，书面语连接手法，效果跟「て」差不多但更正式</p>
+              <p class="reply-explain"><a href="#day-2026-08-30" class="date-jump">08-30</a>起多次学过：「崩壊し」是「崩壊する」的ます形去掉ます直接加逗号，书面语连接手法，效果跟「て」差不多但更正式</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext"><ruby>新田<rt>しんでん</rt></ruby><ruby>開発<rt>かいはつ</rt></ruby>が<ruby>進<rt>すす</rt></ruby>むに<ruby>連<rt>つ</rt></ruby>れ<ruby>灌漑<rt>かんがい</rt></ruby><ruby>用水<rt>ようすい</rt></ruby>の<ruby>需要増<rt>じゅようぞう</rt></ruby>により<ruby>見沼溜井<rt>みぬまためい</rt></ruby>の<ruby>供給量<rt>きょうきゅうりょう</rt></ruby>とのバランスが<ruby>崩壊<rt>ほうかい</rt></ruby><mark>し</mark>、<ruby>享保年間<rt>きょうほうねんかん</rt></ruby>には<ruby>用水不足<rt>ようすいぶそく</rt></ruby>が<ruby>深刻化<rt>しんこくか</rt></ruby>していた</span><span class="qtrans">随着新田开发的推进，灌溉用水需求增加，见沼溜井的供水量渐渐无法维持平衡，到享保年间用水短缺问题日益严重</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="しんでんかいはつがすすむにつれかんがいようすいのじゅようぞうによりみぬまためいのきょうきゅうりょうとのばらんすがほうかいし、きょうほうねんかんにはようすいぶそくがしんこくかしていた"><span class="ic">🔊</span>朗读</button>
@@ -1565,7 +1579,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N2">N2</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">動詞ます形＋、（連用中止形）</span><span class="pattern-romaji">（复现）</span></div>
-              <p class="reply-explain">08-30「福井県で記録的な大雨」条目学过：把动词变成"ます形"（去掉ます），后面直接加逗号往下接，效果跟「て」差不多但更正式、更书面化。今天这句话里连续出现了两次同样的手法：「不安定となり」（なる→なり）和「地域があり」（ある→あり），是新闻书面语里非常高频的连接方式</p>
+              <p class="reply-explain"><a href="#day-2026-08-30" class="date-jump">08-30</a>「福井県で記録的な大雨」条目学过：把动词变成"ます形"（去掉ます），后面直接加逗号往下接，效果跟「て」差不多但更正式、更书面化。今天这句话里连续出现了两次同样的手法：「不安定となり」（なる→なり）和「地域があり」（ある→あり），是新闻书面语里非常高频的连接方式</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext"><ruby>湿<rt>しめ</rt></ruby>った<ruby>空気<rt>くうき</rt></ruby>の<ruby>影響<rt>えいきょう</rt></ruby>で<ruby>西日本<rt>にしにほん</rt></ruby>と<ruby>東日本<rt>ひがしにほん</rt></ruby>では<ruby>大気<rt>たいき</rt></ruby>の<ruby>状態<rt>じょうたい</rt></ruby>が<ruby>不安定<rt>ふあんてい</rt></ruby><mark>となり</mark>、<ruby>局地的<rt>きょくちてき</rt></ruby>に<ruby>雨雲<rt>あまぐも</rt></ruby>が<ruby>発達<rt>はったつ</rt></ruby>していて、<ruby>記録的<rt>きろくてき</rt></ruby>な<ruby>大雨<rt>おおあめ</rt></ruby>になった<ruby>北陸<rt>ほくりく</rt></ruby>では<ruby>地盤<rt>じばん</rt></ruby>が<ruby>緩<rt>ゆる</rt></ruby>んでいる<ruby>地域<rt>ちいき</rt></ruby>が<mark>あり</mark>、<ruby>土砂災害<rt>どしゃさいがい</rt></ruby>などに<ruby>十分<rt>じゅうぶん</rt></ruby><ruby>注意<rt>ちゅうい</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>です</span><span class="qtrans">受湿润空气影响，日本西部和东部大气状态变得不稳定，局地云层发展旺盛，此前遭遇创纪录暴雨的北陆地区有地基松动的地方，需要对土砂灾害等高度警惕</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="しめったくうきのえいきょうでにしにほんとひがしにほんではたいきのじょうたいがふあんていとなり、きょくちてきにあまぐもがはったつしていて、きろくてきなおおあめになったほくりくではじばんがゆるんでいるちいきがあり、どしゃさいがいなどにじゅうぶんちゅういがひつようです"><span class="ic">🔊</span>朗读</button>
@@ -1611,7 +1625,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N2">N2</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜となっています</span><span class="pattern-romaji">to natte imasu（复现）</span></div>
-              <p class="reply-explain">08-29「福井 勝山市」、08-30「ネパール土石流768人死亡」都学过，今天已经是连续第3天用这个句型陈述持续更新的死亡/失踪人数——08-29是"633人死亡、2400人以上不明"，08-30是"768人死亡、3000人以上不明"，今天变成了"919人死亡、4700人以上不明"</p>
+              <p class="reply-explain"><a href="#day-2026-08-29" class="date-jump">08-29</a>「福井 勝山市」、<a href="#day-2026-08-30" class="date-jump">08-30</a>「ネパール土石流768人死亡」都学过，今天已经是连续第3天用这个句型陈述持续更新的死亡/失踪人数——<a href="#day-2026-08-29" class="date-jump">08-29</a>是"633人死亡、2400人以上不明"，<a href="#day-2026-08-30" class="date-jump">08-30</a>是"768人死亡、3000人以上不明"，今天变成了"919人死亡、4700人以上不明"</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">ネパールと<ruby>中国<rt>ちゅうごく</rt></ruby>の<ruby>国境<rt>こっきょう</rt></ruby><ruby>付近<rt>ふきん</rt></ruby>で<ruby>起<rt>お</rt></ruby>きた<ruby>大規模<rt>だいきぼ</rt></ruby>な<ruby>土石流<rt>どせきりゅう</rt></ruby>で、これまでに<ruby>両国<rt>りょうこく</rt></ruby>で919<ruby>人<rt>にん</rt></ruby>の<ruby>死亡<rt>しぼう</rt></ruby>が<ruby>確認<rt>かくにん</rt></ruby>され、4700<ruby>人<rt>にん</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>が<ruby>行方不明<rt>ゆくえふめい</rt></ruby><mark>となっています</mark></span><span class="qtrans">在尼泊尔与中国边境附近发生的大规模泥石流中，两国迄今已确认919人死亡，另有4700多人下落不明</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="ねぱーるとちゅうごくのこっきょうふきんでおきただいきぼなどせきりゅうで、これまでにりょうこくで919にんのしぼうがかくにんされ、4700にんいじょうがゆくえふめいとなっています"><span class="ic">🔊</span>朗读</button>
@@ -1801,7 +1815,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N2">N2</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜ほか</span><span class="pattern-romaji">hoka（复现）</span></div>
-              <p class="reply-explain">说完一件事之后，用「ほか」补充说明还有另一件类似的事，暗示不止这一项——这里先说"死亡768人"，再用ほか带出"还有3000多人下落不明"（08-29「黄砂」条目学过）</p>
+              <p class="reply-explain">说完一件事之后，用「ほか」补充说明还有另一件类似的事，暗示不止这一项——这里先说"死亡768人"，再用ほか带出"还有3000多人下落不明"（<a href="#day-2026-08-29" class="date-jump">08-29</a>「黄砂」条目学过）</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">ネパールと<ruby>中国<rt>ちゅうごく</rt></ruby>の<ruby>国境地帯<rt>こっきょうちたい</rt></ruby>で<ruby>発生<rt>はっせい</rt></ruby>した<ruby>大規模<rt>だいきぼ</rt></ruby>な<ruby>土石流<rt>どせきりゅう</rt></ruby>では、これまでに<ruby>両国<rt>りょうこく</rt></ruby>であわせて768<ruby>人<rt>にん</rt></ruby>が<ruby>死亡<rt>しぼう</rt></ruby>した<mark>ほか</mark>、3000<ruby>人<rt>にん</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>が<ruby>行方不明<rt>ゆくえふめい</rt></ruby>となっています</span><span class="qtrans">在尼泊尔与中国边境地带发生的大规模泥石流中，两国迄今合计已有768人死亡，此外还有3000多人处于下落不明的状态</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="ネパールとちゅうごくのこっきょうちたいではっせいしただいきぼなどせきりゅうでは、これまでにりょうこくであわせて768にんがしぼうしたほか、3000にんいじょうがゆくえふめいとなっています"><span class="ic">🔊</span>朗读</button>
@@ -1815,7 +1829,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N3">N3</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜となっています</span><span class="pattern-romaji">to natte imasu（复现）</span></div>
-              <p class="reply-explain">"〜になる"更正式的书面说法，"变成了〜、达到了〜的状态"，新闻里常用来陈述持续更新的统计数字——08-29报道时死亡人数是"633人"、下落不明是"2400人以上"，今天已分别上升到"768人"和"3000人以上"（08-29「福井 勝山市」条目学过）</p>
+              <p class="reply-explain">"〜になる"更正式的书面说法，"变成了〜、达到了〜的状态"，新闻里常用来陈述持续更新的统计数字——<a href="#day-2026-08-29" class="date-jump">08-29</a>报道时死亡人数是"633人"、下落不明是"2400人以上"，今天已分别上升到"768人"和"3000人以上"（<a href="#day-2026-08-29" class="date-jump">08-29</a>「福井 勝山市」条目学过）</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext">ネパールと<ruby>中国<rt>ちゅうごく</rt></ruby>の<ruby>国境地帯<rt>こっきょうちたい</rt></ruby>で<ruby>発生<rt>はっせい</rt></ruby>した<ruby>大規模<rt>だいきぼ</rt></ruby>な<ruby>土石流<rt>どせきりゅう</rt></ruby>では、これまでに<ruby>両国<rt>りょうこく</rt></ruby>であわせて768<ruby>人<rt>にん</rt></ruby>が<ruby>死亡<rt>しぼう</rt></ruby>したほか、3000<ruby>人<rt>にん</rt></ruby><ruby>以上<rt>いじょう</rt></ruby>が<ruby>行方不明<rt>ゆくえふめい</rt></ruby><mark>となっています</mark></span><span class="qtrans">在尼泊尔与中国边境地带发生的大规模泥石流中，两国迄今合计已有768人死亡，此外还有3000多人处于下落不明的状态</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="ネパールとちゅうごくのこっきょうちたいではっせいしただいきぼなどせきりゅうでは、これまでにりょうこくであわせて768にんがしぼうしたほか、3000にんいじょうがゆくえふめいとなっています"><span class="ic">🔊</span>朗读</button>
@@ -1876,7 +1890,7 @@ footer a{color:var(--text-faint);}
             <div class="lvl-avatar N2">N2</div>
             <div class="reply-body">
               <div><span class="pattern-line jp">〜とされている</span><span class="pattern-romaji">to sarete iru（复现）</span></div>
-              <p class="reply-explain">「とされる」加上「ている」，"（一直）被认为是〜、被视为是〜"，强调这是一个持续、普遍被接受的看法，不是某一次性的判断（08-25「道教」、08-28「深海魚」都学过「とされる」，这次多了个「ている」）</p>
+              <p class="reply-explain">「とされる」加上「ている」，"（一直）被认为是〜、被视为是〜"，强调这是一个持续、普遍被接受的看法，不是某一次性的判断（08-25「道教」、<a href="#day-2026-08-28" class="date-jump">08-28</a>「深海魚」都学过「とされる」，这次多了个「ている」）</p>
               <div class="quote-box"><span class="qlabel">原文引用</span><span class="qtext"><ruby>雨氷<rt>うひょう</rt></ruby>は<ruby>目<rt>め</rt></ruby>にする<ruby>機会<rt>きかい</rt></ruby>が<ruby>少<rt>すく</rt></ruby>なく、<ruby>発生<rt>はっせい</rt></ruby><ruby>頻度<rt>ひんど</rt></ruby>も<ruby>低<rt>ひく</rt></ruby>いため、<ruby>珍<rt>めずら</rt></ruby>しい<ruby>気象現象<rt>きしょうげんしょう</rt></ruby><mark>とされている</mark></span><span class="qtrans">雨氷因为不常被人看到、发生频率也很低，所以被视为是一种罕见的气象现象</span></div>
               <div class="action-row">
                 <button class="icon-btn say" data-say="うひょうはめにするきかいがすくなく、はっせいひんどもひくいため、めずらしいきしょうげんしょうとされている"><span class="ic">🔊</span>朗读</button>
@@ -3028,21 +3042,27 @@ document.getElementById('filters').addEventListener('click', function(e){
     target.scrollIntoView({ behavior:'auto', block:'start' });
     closeFbPanel();
   }
+  function dateIdFromLabel(label){
+    var m = label && label.match(/\d{4}-\d{2}-\d{2}/);
+    return m ? 'day-' + m[0] : null;
+  }
   function setupDayNav(){
     var panel = document.getElementById('fbPanel');
     if(!panel) return;
     var days = [];
     document.querySelectorAll('.day').forEach(function(dayEl, i){
       var dateEl = dayEl.querySelector('.day-bar .date');
-      var id = 'day-today-' + i;
+      var label = dateEl ? dateEl.textContent.trim() : '';
+      var id = dateIdFromLabel(label) || ('day-today-' + i);
       dayEl.id = id;
-      days.push({ id: id, label: dateEl ? dateEl.textContent.trim() : ('今日 ' + (i + 1)), today: true });
+      days.push({ id: id, label: label || ('今日 ' + (i + 1)), today: true });
     });
     document.querySelectorAll('.archived-day').forEach(function(d, i){
       var sum = d.querySelector('summary');
-      var id = 'day-arch-' + i;
+      var label = sum ? sum.textContent.trim() : '';
+      var id = dateIdFromLabel(label) || ('day-arch-' + i);
       d.id = id;
-      days.push({ id: id, label: sum ? sum.textContent.trim() : ('归档 ' + (i + 1)), today: false });
+      days.push({ id: id, label: label || ('归档 ' + (i + 1)), today: false });
     });
     panel.innerHTML = '';
     if(!days.length){
@@ -3068,6 +3088,13 @@ document.getElementById('filters').addEventListener('click', function(e){
     restoreBookmarked();
     restoreVocabMarks();
     setupDayNav();
+    document.addEventListener('click', function(e){
+      var jump = e.target.closest('a.date-jump');
+      if(jump){
+        e.preventDefault();
+        jumpToDay(jump.getAttribute('href').slice(1));
+      }
+    });
     var fbTop = document.getElementById('fbTop');
     var fbDates = document.getElementById('fbDates');
     if(fbTop) fbTop.addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: 'auto' }); });
